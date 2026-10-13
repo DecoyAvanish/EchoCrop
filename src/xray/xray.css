@@ -34,8 +34,12 @@
 @media(prefers-reduced-motion:reduce){.global-scan,.scroll-hud,.focus-reticle{display:none}.type-char,.fx-reveal{opacity:1!important;transform:none!important;filter:none!important}.hero-copy>*,.hero-readout,.privacy-orbit,.scan-toast,.clause-list button{animation:none!important}}
 
 /* ThreeUI paper occupies the original hero scene while remaining draggable. */
-.hero-paper{position:absolute!important;left:36%;top:0;width:64%;height:100%;z-index:1;background:#05070d!important}
-.hero-paper iframe{background:#05070d!important}
-.hero-grid{pointer-events:none}
+.structure-dot-field{position:fixed!important;inset:0;z-index:0;pointer-events:none;opacity:.82;background:radial-gradient(circle at 50% 18%,rgba(2,20,29,.08),rgba(5,7,13,.52) 72%)}
+.app>header,.app>main,.app>footer{position:relative;z-index:1}
+.hero-visual{position:absolute;left:36%;top:0;width:64%;height:100%;z-index:1;overflow:hidden;background:radial-gradient(circle at 56% 49%,rgba(69,34,105,.15),transparent 48%)}
+.hero-paper{position:absolute!important;inset:0;width:100%;height:100%;z-index:2;background:transparent!important}
+.hero-paper iframe{background:transparent!important}
+.hero-orbital{position:absolute!important;inset:-8%;width:116%;height:116%;z-index:3;opacity:.16;filter:saturate(.72) hue-rotate(38deg);mix-blend-mode:screen;pointer-events:none}
+.hero-grid{pointer-events:none;background:linear-gradient(90deg,var(--bg) 0%,rgba(5,7,13,.68) 35%,transparent 72%);background-size:100%;opacity:.34}
 .scroll-cue{z-index:2}
-@media(max-width:760px){.hero-paper{left:0;top:43%;width:100%;height:57%}}
+@media(max-width:760px){.hero-visual{left:0;top:43%;width:100%;height:57%}.hero-orbital{opacity:.38}.structure-dot-field{opacity:.56}}

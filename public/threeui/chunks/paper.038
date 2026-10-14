@@ -1,0 +1,301 @@
+*v); }
+float sAmpV(float u){        return uAmp*(0.10 + pow(u,1.35))*0.64; }
+
+float sTheta(float u, float v){
+  float a  = sAmp(u,v);
+  float ph = uFreq*u + uTwist*v + uTime*0.40 + uPhase;
+  return a*sin(ph) + uFlutter*a*0.60*sin(ph*2.35 + uTime*2.0);
+}
+float sThetaV(float u, float v){
+  float a  = sAmp(u,v), da = sAmpV(u);
+  float ph = uFreq*u + uTwist*v + uTime*0.40 + uPhase;
+  float f  = ph*2.35 + uTime*2.0;
+  return da*sin(ph) + a*cos(ph)*uTwist
+       + uFlutter*0.60*(da*sin(f) + a*cos(f)*uTwist*2.35);
+}
+float sYoff(float u, float v){
+  float w = 1.0 - 0.55*v;
+  return 0.021*uSize.y*sin(2.05*u + uTime*0.47 + uPhase)
+       + 0.013*uSize.y*sin(3.35*u - 1.55*v + uTime*0.63 + uPhase)*w;
+}
+float sYdU(float u, float v){
+  float w = 1.0 - 0.55*v;
+  return 0.0431*uSize.y*cos(2.05*u + uTime*0.47 + uPhase)
+       + 0.0436*uSize.y*cos(3.35*u - 1.55*v + uTime*0.63 + uPhase)*w;
+}
+float sYdV(float u, float v){
+  float ph = 3.35*u - 1.55*v + uTime*0.63 + uPhase;
+  return 0.013*uSize.y*(-1.55*cos(ph)*(1.0-0.55*v) - 0.55*sin(ph));
+}
+
+// paper conserves arc length: integrate the bend instead of pushing Z,
+// so the silhouette really pulls in where the sheet turns away
+void sheetPoint(vec2 q, out vec3 P, out vec3 NN){
+  float u = q.x, v = q.y;
+  float x=0.0, z=0.0, xe=0.0, ze=0.0, dxv=0.0, dzv=0.0, dxe=0.0, dze=0.0;
+  const int NS = 20;
+  float h = 1.0/float(NS);
+  for(int i=0;i<NS;i++){
+    float uu = (float(i)+0.5)*h;
+    float w  = clamp((u-(uu-0.5*h))/h, 0.0, 1.0);
+    float th = sTheta(uu,v);
+    float dt = sThetaV(uu,v);
+    float c = cos(th), sn = sin(th);
+    xe += c*h;          ze += sn*h;
+    dxe += -sn*dt*h;    dze +=  c*dt*h;
+    x   += c*h*w;       z   += sn*h*w;
+    dxv += -sn*dt*h*w;  dzv +=  c*dt*h*w;
+  }
+  float W = uSize.x, H = uSize.y;
+  float th0 = sTheta(u,v);
+  P = vec3((x - xe*0.5)*W, (v-0.5)*H + sYoff(u,v), (z - ze*0.5)*W);
+  vec3 Tu = vec3(W*cos(th0), sYdU(u,v), W*sin(th0));
+  vec3 Tv = vec3((dxv - dxe*0.5)*W, H + sYdV(u,v), (dzv - dze*0.5)*W);
+  NN = normalize(cross(Tu, Tv));
+}`;
+
+const tex = makeCertTexture();
+const mat = new T.MeshPhysicalMaterial({
+  map: tex, color: new T.Color(0xffffff), side: T.DoubleSide, metalness: 0.0,
+  roughness: 0.64, clearcoat: 0.18, clearcoatRoughness: 0.48,
+  envMapIntensity: 0.46, specularIntensity: 0.38,
+  transparent: true, alphaTest: 0.08, opacity: 0.985
+});
+mat.onBeforeCompile = (sh)=>{
+  Object.assign(sh.uniforms, uni);
+  sh.vertexShader = sh.vertexShader
+    .replace('#include <common>', '#include <common>\n'+WAVE)
+    .replace('#include <beginnormal_vertex>', `
+      vec3 sheetP; vec3 objectNormal;
+      sheetPoint(uv, sheetP, objectNormal);
+      #ifdef USE_TANGENT
+        vec3 objectTangent = vec3( tangent.xyz );
+      #endif
+    `)
+    .replace('#include <begin_vertex>', 'vec3 transformed = sheetP;');
+  sh.fragmentShader = sh.fragmentShader
+    .replace('#include <common>',
+      '#include <common>\nuniform float uRim, uRimA, uSpecA;\nuniform vec3 uRimCol;')
+    // judge the cut against the artwork's own alpha, not alpha*opacity
+    .replace('#include <alphatest_fragment>',
+      'if ( diffuseColor.a / max(opacity,1e-4) < alphaTest ) discard;')
+    .replace('#include <output_fragment>', `
+      float fres = pow(1.0 - clamp(abs(dot(geometry.normal, geometry.viewDir)),0.0,1.0), 3.2);
+      outgoingLight += fres * uRim * uRimCol;
+      float baseA = diffuseColor.a / max(opacity, 1e-4);
+      float outA  = clamp(baseA + fres*uRimA
+                        + uSpecA*dot(outgoingLight, vec3(0.3333)), 0.0, 1.0) * opacity;
+      gl_FragColor = vec4( outgoingLight, outA );
+    `);
+};
+
+const mesh  = new T.Mesh(geo, mat);
+const group = new T.Group(); group.add(mesh); scene.add(group);
+
+// a faint dark cloud so the sheet sits in front of the wordmark
+const haloTex = (()=>{
+  const s=256,c=document.createElement('canvas'); c.width=c.height=s;
+  const x=c.getContext('2d');
+  const g=x.createRadialGradient(s/2,s/2,0,s/2,s/2,s/2);
+  g.addColorStop(0,'rgba(0,0,0,.55)'); g.addColorStop(.45,'rgba(0,0,0,.28)');
+  g.addColorStop(1,'rgba(0,0,0,0)');
+  x.fillStyle=g; x.fillRect(0,0,s,s);
+  const t=new T.CanvasTexture(c); t.encoding=T.sRGBEncoding; return t;
+})();
+const halo = new T.Mesh(new T.PlaneGeometry(3.9,4.9),
+  new T.MeshBasicMaterial({map:haloTex, transparent:true, depthWrite:false, opacity:0.47}));
+halo.position.z = -0.62; group.add(halo);
+
+/* ======================================================================
+   4. POINTER — drag to turn, hover to light
+   ====================================================================== */
+let dragging=false, dragYaw=0, dragPitch=0, release=0;
+// spin carried after release, in rad/second — integrated with dt so the
+// fling travels the same distance at 60Hz and at 120Hz
+let velYaw=0, velPitch=0, prevYaw=0, prevPitch=0;
+let lastPX=0, lastPY=0, moved=0, overSheet=false, hover=0, hoverTarget=0;
+let quad=null, cursorNow='';
+const mouse = {x:0,y:0,tx:0,ty:0};
+const hintEl = document.getElementById('hint');
+let hintUsed=false;
+
+// JS mirror of the GLSL bend, corners only — enough to know whether the
+// pointer is on the paper
+const _v = new T.Vector3();
+function cornerPoint(qx,qy){
+  const t = uni.uTime.value, ph = uni.uPhase.value;
+  const A = uni.uAmp.value, F = uni.uFreq.value, TWs = uni.uTwist.value;
+  const u = qx, v = qy;
+  const theta = (uu)=> A*(0.10+Math.pow(uu,1.35))*(0.50+0.64*v)
+                      * Math.sin(F*uu + TWs*v + t*0.40 + ph);
+  let x=0,z=0,xe=0,ze=0; const N=20, h=1/N;
+  for(let i=0;i<N;i++){
+    const uu=(i+0.5)*h, w=clamp((u-(uu-0.5*h))/h,0,1);
+    const th=theta(uu), c=Math.cos(th), s=Math.sin(th);
+    xe+=c*h; ze+=s*h; x+=c*h*w; z+=s*h*w;
+  }
+  const yo = 0.021*SH*Math.sin(2.05*u + t*0.47 + ph)
+           + 0.013*SH*Math.sin(3.35*u - 1.55*v + t*0.63 + ph)*(1-0.55*v);
+  return _v.set((x-xe*0.5)*SW, (v-0.5)*SH + yo, (z-ze*0.5)*SW);
+}
+function buildQuad(){
+  const pts=[];
+  for(const [u,v] of [[0,1],[1,1],[1,0],[0,0]]){
+    cornerPoint(u,v).applyMatrix4(group.matrixWorld).project(camera);
+    pts.push([(_v.x*0.5+0.5)*vw, (-_v.y*0.5+0.5)*vh]);
+  }
+  const cx=(pts[0][0]+pts[1][0]+pts[2][0]+pts[3][0])/4;
+  const cy=(pts[0][1]+pts[1][1]+pts[2][1]+pts[3][1])/4;
+  quad = pts.map(([x,y])=>[cx+(x-cx)*1.07, cy+(y-cy)*1.07]);
+}
+function inQuad(px,py){
+  if(!quad) return false;
+  let sign=0;
+  for(let i=0;i<4;i++){
+    const [ax,ay]=quad[i], [bx,by]=quad[(i+1)%4];
+    const c=(bx-ax)*(py-ay)-(by-ay)*(px-ax);
+    if(c!==0){ const s=c>0?1:-1; if(sign===0) sign=s; else if(s!==sign) return false; }
+  }
+  return true;
+}
+function useHint(){ hintUsed=true; hintEl.style.opacity='0'; }
+
+window.addEventListener('pointermove', e=>{
+  mouse.tx = (e.clientX/window.innerWidth  - 0.5)*2;
+  mouse.ty = (e.clientY/window.innerHeight - 0.5)*2;
+  if(dragging){
+    const dx=e.clientX-lastPX, dy=e.clientY-lastPY;
+    lastPX=e.clientX; lastPY=e.clientY; moved+=Math.abs(dx)+Math.abs(dy);
+    dragYaw   += dx*0.0060;                   // glass prints through, so a
+    dragPitch  = clamp(dragPitch - dy*0.0045, -0.60, 0.60);  // full turn is honest
+    if(moved>40) useHint();
+    return;
+  }
+  overSheet = inQuad(e.clientX,e.clientY);
+  hoverTarget = overSheet ? 1 : 0;
+}, {passive:true});
+
+window.addEventListener('pointerdown', e=>{
+  if(inQuad(e.clientX,e.clientY)){
+    dragging=true; moved=0; lastPX=e.clientX; lastPY=e.clientY;
+    velYaw=velPitch=0; prevYaw=dragYaw; prevPitch=dragPitch;
+  }
+});
+window.addEventListener('pointerup', ()=>{
+  if(dragging){ dragging=false; release=0.6; }
+});
+window.addEventListener('pointerleave', ()=>{ hoverTarget=0; });
+
+/* ======================================================================
+   5. RESIZE
+   ====================================================================== */
+let vw=0, vh=0;
+function resize(){
+  vw = window.innerWidth; vh = window.innerHeight;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+  renderer.setSize(vw,vh,false);
+  camera.aspect = vw/vh; camera.updateProjectionMatrix();
+  const visH = 2*camera.position.z*Math.tan(T.MathUtils.degToRad(camera.fov)/2);
+  const visW = visH*camera.aspect;
+  const wCap = Math.min(0.88, 0.60 + Math.max(0, 1.45 - camera.aspect)*0.45);
+  group.scale.setScalar(Math.min(visH*0.735/SH, visW*wCap/SW));
+}
+window.addEventListener('resize', resize);
+
+/* ======================================================================
+   6. LOOP
+   ====================================================================== */
+const clock = new T.Clock();
+const lightPos = new T.Vector3();
+let intro = 0;
+
+function frame(){
+  if(!REDUCED) requestAnimationFrame(frame);
+  const dt = Math.min(clock.getDelta(), 0.05);
+  const t  = clock.elapsedTime;
+  uni.uTime.value = REDUCED ? 2.4 : t;
+
+  intro = REDUCED ? 1 : intro + (1 - intro) * Math.min(1, dt*1.9);
+  mat.opacity = intro;
+  halo.material.opacity = intro*0.47;
+  if(intro > 0.7 && !hintUsed && !REDUCED) hintEl.style.opacity='1';
+
+  if(dragging){
+    // measure the throw as an angular velocity, smoothed over a few frames
+    const k = Math.min(1, dt*14);
+    velYaw   += ((dragYaw   - prevYaw  )/Math.max(dt,1e-3) - velYaw  ) * k;
+    velPitch += ((dragPitch - prevPitch)/Math.max(dt,1e-3) - velPitch) * k;
+    velYaw   = clamp(velYaw,  -7, 7);
+    velPitch = clamp(velPitch,-4, 4);
+  } else {
+    dragYaw   += velYaw*dt;
+    dragPitch  = clamp(dragPitch + velPitch*dt, -0.60, 0.60);
+    const decay = Math.pow(0.018, dt);
+    velYaw *= decay; velPitch *= decay;
+    release = Math.max(0, release - dt);
+    if(release <= 0){
+      // settle on the nearest whole turn rather than unwinding a full spin
+      const home = Math.round(dragYaw/(Math.PI*2))*Math.PI*2;
+      const k = Math.min(1, dt*0.55);
+      dragYaw   += (home - dragYaw)*k;
+      dragPitch -= dragPitch*k;
+    }
+  }
+  prevYaw = dragYaw; prevPitch = dragPitch;
+
+  mouse.x += (mouse.tx-mouse.x)*Math.min(1,dt*3.0);
+  mouse.y += (mouse.ty-mouse.y)*Math.min(1,dt*3.0);
+  const idle = REDUCED ? 0 : 1;
+  const rise = 1 - intro;
+  group.rotation.y = REDUCED ? 0 : dragYaw + mouse.x*0.16 + Math.sin(t*0.23)*0.045*idle;
+  group.rotation.x = REDUCED ? 0 : dragPitch - mouse.y*0.11 + Math.sin(t*0.19)*0.026*idle + rise*0.28;
+  group.rotation.z = Math.sin(t*0.27)*0.018*idle;
+  group.position.y = Math.sin(t*0.36)*0.06*idle - rise*0.7;
+  group.position.x = REDUCED ? 0 : Math.sin(t*0.21)*0.05*idle + mouse.x*0.10;
+  group.updateMatrixWorld();
+
+  hover += (hoverTarget - hover) * Math.min(1, dt*4.5);
+  touchLight.intensity = hover * 2.6 * intro;
+  if(hover > 0.002){
+    lightPos.set(mouse.tx, -mouse.ty, 0.5).unproject(camera).sub(camera.position).normalize();
+    touchLight.position.copy(camera.position)
+      .addScaledVector(lightPos, (1.75 - camera.position.z)/lightPos.z);
+  }
+
+  buildQuad();
+  const wantCursor = dragging ? 'grabbing' : (overSheet ? 'grab' : '');
+  if(wantCursor !== cursorNow){ cursorNow = wantCursor; document.body.style.cursor = wantCursor; }
+
+  renderer.render(scene,camera);
+}
+
+function boot(){
+  const t2 = makeCertTexture();
+  tex.dispose(); mat.map = t2; mat.needsUpdate = true;
+  resize();
+  mesh.visible = true; mat.opacity = 0.002;
+  renderer.compile(scene,camera); renderer.render(scene,camera);
+  mat.opacity = 1;
+  frame();
+}
+
+if(document.fonts && document.fonts.ready){
+  Promise.race([
+    Promise.all([
+      document.fonts.load('700 104px "Inter Tight"'),
+      document.fonts.load('600 110px "Inter Tight"'),
+      document.fonts.load('600 34px "Inter"'),
+      document.fonts.load('500 22px "Inter"'),
+      document.fonts.load('700 26px "JetBrains Mono"'),
+      document.fonts.load('400 22px "JetBrains Mono"')
+    ]).then(()=>document.fonts.ready),
+    new Promise(r=>setTimeout(r,2500))
+  ]).then(boot);
+} else boot();
+
+window.__sheet = {group, mat, uni, renderer, scene, camera, mesh,
+  state:()=>({intro, dragYaw, dragPitch, hover, quad}),
+  hit:(x,y)=>inQuad(x,y),
+  spin:(y)=>{ dragYaw=y; release=1e9; }};
+})();
+</script>

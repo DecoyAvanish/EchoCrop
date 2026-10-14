@@ -1,0 +1,17 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>3D Paper — Site of the Year</title>
+<style>html,body{margin:0;width:100%;height:100%;background:#08080a}</style>
+<script>
+  const chunkNames=Array.from({length:39},(_,index)=>`paper.${String(index).padStart(3,'0')}`);
+  Promise.all(chunkNames.map(name=>fetch(`/threeui/chunks/${name}`).then(response=>{
+    if(!response.ok)throw new Error(`Unable to load ${name}: ${response.status}`);
+    return response.text();
+  }))).then(parts=>{
+    document.open();
+    document.write(parts.join(''));
+    document.close();
+  }).catch(error=>{
+    document.body.innerHTML=`<pre style="color:#ff657a;padding:24px;white-space:pre-wrap">${error.message}</pre>`;
+  });
+</script>

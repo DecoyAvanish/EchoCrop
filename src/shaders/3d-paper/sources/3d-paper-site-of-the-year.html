@@ -47,7 +47,7 @@ body{
 
 </style>
 
-<div id="bg"><h1>XR—047</h1></div>
+<div id="bg" aria-hidden="true"></div>
 
 <div id="dof"></div>
 <canvas id="gl"></canvas>
@@ -71,8 +71,8 @@ const TW = 1200, TH = 1656;               // authoring grid (0.7246)
 const CW = 1400, CH = 1932;               // canvas pixels, for crisper type
 const clamp = (v,a,b)=> v<a?a:(v>b?b:v);
 const rng = (s)=>()=>{ s=(s*1103515245+12345)&0x7fffffff; return (s>>>8)/8388608; };
-const REDUCED = window.matchMedia &&
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const REDUCED = new URLSearchParams(window.location.search).has('reduced') ||
+  (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
 /* ======================================================================
    1. THE CERTIFICATE — printed on glass
@@ -489,15 +489,15 @@ const lightPos = new T.Vector3();
 let intro = 0;
 
 function frame(){
-  requestAnimationFrame(frame);
+  if(!REDUCED) requestAnimationFrame(frame);
   const dt = Math.min(clock.getDelta(), 0.05);
   const t  = clock.elapsedTime;
   uni.uTime.value = REDUCED ? 2.4 : t;
 
-  intro += (1 - intro) * Math.min(1, dt*1.9);
+  intro = REDUCED ? 1 : intro + (1 - intro) * Math.min(1, dt*1.9);
   mat.opacity = intro;
   halo.material.opacity = intro*0.47;
-  if(intro > 0.7 && !hintUsed) hintEl.style.opacity='1';
+  if(intro > 0.7 && !hintUsed && !REDUCED) hintEl.style.opacity='1';
 
   if(dragging){
     // measure the throw as an angular velocity, smoothed over a few frames
@@ -526,11 +526,11 @@ function frame(){
   mouse.y += (mouse.ty-mouse.y)*Math.min(1,dt*3.0);
   const idle = REDUCED ? 0 : 1;
   const rise = 1 - intro;
-  group.rotation.y = dragYaw + mouse.x*0.16 + Math.sin(t*0.23)*0.045*idle;
-  group.rotation.x = dragPitch - mouse.y*0.11 + Math.sin(t*0.19)*0.026*idle + rise*0.28;
+  group.rotation.y = REDUCED ? 0 : dragYaw + mouse.x*0.16 + Math.sin(t*0.23)*0.045*idle;
+  group.rotation.x = REDUCED ? 0 : dragPitch - mouse.y*0.11 + Math.sin(t*0.19)*0.026*idle + rise*0.28;
   group.rotation.z = Math.sin(t*0.27)*0.018*idle;
   group.position.y = Math.sin(t*0.36)*0.06*idle - rise*0.7;
-  group.position.x = Math.sin(t*0.21)*0.05*idle + mouse.x*0.10;
+  group.position.x = REDUCED ? 0 : Math.sin(t*0.21)*0.05*idle + mouse.x*0.10;
   group.updateMatrixWorld();
 
   hover += (hoverTarget - hover) * Math.min(1, dt*4.5);

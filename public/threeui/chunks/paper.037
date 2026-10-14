@@ -1,0 +1,217 @@
+s.cameraR.matrixWorld.copy(t.matrixWorld).multiply(Hc)}},t.StreamCopyUsage=35042,t.StreamDrawUsage=35040,t.StreamReadUsage=35041,t.StringKeyframeTrack=nc,t.SubtractEquation=101,t.SubtractiveBlending=3,t.TOUCH={ROTATE:0,PAN:1,DOLLY_PAN:2,DOLLY_ROTATE:3},t.TangentSpaceNormalMap=0,t.TetrahedronBufferGeometry=class extends Sl{constructor(t,e){console.warn("THREE.TetrahedronBufferGeometry has been renamed to THREE.TetrahedronGeometry."),super(t,e)}},t.TetrahedronGeometry=Sl,t.Texture=ee,t.TextureLoader=class extends hc{constructor(t){super(t)}load(t,e,i,n){const r=new ee,s=new mc(this.manager);return s.setCrossOrigin(this.crossOrigin),s.setPath(this.path),s.load(t,(function(t){r.image=t,r.needsUpdate=!0,void 0!==e&&e(r)}),i,n),r}},t.TorusBufferGeometry=class extends wl{constructor(t,e,i,n,r){console.warn("THREE.TorusBufferGeometry has been renamed to THREE.TorusGeometry."),super(t,e,i,n,r)}},t.TorusGeometry=wl,t.TorusKnotBufferGeometry=class extends Tl{constructor(t,e,i,n,r,s){console.warn("THREE.TorusKnotBufferGeometry has been renamed to THREE.TorusKnotGeometry."),super(t,e,i,n,r,s)}},t.TorusKnotGeometry=Tl,t.Triangle=_i,t.TriangleFanDrawMode=2,t.TriangleStripDrawMode=1,t.TrianglesDrawMode=0,t.TubeBufferGeometry=class extends Al{constructor(t,e,i,n,r){console.warn("THREE.TubeBufferGeometry has been renamed to THREE.TubeGeometry."),super(t,e,i,n,r)}},t.TubeGeometry=Al,t.TwoPassDoubleSide=2,t.UVMapping=n,t.Uint16BufferAttribute=Ai,t.Uint32BufferAttribute=Ei,t.Uint8BufferAttribute=class extends Ti{constructor(t,e,i){super(new Uint8Array(t),e,i)}},t.Uint8ClampedBufferAttribute=class extends Ti{constructor(t,e,i){super(new Uint8ClampedArray(t),e,i)}},t.Uniform=ph,t.UniformsGroup=class extends vt{constructor(){super(),this.isUniformsGroup=!0,Object.defineProperty(this,"id",{value:mh++}),this.name="",this.usage=mt,this.uniforms=[]}add(t){return this.uniforms.push(t),this}remove(t){const e=this.uniforms.indexOf(t);return-1!==e&&this.uniforms.splice(e,1),this}setName(t){return this.name=t,this}setUsage(t){return this.usage=t,this}dispose(){return this.dispatchEvent({type:"dispose"}),this}copy(t){this.name=t.name,this.usage=t.usage;const e=t.uniforms;this.uniforms.length=0;for(let t=0,i=e.length;t<i;t++)this.uniforms.push(e[t].clone());return this}clone(){return(new this.constructor).copy(this)}},t.UniformsLib=bn,t.UniformsUtils=nn,t.UnsignedByteType=x,t.UnsignedInt248Type=S,t.UnsignedIntType=y,t.UnsignedShort4444Type=1017,t.UnsignedShort5551Type=1018,t.UnsignedShortType=_,t.VSMShadowMap=3,t.Vector2=It,t.Vector3=oe,t.Vector4=ie,t.VectorKeyframeTrack=rc,t.VideoTexture=class extends ee{constructor(t,e,i,n,r,s,a,o,l){super(t,e,i,n,r,s,a,o,l),this.isVideoTexture=!0,this.minFilter=void 0!==s?s:f,this.magFilter=void 0!==r?r:f,this.generateMipmaps=!1;const c=this;"requestVideoFrameCallback"in t&&t.requestVideoFrameCallback((function e(){c.needsUpdate=!0,t.requestVideoFrameCallback(e)}))}clone(){return new this.constructor(this.image).copy(this)}update(){const t=this.image;!1==="requestVideoFrameCallback"in t&&t.readyState>=t.HAVE_CURRENT_DATA&&(this.needsUpdate=!0)}},t.WebGL1Renderer=Ks,t.WebGL3DRenderTarget=class extends ne{constructor(t=1,e=1,i=1){super(t,e),this.isWebGL3DRenderTarget=!0,this.depth=i,this.texture=new se(null,t,e,i),this.texture.isRenderTargetTexture=!0}},t.WebGLArrayRenderTarget=class extends ne{constructor(t=1,e=1,i=1){super(t,e),this.isWebGLArrayRenderTarget=!0,this.depth=i,this.texture=new re(null,t,e,i),this.texture.isRenderTargetTexture=!0}},t.WebGLCubeRenderTarget=hn,t.WebGLMultipleRenderTargets=class extends ne{constructor(t=1,e=1,i=1,n={}){super(t,e,n),this.isWebGLMultipleRenderTargets=!0;const r=this.texture;this.texture=[];for(let t=0;t<i;t++)this.texture[t]=r.clone(),this.texture[t].isRenderTargetTexture=!0}setSize(t,e,i=1){if(this.width!==t||this.height!==e||this.depth!==i){this.width=t,this.height=e,this.depth=i;for(let n=0,r=this.texture.length;n<r;n++)this.texture[n].image.width=t,this.texture[n].image.height=e,this.texture[n].image.depth=i;this.dispose()}return this.viewport.set(0,0,t,e),this.scissor.set(0,0,t,e),this}copy(t){this.dispose(),this.width=t.width,this.height=t.height,this.depth=t.depth,this.viewport.set(0,0,this.width,this.height),this.scissor.set(0,0,this.width,this.height),this.depthBuffer=t.depthBuffer,this.stencilBuffer=t.stencilBuffer,null!==t.depthTexture&&(this.depthTexture=t.depthTexture.clone()),this.texture.length=0;for(let e=0,i=t.texture.length;e<i;e++)this.texture[e]=t.texture[e].clone(),this.texture[e].isRenderTargetTexture=!0;return this}},t.WebGLRenderTarget=ne,t.WebGLRenderer=Js,t.WebGLUtils=Gs,t.WireframeGeometry=El,t.WrapAroundEnding=at,t.ZeroCurvatureEnding=rt,t.ZeroFactor=200,t.ZeroSlopeEnding=st,t.ZeroStencilOp=0,t._SRGBAFormat=gt,t.sRGBEncoding=ht}));
+</script>
+<script>
+(function(){
+"use strict";
+const T = THREE;
+const TW = 1200, TH = 1656;               // authoring grid (0.7246)
+const CW = 1400, CH = 1932;               // canvas pixels, for crisper type
+const clamp = (v,a,b)=> v<a?a:(v>b?b:v);
+const rng = (s)=>()=>{ s=(s*1103515245+12345)&0x7fffffff; return (s>>>8)/8388608; };
+const REDUCED = new URLSearchParams(window.location.search).has('reduced') ||
+  (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+/* ======================================================================
+   1. THE CERTIFICATE — printed on glass
+   ====================================================================== */
+function rr(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);     ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+
+function mid(ctx,txt,y,x){ const cx = x===undefined ? 600 : x;
+  ctx.fillText(txt, cx-ctx.measureText(txt).width/2, y); }
+
+function track(ctx,txt,x,y,sp,centre){
+  const chars=[...txt];
+  let total=0; for(const c of chars) total+=ctx.measureText(c).width+sp;
+  total-=sp;
+  let cx = centre ? x-total/2 : x;
+  for(const c of chars){ ctx.fillText(c,cx,y); cx+=ctx.measureText(c).width+sp; }
+  return total;
+}
+
+function wrapMid(ctx,text,y,maxW,lh,x){
+  const words=text.split(' '); let line='', yy=y;
+  for(const w of words){ const t=line?line+' '+w:w;
+    if(ctx.measureText(t).width>maxW && line){ mid(ctx,line,yy,x); line=w; yy+=lh; }
+    else line=t; }
+  if(line) mid(ctx,line,yy,x);
+  return yy;
+}
+
+function wrapL(ctx,text,x,y,maxW,lh){
+  const words=text.split(' '); let line='', yy=y;
+  for(const w of words){ const t=line?line+' '+w:w;
+    if(ctx.measureText(t).width>maxW && line){ ctx.fillText(line,x,yy); line=w; yy+=lh; }
+    else line=t; }
+  if(line) ctx.fillText(line,x,yy);
+  return yy+lh;
+}
+
+function spaced(ctx,words,x,y,total){
+  let sum=0; const w=words.map(s=>{const m=ctx.measureText(s).width; sum+=m; return m;});
+  const gap = words.length>1 ? (total-sum)/(words.length-1) : 0;
+  let cx=x; words.forEach((s,i)=>{ ctx.fillText(s,cx,y); cx+=w[i]+gap; });
+}
+
+function signature(ctx,x,y,s,seed,color,lw){
+  ctx.save(); ctx.translate(x,y); ctx.scale(s,s);
+  ctx.strokeStyle=color; ctx.lineWidth=lw||2.2; ctx.lineCap='round'; ctx.lineJoin='round';
+  const rnd = rng(seed*7919+13);
+  ctx.beginPath(); ctx.moveTo(0,15);
+  ctx.bezierCurveTo(-3+rnd()*4,-7, 9,-20-rnd()*6, 15,-5);
+  ctx.bezierCurveTo(18,7, 7,15, 9,4);
+  let px=9, py=4;
+  const n=4+Math.floor(rnd()*3);
+  for(let i=0;i<n;i++){
+    const step=9+rnd()*11, nx=px+step, ny=4-(i%2?-1:1)*(4+rnd()*13);
+    ctx.bezierCurveTo(px+step*0.35, py-9-rnd()*10, nx-step*0.35, ny+7+rnd()*8, nx, ny);
+    px=nx; py=ny;
+  }
+  ctx.bezierCurveTo(px+9, py-13, px+21, py+11, px+29, py-3);
+  ctx.stroke();
+  ctx.beginPath(); ctx.lineWidth=(lw||2.2)*0.64;
+  ctx.moveTo(-5,19); ctx.quadraticCurveTo(px*0.55, 24+rnd()*5, px+25, 12+rnd()*4);
+  ctx.stroke(); ctx.restore();
+}
+
+/* ---- FINE PRINT X-RAY · tactile lease paper -------------------------- */
+const LIME='#38E1FF', CYAN='#0D6B82';
+const MONO='"JetBrains Mono", ui-monospace, Menlo, monospace';
+function drawGame(ctx){
+  const paper=ctx.createLinearGradient(0,0,TW,TH);
+  paper.addColorStop(0,'#F7F5EF'); paper.addColorStop(.48,'#ECEBE6'); paper.addColorStop(1,'#D8D9D5');
+  ctx.fillStyle=paper; ctx.fillRect(0,0,TW,TH);
+  const rnd=rng(47); // subtle deterministic paper fibres, never a grid
+  for(let i=0;i<4200;i++){
+    const a=.018+rnd()*.035,v=155+Math.floor(rnd()*55);
+    ctx.fillStyle=`rgba(${v},${v-2},${v-7},${a})`;
+    ctx.fillRect(rnd()*TW,rnd()*TH,.5+rnd()*2,.35+rnd()*.8);
+  }
+  const edge=ctx.createLinearGradient(0,0,TW,0);
+  edge.addColorStop(0,'rgba(28,39,49,.08)');edge.addColorStop(.06,'rgba(255,255,255,0)');edge.addColorStop(.94,'rgba(255,255,255,0)');edge.addColorStop(1,'rgba(28,39,49,.1)');
+  ctx.fillStyle=edge;ctx.fillRect(0,0,TW,TH);
+  ctx.fillStyle='#102334';ctx.fillRect(0,0,TW,272);
+  const glow=ctx.createRadialGradient(920,80,0,920,80,520);glow.addColorStop(0,'rgba(56,225,255,.18)');glow.addColorStop(1,'rgba(56,225,255,0)');ctx.fillStyle=glow;ctx.fillRect(0,0,TW,330);
+
+  ctx.strokeStyle=LIME; ctx.lineWidth=3;
+  [[70,70,1,1],[TW-70,70,-1,1],[TW-70,TH-70,-1,-1],[70,TH-70,1,-1]].forEach(([x,y,sx,sy])=>{
+    ctx.beginPath(); ctx.moveTo(x+52*sx,y); ctx.lineTo(x,y); ctx.lineTo(x,y+52*sy); ctx.stroke();
+  });
+  ctx.fillStyle=LIME;ctx.font='700 18px '+MONO;track(ctx,'FINE PRINT X—RAY  //  LOCAL ANALYSIS',96,105,4,false);
+  ctx.fillStyle='#F3F7FA';ctx.font='600 61px "Inter Tight", Inter, sans-serif';ctx.fillText('RESIDENTIAL',96,181);ctx.fillText('LEASE AGREEMENT',96,240);
+  ctx.fillStyle='rgba(221,237,247,.65)';ctx.font='400 16px '+MONO;ctx.fillText('DOCUMENT ID  XR-047-MERCER  ·  PAGE 01 / 01',755,105);
+
+  ctx.fillStyle='#172B3C';ctx.font='700 17px '+MONO;track(ctx,'PARTIES & PREMISES',96,342,3,false);
+  ctx.strokeStyle='rgba(16,35,52,.18)';ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(96,363);ctx.lineTo(TW-96,363);ctx.stroke();
+  ctx.fillStyle='#273846';ctx.font='400 22px Inter, sans-serif';
+  ctx.fillText('Landlord',96,412);ctx.fillText('Northstar Property Group LLC',355,412);ctx.fillText('Tenant',96,462);ctx.fillText('Jordan Rivera',355,462);ctx.fillText('Premises',96,512);ctx.fillText('47 Mercer Street, Apartment 4B',355,512);
+
+  ctx.fillStyle='#172B3C';ctx.font='700 17px '+MONO;track(ctx,'TERM & PAYMENT',96,600,3,false);ctx.beginPath();ctx.moveTo(96,621);ctx.lineTo(TW-96,621);ctx.stroke();
+  ctx.fillStyle='#273846';ctx.font='400 22px Inter, sans-serif';ctx.fillText('Term',96,671);ctx.fillText('November 01, 2026 — October 31, 2027',355,671);ctx.fillText('Monthly rent',96,721);ctx.fillText('$2,450 due on the first calendar day',355,721);ctx.fillText('Security deposit',96,771);ctx.fillText('$2,450 held subject to itemized deductions',355,771);
+
+  ctx.fillStyle='rgba(255,61,90,.09)';rr(ctx,78,842,TW-156,235,13);ctx.fill();ctx.strokeStyle='#D72E4B';ctx.lineWidth=3;rr(ctx,78,842,TW-156,235,13);ctx.stroke();
+  ctx.fillStyle='#C62342';ctx.font='700 16px '+MONO;track(ctx,'⬢  CRITICAL FLAG  //  MANDATORY ARBITRATION',106,886,2,false);
+  ctx.fillStyle='#263743';ctx.font='500 23px Inter, sans-serif';wrapL(ctx,'Any dispute arising under this Lease shall be resolved by binding arbitration. Tenant waives the right to trial by jury and participation in any class action.',106,938,TW-212,34);
+  ctx.fillStyle='#C62342';ctx.font='700 17px '+MONO;ctx.fillText('YOU GIVE UP THE RIGHT TO SUE IN COURT.',106,1043);
+
+  ctx.fillStyle='#172B3C';ctx.font='700 17px '+MONO;track(ctx,'ADDITIONAL TERMS',96,1156,3,false);ctx.strokeStyle='rgba(16,35,52,.18)';ctx.beginPath();ctx.moveTo(96,1177);ctx.lineTo(TW-96,1177);ctx.stroke();
+  ctx.fillStyle='#34444F';ctx.font='400 19px Inter, sans-serif';
+  const terms=['01  Entry permitted with twelve hours written notice.','02  Late charge: $125 plus $25 for each additional day.','03  Early termination: three months rent and deposit forfeiture.','04  Lease renews for one year unless notice is given 90 days prior.'];
+  terms.forEach((line,i)=>ctx.fillText(line,96,1230+i*46));
+  ctx.fillStyle='rgba(56,225,255,.12)';rr(ctx,78,1417,TW-156,88,10);ctx.fill();ctx.fillStyle='#0D6B82';ctx.font='700 16px '+MONO;ctx.fillText('SCAN SUMMARY',106,1453);ctx.font='500 18px '+MONO;ctx.fillText('05 NEED ATTENTION  ·  01 CRITICAL  ·  CONFIDENCE 98%',310,1453);
+  ctx.strokeStyle='rgba(16,35,52,.22)';ctx.beginPath();ctx.moveTo(96,1550);ctx.lineTo(490,1550);ctx.moveTo(710,1550);ctx.lineTo(1104,1550);ctx.stroke();ctx.fillStyle='#52616B';ctx.font='400 14px '+MONO;ctx.fillText('TENANT SIGNATURE',96,1580);ctx.fillText('DATE',710,1580);
+}
+
+
+function makeCertTexture(){
+  const c = document.createElement('canvas'); c.width=CW; c.height=CH;
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0,0,CW,CH);
+  ctx.save();
+  ctx.scale(CW/TW, CH/TH);          // author on the 1200x1656 grid, render bigger
+  rr(ctx,0,0,TW,TH,26); ctx.clip();
+  drawGame(ctx);
+  ctx.restore();
+  const t = new T.CanvasTexture(c);
+  t.encoding = T.sRGBEncoding; t.anisotropy = 8; t.needsUpdate = true;
+  return t;
+}
+
+/* ======================================================================
+   2. GRAIN
+   ====================================================================== */
+(function grain(){
+  const n=160, c=document.createElement('canvas'); c.width=c.height=n;
+  const x=c.getContext('2d'), d=x.createImageData(n,n);
+  for(let i=0;i<n*n;i++){
+    const v = 128 + (Math.random()-0.5)*168;
+    d.data[i*4]=d.data[i*4+1]=d.data[i*4+2]=v; d.data[i*4+3]=255;
+  }
+  x.putImageData(d,0,0);
+  const url='url('+c.toDataURL()+')';
+  document.getElementById('grain').style.backgroundImage=url;
+  document.getElementById('grain2').style.backgroundImage=url;
+})();
+
+/* ======================================================================
+   3. SCENE
+   ====================================================================== */
+const canvas = document.getElementById('gl');
+const renderer = new T.WebGLRenderer({canvas, antialias:true, alpha:true,
+                                      powerPreference:'high-performance'});
+renderer.outputEncoding = T.sRGBEncoding;
+renderer.toneMapping = T.NoToneMapping;
+
+const scene  = new T.Scene();
+const camera = new T.PerspectiveCamera(24, 1, 0.1, 100);
+camera.position.set(0,0,8.2);
+
+function envTexture(){
+  const w=1024,h=512,c=document.createElement('canvas');
+  c.width=w;c.height=h; const x=c.getContext('2d');
+  const g=x.createLinearGradient(0,0,0,h);
+  g.addColorStop(0,'#3a3d47'); g.addColorStop(.46,'#171820'); g.addColorStop(1,'#08080a');
+  x.fillStyle=g; x.fillRect(0,0,w,h);
+  const blob=(cx,cy,rx,ry,col,a)=>{
+    const rg=x.createRadialGradient(cx,cy,0,cx,cy,Math.max(rx,ry));
+    rg.addColorStop(0,col.replace('A',a)); rg.addColorStop(1,col.replace('A','0'));
+    x.save(); x.translate(cx,cy); x.scale(1,ry/rx); x.translate(-cx,-cy);
+    x.fillStyle=rg; x.beginPath(); x.arc(cx,cy,rx,0,7); x.fill(); x.restore();
+  };
+  blob(w*0.30,h*0.24,330,240,'rgba(255,252,246,A)','1');
+  blob(w*0.74,h*0.34,240,200,'rgba(150,175,235,A)','.42');
+  blob(w*0.52,h*0.86,420,190,'rgba(255,170,120,A)','.10');
+  const t=new T.CanvasTexture(c);
+  t.mapping=T.EquirectangularReflectionMapping; t.encoding=T.sRGBEncoding;
+  return t;
+}
+const pmrem = new T.PMREMGenerator(renderer);
+pmrem.compileEquirectangularShader();
+scene.environment = pmrem.fromEquirectangular(envTexture()).texture;
+
+const key  = new T.DirectionalLight(0xfff6ec, 1.42); key.position.set(-3.3,2.1,2.0);
+const fill = new T.DirectionalLight(0x9fb6ff, 0.13); fill.position.set(3.6,-1.8,1.6);
+const rim  = new T.DirectionalLight(0xffffff, 0.10); rim.position.set(1.6,1.2,-2.6);
+scene.add(key,fill,rim,new T.AmbientLight(0xffffff,0.16));
+
+const touchLight = new T.PointLight(0x38e1ff, 0, 7.5, 1.35);
+touchLight.position.set(0,0,1.7); scene.add(touchLight);
+
+/* ---- geometry + the bend ------------------------------------------- */
+const SW = 2.30, SH = 2.72;
+const geo = new T.PlaneGeometry(SW,SH,72,96);
+
+const uni = {
+  uTime:{value:0}, uAmp:{value:1.18}, uFreq:{value:4.70}, uTwist:{value:1.30},
+  uSize:{value:new T.Vector2(SW,SH)}, uFlutter:{value:0}, uPhase:{value:0},
+  uRim:{value:0.16}, uRimA:{value:0.0}, uSpecA:{value:0.0},
+  uRimCol:{value:new T.Color(0x38e1ff)}
+};
+
+const WAVE = `
+uniform float uTime, uAmp, uFlutter, uPhase, uFreq, uTwist;
+uniform vec2  uSize;
+
+// the sheet hangs: it curls harder at the top than along the bottom edge
+float sAmp(float u, float v){ return uAmp*(0.10 + pow(u,1.35))*(0.50 + 0.64

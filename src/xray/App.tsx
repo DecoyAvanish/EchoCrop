@@ -2,6 +2,7 @@ import {useEffect,useMemo,useRef,useState} from 'react';
 import XrayScene from './HeroPaper';
 import MotionDirector from './MotionDirector';
 import {analyzeText,samples,scoreFor,severitySymbol,type Clause,type DocumentSample,type Severity} from './data';
+import {localizeClause} from './localize';
 
 type Page='home'|'intake'|'scan'|'report'|'learn';
 type Settings={reduced:boolean;contrast:boolean;light:boolean;large:boolean;dyslexic:boolean;language:'en'|'es'};

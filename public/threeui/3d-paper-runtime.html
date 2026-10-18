@@ -3,13 +3,55 @@
 <title>3D Paper — Site of the Year</title>
 <style>html,body{margin:0;width:100%;height:100%;background:#08080a}</style>
 <script>
+  function drawChamber(ctx,clauses){
+    drawGame(ctx);
+    const risk={critical:'#C62342',high:'#D56B27',moderate:'#A77D0B',safe:'#168867'};
+    const wash=ctx.createLinearGradient(0,300,TW,TH);
+    wash.addColorStop(0,'#F6F4EE');wash.addColorStop(.55,'#ECEBE6');wash.addColorStop(1,'#DADBD7');
+    ctx.fillStyle=wash;ctx.fillRect(42,292,TW-84,TH-342);
+    const grain=rng(83);
+    for(let i=0;i<2600;i++){
+      const v=160+Math.floor(grain()*50);
+      ctx.fillStyle='rgba('+v+','+(v-2)+','+(v-7)+','+(.014+grain()*.026)+')';
+      ctx.fillRect(42+grain()*(TW-84),292+grain()*(TH-342),.5+grain()*1.7,.3+grain()*.7);
+    }
+    ctx.fillStyle='#172B3C';ctx.font='700 17px '+MONO;track(ctx,'CLAUSE X—RAY  //  MARKED IN DOCUMENT',96,338,3,false);
+    ctx.strokeStyle='rgba(16,35,52,.2)';ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(96,361);ctx.lineTo(TW-96,361);ctx.stroke();
+    const shown=(clauses||[]).slice(0,8),blockH=Math.min(146,900/Math.max(1,shown.length));
+    shown.forEach((clause,index)=>{
+      const y=405+index*blockH,color=risk[clause.severity]||risk.safe;
+      ctx.fillStyle=color;ctx.fillRect(92,y-22,5,Math.max(72,blockH-18));
+      ctx.fillStyle=color;ctx.font='700 14px '+MONO;
+      track(ctx,String(index+1).padStart(2,'0')+'  '+String(clause.category||'CLAUSE').toUpperCase()+'  //  '+String(clause.severity||'safe').toUpperCase(),112,y,1.5,false);
+      ctx.fillStyle='#263743';ctx.font='500 18px Inter, sans-serif';
+      wrapL(ctx,String(clause.originalText||''),112,y+34,TW-230,25);
+      ctx.fillStyle=color;ctx.globalAlpha=clause.severity==='safe'?.11:.18;ctx.fillRect(108,y+57,TW-222,10);ctx.globalAlpha=1;
+      ctx.strokeStyle='rgba(16,35,52,.12)';ctx.beginPath();ctx.moveTo(112,y+blockH-22);ctx.lineTo(TW-104,y+blockH-22);ctx.stroke();
+    });
+    const flagged=shown.filter(c=>c.severity!=='safe').length;
+    const critical=shown.filter(c=>c.severity==='critical').length;
+    ctx.fillStyle='rgba(56,225,255,.11)';rr(ctx,78,1432,TW-156,78,10);ctx.fill();
+    ctx.fillStyle='#0D6B82';ctx.font='700 15px '+MONO;ctx.fillText('SCAN SUMMARY',106,1464);
+    ctx.font='500 17px '+MONO;ctx.fillText(String(flagged).padStart(2,'0')+' NEED ATTENTION  ·  '+String(critical).padStart(2,'0')+' CRITICAL  ·  LOCAL ANALYSIS',310,1464);
+    ctx.strokeStyle='rgba(16,35,52,.22)';ctx.beginPath();ctx.moveTo(96,1550);ctx.lineTo(490,1550);ctx.moveTo(710,1550);ctx.lineTo(1104,1550);ctx.stroke();
+    ctx.fillStyle='#52616B';ctx.font='400 14px '+MONO;ctx.fillText('TENANT SIGNATURE',96,1580);ctx.fillText('DATE',710,1580);
+  }
   const chunkNames=Array.from({length:39},(_,index)=>`paper.${String(index).padStart(3,'0')}`);
   Promise.all(chunkNames.map(name=>fetch(`/threeui/chunks/${name}`).then(response=>{
     if(!response.ok)throw new Error(`Unable to load ${name}: ${response.status}`);
     return response.text();
   }))).then(parts=>{
+    const params=new URLSearchParams(location.search);
+    let source=parts.join('');
+    if(params.get('mode')==='chamber'){
+      let clauses=[];
+      try{clauses=JSON.parse(params.get('clauses')||'[]')}catch{}
+      const safeJson=JSON.stringify(clauses).replace(/[<>&]/g,char=>({'<':'\\u003c','>':'\\u003e','&':'\\u0026'}[char]));
+      source=source.replace('function makeCertTexture(){',drawChamber.toString()+'\nconst XRAY_CLAUSES='+safeJson+';\nfunction makeCertTexture(){');
+      source=source.replace('  drawGame(ctx);','  drawChamber(ctx,XRAY_CLAUSES);');
+    }
     document.open();
-    document.write(parts.join(''));
+    document.write(source);
     document.close();
   }).catch(error=>{
     document.body.innerHTML=`<pre style="color:#ff657a;padding:24px;white-space:pre-wrap">${error.message}</pre>`;

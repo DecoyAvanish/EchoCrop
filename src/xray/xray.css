@@ -192,6 +192,183 @@ html::-webkit-scrollbar-corner{background:#03070c}
   body:has(:is(a,button,select,input,textarea,summary,label):hover) .focus-reticle:after{left:26px;top:22px}
 }
 
+/* Orbital reveal + shared tactile document treatment */
+.hero-orbital{
+  inset:-20% -28% -20% 38%!important;
+  width:auto!important;
+  height:auto!important;
+  z-index:2!important;
+  opacity:.72!important;
+  filter:saturate(1.35) brightness(1.38) contrast(1.08) drop-shadow(0 0 34px rgba(151,86,255,.42))!important;
+  -webkit-mask-image:radial-gradient(circle at 54% 50%,#000 0 48%,rgba(0,0,0,.92) 62%,transparent 84%)!important;
+  mask-image:radial-gradient(circle at 54% 50%,#000 0 48%,rgba(0,0,0,.92) 62%,transparent 84%)!important;
+}
+.hero-paper{z-index:3!important}
+
+.chamber-paper-visual{
+  position:absolute;
+  inset:0 0 55px;
+  overflow:hidden;
+  isolation:isolate;
+  background:
+    radial-gradient(circle at 50% 42%,rgba(23,167,198,.1),transparent 44%),
+    linear-gradient(180deg,rgba(3,8,14,.18),rgba(2,5,10,.72));
+}
+.chamber-paper{
+  position:absolute!important;
+  inset:-11% -8% -6%!important;
+  z-index:2!important;
+  background:transparent!important;
+  filter:saturate(.92) brightness(.92) contrast(1.04);
+}
+.chamber-orbital{
+  position:absolute!important;
+  inset:-28%!important;
+  width:auto!important;
+  height:auto!important;
+  z-index:1!important;
+  opacity:.28!important;
+  filter:saturate(1.2) brightness(1.08);
+  -webkit-mask-image:radial-gradient(circle,#000 0 48%,transparent 74%);
+  mask-image:radial-gradient(circle,#000 0 48%,transparent 74%);
+}
+.document-stage:before{z-index:3}
+.document-stage .scan-line{z-index:6}
+.document-stage .minimap{z-index:7}
+.doc-overlay{
+  z-index:5;
+  width:min(48vw,650px);
+  height:62%;
+  pointer-events:none;
+}
+.doc-overlay button{
+  --risk:var(--cyan);
+  pointer-events:auto;
+  position:relative;
+  min-height:34px;
+  padding:8px 14px;
+  border:0;
+  border-left:3px solid var(--risk);
+  color:color-mix(in srgb,var(--risk) 48%,#dce8f7);
+  background:linear-gradient(90deg,color-mix(in srgb,var(--risk) 22%,rgba(4,9,16,.92)),rgba(4,9,16,.76) 72%,rgba(4,9,16,.18));
+  box-shadow:inset 0 1px rgba(255,255,255,.035),0 0 22px color-mix(in srgb,var(--risk) 13%,transparent);
+  backdrop-filter:blur(10px) saturate(1.12);
+  opacity:.75;
+  transform:translateZ(0);
+}
+.doc-overlay button.critical{--risk:var(--red)}
+.doc-overlay button.high{--risk:var(--orange)}
+.doc-overlay button.moderate{--risk:var(--yellow)}
+.doc-overlay button.safe{--risk:var(--green)}
+.doc-overlay button.active{
+  color:color-mix(in srgb,var(--risk) 72%,white);
+  border-color:var(--risk);
+  opacity:1;
+  transform:translateX(12px) scale(1.018);
+  background:linear-gradient(90deg,color-mix(in srgb,var(--risk) 36%,rgba(4,9,16,.94)),rgba(4,9,16,.84) 75%,rgba(4,9,16,.28));
+  box-shadow:0 0 32px color-mix(in srgb,var(--risk) 28%,transparent),inset 0 0 18px color-mix(in srgb,var(--risk) 9%,transparent);
+}
+.doc-overlay button span{
+  color:var(--risk);
+  text-shadow:0 0 12px var(--risk);
+}
+
+@media(max-width:900px){
+  .hero-orbital{inset:-12% -36% -12% 28%!important;opacity:.58!important}
+  .chamber-paper{inset:-5% -28% 0!important}
+  .doc-overlay{width:82%;height:60%}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .doc-overlay button,.doc-overlay button.active{transition:none;transform:none}
+}
+
+/* Scanner-only document ink. The hero paper remains unchanged. */
+.document-stage .doc-overlay{
+  left:50%;
+  top:20%;
+  width:min(36vw,500px);
+  height:52%;
+  transform:translateX(-50%) perspective(900px) rotateX(1deg);
+  justify-content:space-around;
+  gap:0;
+  mix-blend-mode:multiply;
+}
+.document-stage .doc-overlay button{
+  --risk:#087f98;
+  display:grid;
+  grid-template-columns:27px 1fr;
+  align-items:start;
+  width:100%;
+  min-height:0;
+  padding:4px 6px 6px;
+  border:0;
+  border-bottom:1px solid color-mix(in srgb,var(--risk) 76%,#33414a);
+  color:#24323b;
+  background:linear-gradient(180deg,transparent 62%,color-mix(in srgb,var(--risk) 16%,transparent) 62% 91%,transparent 91%);
+  box-shadow:none;
+  backdrop-filter:none;
+  clip-path:none;
+  opacity:.78;
+  transform:none;
+  text-align:left;
+  font:600 clamp(.44rem,.56vw,.58rem)/1.35 Fragment,monospace;
+  letter-spacing:.012em;
+  text-shadow:none;
+}
+.document-stage .doc-overlay button.critical{--risk:#c62342}
+.document-stage .doc-overlay button.high{--risk:#d56b27}
+.document-stage .doc-overlay button.moderate{--risk:#b28a16}
+.document-stage .doc-overlay button.safe{--risk:#168867}
+.document-stage .doc-overlay button:hover,
+.document-stage .doc-overlay button.active{
+  color:#111d24;
+  border-color:var(--risk);
+  background:linear-gradient(180deg,transparent 55%,color-mix(in srgb,var(--risk) 28%,transparent) 55% 94%,transparent 94%);
+  box-shadow:none;
+  opacity:1;
+  transform:translateX(3px);
+}
+.document-stage .doc-overlay .ink-index{
+  color:var(--risk);
+  font-weight:700;
+  text-shadow:none;
+}
+.document-stage .doc-overlay .ink-copy{
+  display:block;
+  color:inherit;
+  text-shadow:none;
+}
+.document-stage .doc-overlay .ink-copy small{
+  display:block;
+  margin-bottom:2px;
+  color:var(--risk);
+  font:700 .42rem/1 Fragment,monospace;
+  letter-spacing:.12em;
+}
+
+@media(max-width:900px){
+  .document-stage .doc-overlay{width:min(54vw,470px);top:21%;height:50%}
+}
+@media(max-width:760px){
+  .document-stage .doc-overlay{width:58%;top:20%;height:53%}
+  .document-stage .doc-overlay button{font-size:.42rem;grid-template-columns:22px 1fr;padding:3px 3px 4px}
+  .document-stage .doc-overlay .ink-copy small{font-size:.35rem}
+}
+
+/* The visible clause artwork now lives in the Three.js CanvasTexture. */
+.document-stage .doc-overlay{mix-blend-mode:normal}
+.document-stage .doc-overlay button,
+.document-stage .doc-overlay button:hover,
+.document-stage .doc-overlay button.active{
+  color:transparent!important;
+  background:transparent!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+  opacity:0!important;
+  transform:none!important;
+}
+
 body:has(.app.light){scrollbar-color:rgba(0,127,158,.82) #e6eef3}
 body:has(.app.light)::-webkit-scrollbar-track{background:#e6eef3;border-left-color:rgba(0,90,120,.14)}
 body:has(.app.light)::-webkit-scrollbar-thumb{border-color:#e6eef3;background:linear-gradient(180deg,rgba(0,127,158,.3),#007f9e 48%,rgba(0,127,158,.3))}
@@ -335,3 +512,52 @@ html:not(:has(.app.accessibility-active))::-webkit-scrollbar{display:none;width:
 .reduced-motion .process .process-steps article,.reduced-motion .signal-stack,.reduced-motion .signal,.reduced-motion .compare,.reduced-motion .compare>div,.reduced-motion .beam-divider,.reduced-motion .privacy li{transform:none!important}
 @media(prefers-reduced-motion:reduce){.process .process-steps article,.signal-stack,.signal,.compare,.compare>div,.beam-divider,.privacy li{transform:none!important}}
 @media(max-width:760px){.privacy-orbital-field{inset:-10%;width:120%;height:120%;opacity:.42}.privacy-orbit .lock-core{width:150px;height:122px}.privacy-orbit .lock-core:before{left:34px;right:34px;height:80px}.privacy-orbit .lock-core b{top:34px}.privacy-orbit .lock-core em{top:88px}.privacy-orbit .lock-core u{height:109px}.process .process-steps article,.signal-stack,.compare,.privacy li{transform:none!important}}
+
+/* Keep the decoder inside the same continuous atmospheric canvas. */
+.examples{background:radial-gradient(ellipse at 78% 26%,rgba(56,225,255,.045),transparent 32%),radial-gradient(ellipse at 18% 82%,rgba(79,57,150,.04),transparent 28%),transparent}
+.examples:after{content:"";position:absolute;z-index:-1;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(5,7,13,.12),rgba(5,7,13,.34) 52%,rgba(5,7,13,.1));border-block:1px solid rgba(56,225,255,.035)}
+.light .examples{background:radial-gradient(ellipse at 78% 26%,rgba(0,127,158,.055),transparent 34%),radial-gradient(ellipse at 18% 82%,rgba(91,77,160,.035),transparent 30%),transparent}
+.light .examples:after{background:linear-gradient(180deg,rgba(237,243,247,.08),rgba(225,237,243,.22),rgba(237,243,247,.06));border-color:rgba(0,127,158,.05)}
+
+/* Scanner document framing and optical zoom. */
+.document-stage .chamber-paper{
+  inset:0!important;
+  filter:saturate(.94) brightness(.95) contrast(1.04);
+}
+.paper-zoom-controls{
+  position:absolute;
+  z-index:9;
+  top:24px;
+  left:50%;
+  display:grid;
+  grid-template-columns:38px 70px 38px;
+  transform:translateX(-50%);
+  border:1px solid rgba(56,225,255,.24);
+  background:rgba(4,10,18,.78);
+  box-shadow:0 16px 42px rgba(0,0,0,.32),inset 0 1px rgba(255,255,255,.045),0 0 24px rgba(56,225,255,.06);
+  backdrop-filter:blur(16px) saturate(1.25);
+}
+.paper-zoom-controls button{
+  min-height:36px;
+  border:0;
+  border-right:1px solid rgba(56,225,255,.12);
+  color:#a9bdd5;
+  background:transparent;
+  font:600 11px var(--mono);
+  letter-spacing:.08em;
+  transition:color .2s ease,background .2s ease,text-shadow .2s ease;
+}
+.paper-zoom-controls button:last-child{border-right:0}
+.paper-zoom-controls button:hover,.paper-zoom-controls button:focus-visible{
+  color:var(--cyan);
+  background:rgba(56,225,255,.08);
+  text-shadow:0 0 14px rgba(56,225,255,.65);
+}
+.light .paper-zoom-controls{background:rgba(239,247,250,.88);border-color:rgba(0,117,145,.28);box-shadow:0 14px 36px rgba(35,64,76,.14)}
+.light .paper-zoom-controls button{color:#34576a;border-color:rgba(0,117,145,.13)}
+.reduced-motion .paper-zoom-controls button{transition:none}
+@media(prefers-reduced-motion:reduce){.paper-zoom-controls button{transition:none}}
+@media(max-width:900px){
+  .document-stage .chamber-paper{inset:0!important}
+  .paper-zoom-controls{top:14px;grid-template-columns:34px 62px 34px}
+}

@@ -223,14 +223,14 @@ html::-webkit-scrollbar-corner{background:#03070c}
 }
 .chamber-orbital{
   position:absolute!important;
-  inset:-28%!important;
+  inset:-18%!important;
   width:auto!important;
   height:auto!important;
   z-index:1!important;
-  opacity:.28!important;
-  filter:saturate(1.2) brightness(1.08);
-  -webkit-mask-image:radial-gradient(circle,#000 0 48%,transparent 74%);
-  mask-image:radial-gradient(circle,#000 0 48%,transparent 74%);
+  opacity:.78!important;
+  filter:saturate(1.45) brightness(1.24) contrast(1.08) drop-shadow(0 0 46px rgba(118,73,255,.26));
+  -webkit-mask-image:radial-gradient(circle at 50% 46%,#000 0 44%,rgba(0,0,0,.94) 58%,transparent 79%);
+  mask-image:radial-gradient(circle at 50% 46%,#000 0 44%,rgba(0,0,0,.94) 58%,transparent 79%);
 }
 .document-stage:before{z-index:3}
 .document-stage .scan-line{z-index:6}
@@ -518,6 +518,49 @@ html:not(:has(.app.accessibility-active))::-webkit-scrollbar{display:none;width:
 .examples:after{content:"";position:absolute;z-index:-1;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(5,7,13,.12),rgba(5,7,13,.34) 52%,rgba(5,7,13,.1));border-block:1px solid rgba(56,225,255,.035)}
 .light .examples{background:radial-gradient(ellipse at 78% 26%,rgba(0,127,158,.055),transparent 34%),radial-gradient(ellipse at 18% 82%,rgba(91,77,160,.035),transparent 30%),transparent}
 .light .examples:after{background:linear-gradient(180deg,rgba(237,243,247,.08),rgba(225,237,243,.22),rgba(237,243,247,.06));border-color:rgba(0,127,158,.05)}
+
+/* Visible orbital atmosphere: paper stays foreground, fields fill their scenes. */
+.hero-orbital{
+  inset:-24%!important;
+  width:auto!important;
+  height:auto!important;
+  z-index:2!important;
+  opacity:.88!important;
+  mix-blend-mode:screen;
+  filter:saturate(1.55) brightness(1.42) contrast(1.1) drop-shadow(0 0 48px rgba(132,78,255,.5))!important;
+  -webkit-mask-image:radial-gradient(circle at 50% 50%,#000 0 52%,rgba(0,0,0,.96) 66%,transparent 88%)!important;
+  mask-image:radial-gradient(circle at 50% 50%,#000 0 52%,rgba(0,0,0,.96) 66%,transparent 88%)!important;
+}
+.hero-paper{background:transparent!important}
+.hero-paper iframe{background:transparent!important}
+
+.learn{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  background:radial-gradient(circle at 50% 28%,rgba(87,51,153,.13),transparent 44%),var(--bg);
+}
+.learn-orbital-field{
+  position:fixed!important;
+  z-index:0!important;
+  inset:76px 0 0!important;
+  width:100vw!important;
+  height:calc(100vh - 76px)!important;
+  opacity:.82!important;
+  pointer-events:none!important;
+  mix-blend-mode:screen;
+  filter:saturate(1.35) brightness(1.16) contrast(1.08) drop-shadow(0 0 52px rgba(113,70,238,.28));
+  -webkit-mask-image:radial-gradient(ellipse 86% 72% at 50% 42%,#000 0 56%,rgba(0,0,0,.9) 70%,transparent 100%);
+  mask-image:radial-gradient(ellipse 86% 72% at 50% 42%,#000 0 56%,rgba(0,0,0,.9) 70%,transparent 100%);
+}
+.learn>.page-heading,.learn>.glossary,.learn>.learn-cta{position:relative;z-index:1}
+.learn .glossary article{background:linear-gradient(145deg,rgba(8,18,31,.84),rgba(5,9,18,.68));backdrop-filter:blur(8px)}
+.light .learn{background:radial-gradient(circle at 50% 28%,rgba(102,85,174,.08),transparent 46%),var(--bg)}
+.light .learn-orbital-field{opacity:.28!important;mix-blend-mode:multiply}
+@media(max-width:760px){
+  .hero-orbital{inset:-16%!important;opacity:.76!important}
+  .learn-orbital-field{inset:64px 0 0!important;height:calc(100vh - 64px)!important;opacity:.68!important}
+}
 
 /* Scanner document framing and optical zoom. */
 .document-stage .chamber-paper{

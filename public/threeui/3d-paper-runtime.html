@@ -43,6 +43,10 @@
   }))).then(parts=>{
     const params=new URLSearchParams(location.search);
     let source=parts.join('');
+    source=source
+      .replace(':root{ --bg:#08080a;',':root{ --bg:transparent;')
+      .replace('html,body{height:100%;background:var(--bg);','html,body{height:100%;background:transparent;')
+      .replace('background:rgba(8,8,10,.05)}','background:rgba(8,8,10,.025)}');
     if(params.get('mode')==='chamber'){
       let clauses=[];
       try{clauses=JSON.parse(params.get('clauses')||'[]')}catch{}

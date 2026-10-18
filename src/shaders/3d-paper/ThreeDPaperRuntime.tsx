@@ -59,7 +59,8 @@ export function ThreeDPaperRuntime({className='',style,reduced=false,mode='hero'
   const runtimeUrl=mode==='chamber'?chamberUrl:siteOfTheYearUrl;
   const sourceUrl=`${runtimeUrl}${query.size?`?${query.toString()}`:''}`;
 
-  return <div ref={hostRef} className={`threeui-background three-d-paper${className?` ${className}`:''}`} role="group" aria-label="Interactive translucent 3D paper certificate" data-state={!mounted?'paused':ready?'ready':'loading'} style={{position:'relative',overflow:'hidden',background:'#08080a',pointerEvents:'auto',...style}}>
-    {mounted?<iframe ref={frameRef} title={mode==='chamber'?'3D Paper — Analyzed clauses':'3D Paper — Site of the Year'} src={sourceUrl} sandbox="allow-scripts allow-same-origin" loading="eager" onLoad={()=>setReady(true)} style={{position:'absolute',inset:0,display:'block',width:'100%',height:'100%',border:0,background:'#08080a',opacity:ready?1:0,pointerEvents:ready&&!reduced?'auto':'none',transition:reduced?'none':'opacity 240ms ease-out'}}/>:null}
+  const transparent=true;
+  return <div ref={hostRef} className={`threeui-background three-d-paper${className?` ${className}`:''}`} role="group" aria-label="Interactive translucent 3D paper certificate" data-state={!mounted?'paused':ready?'ready':'loading'} style={{position:'relative',overflow:'hidden',background:transparent?'transparent':'#08080a',pointerEvents:'auto',...style}}>
+    {mounted?<iframe ref={frameRef} title={mode==='chamber'?'3D Paper — Analyzed clauses':'3D Paper — Site of the Year'} src={sourceUrl} sandbox="allow-scripts allow-same-origin" loading="eager" onLoad={()=>setReady(true)} style={{position:'absolute',inset:0,display:'block',width:'100%',height:'100%',border:0,background:transparent?'transparent':'#08080a',opacity:ready?1:0,pointerEvents:ready&&!reduced?'auto':'none',transition:reduced?'none':'opacity 240ms ease-out'}}/>:null}
   </div>;
 }

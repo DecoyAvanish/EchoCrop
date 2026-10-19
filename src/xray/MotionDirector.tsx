@@ -1,13 +1,18 @@
 import {useEffect} from 'react';
 import {StructureFlowCollection} from '../shaders/structure-flow/StructureFlowCollection';
 
-const headingSelector='.process h2,.signals h2,.examples h2,.privacy h2,.final-cta h2,.page-heading h1,.learn-cta h2,.report-head h1,.negotiation h2';
-const revealSelector='.process article,.signal,.compare,.privacy>div,.glossary article,.top-problems article,.breakdown,.negotiation>div,.final-cta>*';
+const headingSelector='.process h2,.personas h2,.deadlines h2,.checklist h2,.signals h2,.examples h2,.privacy h2,.final-cta h2,.page-heading h1,.learn-cta h2,.report-head h1,.negotiation h2';
+const revealSelector='.process article,.personas article,.deadline,.checklist>*,.signal,.compare,.privacy>div,.glossary article,.top-problems article,.breakdown,.negotiation>div,.final-cta>*';
 
+/** Splits heading text into per-character spans for the typing effect, while keeping one readable label for assistive tech. */
 function splitText(root:Element){
+  if(root.hasAttribute('data-char-count'))return;
+  const clone=root.cloneNode(true) as Element;clone.querySelectorAll('br').forEach(br=>br.replaceWith(' '));
+  const label=(clone.textContent||'').replace(/\s+/g,' ').trim();
   const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.textContent?.trim()?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT});
   const nodes:Text[]=[];while(walker.nextNode())nodes.push(walker.currentNode as Text);let index=0;
-  nodes.forEach(node=>{const fragment=document.createDocumentFragment();[...(node.textContent||'')].forEach(char=>{const span=document.createElement('span');span.className='type-char';span.style.setProperty('--char',String(index++));span.textContent=char===' '?'\u00a0':char;fragment.append(span)});node.replaceWith(fragment)});
+  nodes.forEach(node=>{const fragment=document.createDocumentFragment();[...(node.textContent||'')].forEach(char=>{const span=document.createElement('span');span.className='type-char';span.setAttribute('aria-hidden','true');span.style.setProperty('--char',String(index++));span.textContent=char===' '?'\u00a0':char;fragment.append(span)});node.replaceWith(fragment)});
+  const readable=document.createElement('span');readable.className='sr-only';readable.textContent=label;root.append(readable);
   root.setAttribute('data-char-count',String(index));
 }
 

@@ -1,5 +1,5 @@
 {
-  "name": "budget-constellation",
+  "name": "fine-print-xray",
   "private": true,
   "version": "1.0.0",
   "packageManager": "pnpm@11.25.0",
@@ -9,24 +9,16 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:a11y": "vitest run src/a11y"
+    "typecheck": "tsc -p tsconfig.app.json"
   },
   "dependencies": {
     "@fontsource/atkinson-hyperlegible": "^5.2.6",
-    "@fontsource/barlow-condensed": "^5.2.7",
     "@fontsource/lexend": "^5.2.7",
-    "@vite-pwa/assets-generator": "^1.0.0",
-    "lz-string": "^1.5.0",
     "mammoth": "^1.13.0",
     "pdfjs-dist": "^6.4.299",
-    "qrcode": "^1.5.4",
-    "three": "^0.180.0",
-    "three128": "npm:three@0.128.0",
-    "workbox-window": "^7.3.0",
-    "zustand": "^5.0.8"
+    "three128": "npm:three@0.128.0"
   },
   "devDependencies": {
-    "@types/qrcode": "^1.5.5",
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.1.9",
     "@types/three": "^0.180.0",
@@ -35,7 +27,6 @@
     "react-dom": "^19.1.1",
     "typescript": "~5.9.3",
     "vite": "^7.1.7",
-    "vite-plugin-pwa": "^1.0.3",
     "vitest": "^3.2.4"
   }
 }

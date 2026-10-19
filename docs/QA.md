@@ -4,19 +4,23 @@ Live: https://hyperbloom-two.vercel.app/
 
 | Check | Evidence / result |
 |---|---|
-| Production toolchain | Node 22 / pnpm 11.25.0; TypeScript, 56 regression tests and Vite passed in a clean preview build. |
+| Production toolchain | Node 22 / pnpm 11.25.0; TypeScript, 56 regression tests and Vite passed in the clean production build. |
+| GitHub CI | [Validate application passed](https://github.com/DecoyAvanish/EchoCrop/actions/runs/39256725827): install, tests, typecheck and production build. |
 | Carrier review fixture | 9 passages; 7 expected risk passages detected. |
 | Room-sublease review fixture | 6 lettered sections preserved; all 5 expected risk passages detected. |
 | Mutual-NDA review fixture | 7 sections; zero flagged passages, including no false venue flag on governing law alone. |
 | Broader regressions | Existing rules, 40-section preservation, unknown vs balanced terms, money assumptions, per-clause proposals, Spanish sample figures and calendar generation remain covered. |
 | Paper | Hero and scan visibility/drag verified in the preceding release. Updated scan visually verified: selected arbitration is focused; pages balance 4 + 3; gauge denominator is contained. |
 | File handling | Prior Chromium checks: DOCX extraction; empty, oversized, unsupported, malformed PDF and fake DOCX show recoverable errors. |
-| Phone / preferences | Prior Chromium checks at 1440, 768, 390 and 320px, including phone-sheet focus/return and combined preferences. New filter layout wraps rather than hiding choices off-screen. |
+| Phone / preferences | Prior Chromium checks at 1440, 768, 390 and 320px, including phone-sheet focus/return and combined preferences. Updated 320px scan verified: all six filters visible in two rows, each 44px high; page width remains 320px. |
 | Accessibility audits | Previous production Lighthouse accessibility: Home, streaming scan, gym report and Clause Lab each 100. WebGL-disabled scan also 100. These are automated checks, not screen-reader certification. |
-| Performance baseline | Previous Lighthouse simulated mobile: performance 68; TBT 3,590ms; LCP 2.0s; CLS 0.001. Graphics now begin after interaction or delayed idle; no improved score is claimed without a new measurement. |
+| Current home audit | Lighthouse simulated mobile: performance 90, accessibility 100, best practices 100, SEO 100; TBT 360ms, LCP 1.9s, FCP 1.7s, CLS 0.001, Speed Index 2.1s. Previous run: performance 68, TBT 3,590ms. Individual runs, not a controlled statistical benchmark. |
 | Spanish scope | Clause explanations, monetary explanations and report verdict are translated. Source wording, navigation, some headings and controls remain English. Original calculations remain inspectable in English. |
 
 ## How to interpret the contract results
+
+Lighthouse used headless Chrome, disabled GPU and default simulated mobile
+throttling. This is a reproducible lab configuration, not physical-phone evidence.
 
 The three review fixtures are reconstructed from the quoted examples in the
 review. They are regression tests, **not blind independent agreements** and not

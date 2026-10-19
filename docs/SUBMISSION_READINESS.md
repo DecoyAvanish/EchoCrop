@@ -3,6 +3,7 @@
 | Item | Status / next action |
 |---|---|
 | Event AI policy | Official rules explicitly allow AI-assisted development and existing tools. Credit both in the submission. https://hyperbloom-october.devpost.com/rules |
+| CI | Green: https://github.com/DecoyAvanish/EchoCrop/actions/runs/39256725827 |
 | Orbital / dot-matrix rights | Public Community MIT release verified. Renderer/shader hashes exactly match the registered sources. Notice is retained in public/threeui/COMMUNITY-LICENSE.txt. |
 | Paper rights | Not found in the public Community source tree. Account owner must confirm the exact bundle entitlement before submission. Do not infer permission from the other components. |
 | Three independent contracts | Pending: ask another person to write three agreements without showing them the rules or fixtures. Record expected risks before running the app. |

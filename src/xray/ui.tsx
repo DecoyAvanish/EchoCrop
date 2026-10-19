@@ -2,7 +2,7 @@ import {useEffect,useState} from 'react';
 import {copyText} from './actions';
 
 export function Gauge({score,large=false,busy=false}:{score:number;large?:boolean;busy?:boolean}){
-  const label=score>75?'Severe':score>50?'High':score>25?'Moderate':'Low';
+  const label=score>75?'Severe':score>50?'High':score>25?'Moderate':score===0?'Unassessed':'Low';
   return <div className={`gauge ${large?'large':''} ${busy?'busy':''}`} style={{'--score':`${score*3.6}deg`} as React.CSSProperties} role="img" aria-label={busy?'Scanning document. Risk score available when complete.':`Risk score ${score} out of 100, ${label}`}>
     <div className="gauge-ring" aria-hidden="true"><span><b>{busy?'—':score}</b><small>/100</small></span></div>
     <div aria-hidden="true"><small>RISK SCORE</small><b>{busy?'Scanning…':label}</b></div>

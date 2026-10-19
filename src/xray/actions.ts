@@ -5,8 +5,13 @@ export const pad=(n:number)=>String(n).padStart(2,'0');
 
 /** Thresholds match the gauge labels: Low/Moderate ≤50, High ≤75, Severe above. */
 export type Verdict={title:string;accent:string;summary:string};
-export function verdictFor(score:number,flags:number):Verdict{
-  if(flags===0)return{title:'No risk',accent:'patterns found.',summary:'No supported risk patterns were found. Unmatched wording still needs your review; this is not a complete legal review.'};
+export function reviewContext(doc:DocumentSample){
+  const text=doc.clauses.map(c=>c.originalText).join(' ');
+  const topics=[/deposit/i.test(text)?'deposits':'',/terminat/i.test(text)?'termination':'',/any time/i.test(text)?'open-ended permissions':'',/\$\s*\d/.test(text)?'money amounts':''].filter(Boolean);
+  return topics.length?`This document mentions ${topics.join(', ')}; read those sections carefully.`:'Unmatched wording still needs your review.';
+}
+export function verdictFor(score:number,flags:number,doc?:DocumentSample):Verdict{
+  if(flags===0)return{title:'No supported',accent:'patterns found.',summary:doc?reviewContext(doc):'No supported risk patterns were found. Unmatched wording still needs your review; this is not a complete legal review.'};
   if(score<=50)return{title:'Read',accent:'carefully.',summary:`There ${flags===1?'is 1 clause':`are ${flags} clauses`} worth clarifying before you sign.`};
   if(score<=75)return{title:'Proceed with',accent:'caution.',summary:`${flags} clauses could cost you money, rights, or control. Negotiate before you sign.`};
   return{title:'Don’t sign',accent:'yet.',summary:`${flags} clauses carry serious risk. Ask for changes or get advice before you sign.`};
@@ -90,7 +95,7 @@ export function exposureFor(doc:DocumentSample):Exposure{
       scenarios.push({clauseId:clause.id,title:/deposit/i.test(text)?'Deposit or fee at stake':'Stated additional fee',amount:fees[0],kind:'stated',assumptions:'This amount is explicitly attached to a named fee or deposit. Timing, applicability, future increases, and enforceability need checking. '});
     }
   }
-  const primary=[...scenarios].sort((a,b)=>b.amount-a.amount)[0];
+  const primary=(doc.type==='Lease'?scenarios.find(s=>s.kind==='exit'):undefined)||[...scenarios].sort((a,b)=>b.amount-a.amount)[0];
   if(primary)return{headline:`${money(primary.amount)}${primary.unpriced?' + your deposit':''}`,label:primary.title,summary:'A concrete amount to discuss before signing. ',scenarios,identifiedAmounts};
   if(scenarios.length)return{headline:money(scenarios[0].amount),label:'Possible renewal commitment',summary:'A stated renewal amount, conditional on missing a notice window. It is a payment commitment, not a guaranteed penalty.',scenarios,identifiedAmounts};
   if(identifiedAmounts.length)return{headline:identifiedAmounts.map(money).join(' · '),label:'Amounts to inspect',summary:'These amounts appear in flagged clauses. Their roles differ, so we cannot responsibly turn them into a total cost of signing.',scenarios,identifiedAmounts};

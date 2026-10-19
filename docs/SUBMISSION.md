@@ -1,67 +1,46 @@
-# Fine Print X-Ray — submission draft
+# Fine Print X-Ray
 
-**Live:** https://hyperbloom-two.vercel.app/
+Live: https://hyperbloom-two.vercel.app/
 
-## The problem
+Fine Print X-Ray helps people understand the agreement in front of them before
+signing. A renter, freelancer, or subscriber can upload a PDF or DOCX, paste text,
+or explore four fictional sample agreements. Parsing and analysis happen locally;
+private document text stays in the current tab.
 
-Contract review is most difficult at the moment a person is under pressure to
-sign. Important costs and rights can be dispersed across dense wording.
-Pew Research Center found in 2023 that 56% of U.S. adults always, almost always
-or often agree immediately without reading privacy policies. This is evidence
-about privacy policies, not a measurement of lease-reading habits:
-https://www.pewresearch.org/internet/2023/10/18/how-americans-protect-their-online-data/
+The experience connects three tasks: find the important wording, understand its
+consequences, and ask for a better deal. The scan starts with the highest-severity
+match. Color, shape, and plain-language labels distinguish risk patterns,
+recognized balanced wording, and unassessed passages. A Reading view provides
+complete text alongside the interactive curved paper.
 
-## The response
+The report makes findings actionable. Conditional money scenarios show their
+assumptions separately: the sample lease leads with its early-exit penalty, while
+the gym membership highlights another year of charges. Each flagged clause has
+suggested negotiation wording. Users can edit a combined email, copy it, print a
+report, set a calendar reminder, and track their review.
 
-Drop a document, inspect supported wording matches, then act: compare a proposed
-revision, edit an email, set a calendar reminder and work through a checklist.
-Money scenarios show the calculation and trigger separately, rather than an
-invented total. Unknown wording is gray and explicitly unassessed.
+The cyan-and-ink interface includes light mode, high contrast, larger text,
+readable fonts, reduced motion, visible keyboard focus, and phone detail sheets.
+Spanish covers explanations and the report verdict, not every interface label or
+the original agreement. Verification evidence is recorded in QA.md.
 
-Jordan (renter), Dev (freelancer) and Rosa (gym member) are illustrative personas.
-Their agreements are fictional. No user interviews or testimonial findings are
-claimed until actual sessions have been recorded.
+ThreeUI authored the paper, orbital sphere, and dot-matrix foundations. Our
+adaptations include document CanvasTextures, clause-to-UV mapping, analysis-driven
+highlight interactions, page-turn data, pagination, accessible reading surfaces,
+and the local analysis-to-action workflow. Development used AI assistance,
+permitted by the event's published rules.
 
-## Design process and system
+Limitations: this is a supported-pattern explanation tool, not legal advice or an
+enforceability assessment. Unmatched text remains unassessed; scores are not
+probabilities. Image-only PDFs need external OCR. Physical-device testing,
+independent blind contracts, user research, and the captioned demonstration remain
+pre-submission tasks. Confirm the exact paper source's usage rights before entry.
 
-The visual direction retains cyan instruments on ink, tactile paper and a
-local-analysis theme. Early layouts used floating overlays and oversized
-process cards; the current direction integrates clauses into the paper texture,
-prioritizes Reading view for small screens and makes action-oriented report
-content visible on home.
+## Six application views
 
-Severity uses color, label and shape together: critical red hexagon; high
-orange diamond; moderate amber triangle; recognized safe green dot; unassessed
-gray hollow circle. Lexend carries prose; Fragment Mono carries instrument
-labels; Atkinson Hyperlegible is an optional readable typeface.
-
-An accessible flat reading surface is always available. Preferences include
-reduced motion, high contrast, light theme and larger text. Keyboard focus,
-modal behavior, concise announcements and automated audits are tracked in QA.md.
-Automated checks are not a substitute for screen-reader or real-device tests.
-
-## Evidence and honest limits
-
-Use the exact build/test results from QA.md at submission time. Include real
-research only after completing TESTING_PROTOCOL.md. The engine is a local rule
-set, not a lawyer or calibrated risk probability. It cannot guarantee detection
-of every adverse term or determine enforceability. Scanned PDFs need OCR
-outside this app. Spanish translates explanations, not the whole source document.
-
-## Submission images
-
-1. [Report cover](report-cover.jpg): verdict, score and money question.
-2. [Phone clause detail sheet](phone-details.jpg): immediate consequence and request.
-3. [Proposed wording](redline-current.jpg): original versus negotiation starting point.
-4. [Clause Lab quiz](quiz-feedback.jpg): answer and explanatory feedback.
-5. [Light mode](light-report.jpg): consistent readable surfaces.
-6. [Accessibility panel](accessibility-current.jpg): live preferences.
-
-Capture the actual final build and use concise captions. Do not present a
-generated mockup as a real application screenshot.
-
-## Next
-
-Independent complete-contract benchmarks, real-user sessions, screen-reader
-and physical-device evidence, broader localized explanations and more precise
-context-sensitive rule coverage. No scoring system can promise a judging result.
+1. [Report](report-cover.jpg) — verdict and conditional financial exposure.
+2. [Phone details](phone-details.jpg) — consequence and negotiation request.
+3. [Proposed wording](redline-current.jpg) — original and suggested revision.
+4. [Clause Lab](quiz-feedback.jpg) — self-paced learning with feedback.
+5. [Light theme](light-report.jpg) — readable alternate surfaces.
+6. [Accessibility](accessibility-current.jpg) — live preferences.

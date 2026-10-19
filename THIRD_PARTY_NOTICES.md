@@ -9,8 +9,13 @@
   8ec1b71c0dbcafbadf908100ae2a08045d0a1087c00a09d28245ef19366c7353.
   Adaptations include lease CanvasTexture content, clause UV interactions,
   local fonts, pausing, and shared runtime extraction. These sources are not
-  relicensed under the application's MIT license. Confirm applicable ThreeUI
-  usage/redistribution terms with the account owner before redistributing them.
+  relicensed under the application's MIT license. The public Community repository
+  includes Orbital Sphere and Dot Matrix under MIT (Meng To, 2026):
+  https://github.com/MengTo/threeui/blob/main/LICENSE and ASSET-LICENSES.md.
+  The 3D Paper source is not present in that Community tree; its exact bundle
+  redistribution entitlement still requires confirmation by the account owner.
+  Original adaptations include document textures, clause mapping, analysis
+  interactions, pagination and page-turn data; renderer foundations are ThreeUI.
 - Three.js r149: MIT, Three.js authors. The original notice remains at the top
   of public/threeui/vendor/three-r149.js. Both paper pages and app scenes use
   this identical extracted runtime.

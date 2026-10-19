@@ -40,6 +40,7 @@ export default function MotionDirector({page,reduced}:{page:string;reduced:boole
     };
     const schedule=()=>{if(!frame)frame=requestAnimationFrame(update)};
     const move=(event:PointerEvent)=>{
+      app.classList.toggle('reticle-over-text',event.target instanceof Element&&!!event.target.closest('p,h1,h2,h3,span,small,label,blockquote,button,a,input,textarea,select'));
       mouseX=event.clientX/innerWidth;mouseY=event.clientY/innerHeight;schedule();
       document.querySelector<HTMLCanvasElement>('.structure-dot-field canvas')?.dispatchEvent(new PointerEvent('pointermove',{clientX:event.clientX,clientY:event.clientY}));
     };

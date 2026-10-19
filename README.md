@@ -29,15 +29,11 @@ Severity pairs a color with a shape and label; unknown language has its own gray
 state. The score is an explained prioritization formula, never a probability.
 The sweep is a presentation of clauses already checked locally.
 
-Pew Research Center reported in 2023 that 56% of U.S. adults regularly agree
-without reading privacy policies. This is about privacy policies, not every
-kind of contract. [Source](https://www.pewresearch.org/internet/2023/10/18/how-americans-protect-their-online-data/).
-
 ## Accessibility and privacy
 
 Live controls offer reduced motion, high contrast, light theme, larger text and
-Atkinson Hyperlegible. Explanations can be shown in Spanish; source wording and
-navigation remain in their original language. Clause Lab includes nine specimens
+Atkinson Hyperlegible. Explanations and report verdicts can be shown in Spanish;
+source wording, navigation and some report controls remain in English. Clause Lab includes nine specimens
 and a three-question, self-paced quiz. Keyboard focus, dialogs and announcements
 are documented in [QA](docs/QA.md), including what was not tested.
 
@@ -61,7 +57,7 @@ pnpm build
 pnpm preview
 ```
 
-Build runs TypeScript, 47 regression tests, then Vite. Current verification results are
+Build runs TypeScript, 56 regression tests, then Vite. Current verification results are
 in QA.md. Routes use hashes so static hosting and shared sample links work.
 Keep future commits descriptive: e.g. “Fix mobile clause filters and preserve
 neutral analysis states”, not “fixed bugs”.
@@ -85,10 +81,12 @@ sessions and participant research remain distinct from automated audit scores.
 ## Credits and license
 
 ThreeUI / Design+Code authored the 3D Paper, Orbital Sphere and Dot Matrix source.
-We adapted document textures, local loading and analysis interactions. Three.js,
+We adapted document CanvasTextures, clause UV mapping, page-turn data, pagination,
+local loading and analysis interactions. Three.js,
 React, pdf.js, Mammoth and the font authors retain their original licenses.
-See [third-party notices](THIRD_PARTY_NOTICES.md); ThreeUI redistribution rights
-must be confirmed with the account owner. The [MIT license](LICENSE) applies
+See [third-party notices](THIRD_PARTY_NOTICES.md); the exact 3D Paper redistribution rights
+must be confirmed with the account owner. Public Community orbital and dot-matrix
+components are MIT licensed. The [MIT license](LICENSE) applies
 only to original application code, not those third-party sources.
 
 [Submission draft](docs/SUBMISSION.md) · [Recording plan](docs/DEMO_SCRIPT.md) ·

@@ -26,11 +26,11 @@ describe('honest financial exposure',()=>{
   const feeDocument=(text:string)=>({...samples[0],clauses:[{...samples[0].clauses[3],originalText:text}]});
   it('keeps exit, late-payment, and renewal scenarios separate',()=>{
     const result=exposureFor(samples[0]);
-    expect(result.headline).toBe('$29,400');
+    expect(result.headline).toBe('$7,350 + your deposit');
     expect(result.scenarios.find(x=>x.kind==='exit')?.amount).toBe(7350);
     expect(result.scenarios.find(x=>x.kind==='fees')?.amount).toBe(250);
     expect(result.scenarios.find(x=>x.kind==='renewal')?.amount).toBe(29400);
-    expect(result.label).toBe('Renewal commitment');
+    expect(result.label).toBe('Early-exit penalty');
     expect(result.headline).not.toContain('37,000');
   });
   it('does not turn the company liability cap into the customer cost',()=>{

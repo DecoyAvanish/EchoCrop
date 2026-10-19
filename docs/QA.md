@@ -1,120 +1,40 @@
-# Release verification — 19 October 2026
+# Verification summary — 19 October 2026
 
-Stable site: https://hyperbloom-two.vercel.app/
+Live: https://hyperbloom-two.vercel.app/
 
-This is evidence from the checks actually performed, not a statement of perfect
-accessibility, legal accuracy, universal compatibility or a guaranteed judging score.
-The supplied independent review is a useful baseline, but its tests are not
-silently counted as fresh tests performed in this pass.
+| Check | Evidence / result |
+|---|---|
+| Production toolchain | Node 22 / pnpm 11.25.0; TypeScript, 56 regression tests and Vite passed in a clean preview build. |
+| Carrier review fixture | 9 passages; 7 expected risk passages detected. |
+| Room-sublease review fixture | 6 lettered sections preserved; all 5 expected risk passages detected. |
+| Mutual-NDA review fixture | 7 sections; zero flagged passages, including no false venue flag on governing law alone. |
+| Broader regressions | Existing rules, 40-section preservation, unknown vs balanced terms, money assumptions, per-clause proposals, Spanish sample figures and calendar generation remain covered. |
+| Paper | Hero and scan visibility/drag verified in the preceding release. Updated scan visually verified: selected arbitration is focused; pages balance 4 + 3; gauge denominator is contained. |
+| File handling | Prior Chromium checks: DOCX extraction; empty, oversized, unsupported, malformed PDF and fake DOCX show recoverable errors. |
+| Phone / preferences | Prior Chromium checks at 1440, 768, 390 and 320px, including phone-sheet focus/return and combined preferences. New filter layout wraps rather than hiding choices off-screen. |
+| Accessibility audits | Previous production Lighthouse accessibility: Home, streaming scan, gym report and Clause Lab each 100. WebGL-disabled scan also 100. These are automated checks, not screen-reader certification. |
+| Performance baseline | Previous Lighthouse simulated mobile: performance 68; TBT 3,590ms; LCP 2.0s; CLS 0.001. Graphics now begin after interaction or delayed idle; no improved score is claimed without a new measurement. |
+| Spanish scope | Clause explanations, monetary explanations and report verdict are translated. Source wording, navigation, some headings and controls remain English. Original calculations remain inspectable in English. |
 
-## Builds and regression tests
+## How to interpret the contract results
 
-Vercel production build GoXF9sP1LTHnrvUQMDAf99PLKMSR passed TypeScript,
-45 Vitest tests and Vite on Node 22 / pnpm 11.25.0. The suite includes the final
-section-reference regressions and contextual identity-use / collection-fee copy. Local node_modules reads intermittently
-stalled, so the clean remote build was the release gate.
+The three review fixtures are reconstructed from the quoted examples in the
+review. They are regression tests, **not blind independent agreements** and not
+a measured real-world accuracy rate. Another author must supply three unseen
+complete contracts and expected findings before an independent hit rate can be
+reported. A zero score means no supported risk pattern matched, not legal safety;
+contextual deposit, termination and money reminders remain visible.
 
-- Covered: six review misses; positive safe versus unassessed states; segmentation
-  past the old 24-clause limit; type detection; Spanish sample amounts; per-clause
-  proposals; largest conditional exposure; caps not mistaken for charges; valid
-  UTF-8 folded ICS lines and explicit date requirement.
-- Two published short arbitration excerpts were checked (AT&T consumer terms and
-  Shop Planet Fitness retail terms). They are not a benchmark of either complete
-  agreement and do not represent a gym membership test.
-- A 40-section browser fixture exposed an additional parser issue: repeated body
-  text such as “information section 1” was split into another heading. The local
-  parser fix now preserves 40 sections and two tests protect repeated numbers and
-  cross-references. The highest-risk final clause remains detectable.
+## Outstanding human verification
 
-## Automated live audits
+Physical iPhone VoiceOver, Android Chrome, Safari/Firefox, a private-window
+phone/laptop smoke test, real calendar opening, final saved-PDF inspection,
+3–5 participant sessions and a captioned video are not yet verified.
+See [submission readiness](SUBMISSION_READINESS.md) for ownership and exact next
+steps. The broader preference/zoom/error-state results in the supplied review are
+external baseline evidence, not new checks silently attributed to this pass.
 
-Lighthouse 13.5.0, Headless Chrome 155, default simulated mobile throttling
-(4× CPU, 1.6 Mbps), 412×823 unless stated. Chrome was launched with
-`--headless --no-sandbox --disable-gpu`; this is not physical phone hardware.
-Accessibility uses Lighthouse's axe-based checks, not a separate exhaustive
-axe-core run across every preference combination.
-
-| Live route | Accessibility |
-|---|---:|
-| Home | 100 |
-| Streaming scan at 320×800 | 100 |
-| Gym report | 100 |
-| Clause Lab | 100 |
-
-Home's same full audit: Performance **68**, Best Practices **100**, SEO **100**.
-FCP 1.6s; LCP 2.0s; TBT 3,590ms; CLS 0.001; Speed Index 2.8s.
-The earlier release measured 42 performance and CLS 0.208 under this tool.
-These are individual runs, not a controlled statistical comparison. 3D startup
-still costs main-thread time on slow/graphics-disabled systems; performance is
-not “100/100”. Keep that limitation visible.
-
-Raw diagnostic artifacts for this session are in /private/tmp:
-fineprint-review-home.json, fineprint-review-scan-320.json,
-fineprint-review-report.json and fineprint-review-learn.json.
-
-## Browser interaction and responsive checks
-
-In-app Chromium desktop browser, actual rendered app:
-
-- 1440px home: no horizontal overflow; paper reached ready state; visible orbital.
-- 768px scan: reading surface 740px, score present, New Scan left aligned.
-  An inherited rule hid Open Report; fixed and clicked successfully on production.
-- 390px scan: filters 44px high in a 69px scrollable row; reading surface 362px;
-  rail list hidden in Reading view; score 59/100 High; no page overflow.
-- Phone clause sheet: selecting arbitration focused its h2, showed consequence
-  and request, and closing returned to the clause.
-- 320px home and scan: document width stayed 320px; controls remained reachable.
-- All five preferences enabled together on the report at 320px: modal width
-  284px with a 38px heading and no page overflow. Light, high contrast, larger
-  text and readable font visibly reflowed. Reduced motion was enabled live.
-- Spanish money explanation, top risks and clause explanations appeared with
-  original dollar amounts retained; calculations remain inspectable in English.
-- Gym report leads with $828, retains the separate $149 scenario, says Membership,
-  addresses the gym / club and uses a facilities-fee-specific revision.
-- Copy Summary showed “COPIED” plus a status announcement.
-- Report redline explanations are collapsed initially. Print preparation expands
-  these details and restores their previous state after printing.
-- Shared Three.js r149 scene loaded without browser console errors in preview.
-- Final live DOCX extraction: fineprint-demo.docx produced nine passages, including
-  all eight expected risk matches (1 critical, 6 high, 1 moderate).
-- Fresh error-state retest: zero-byte TXT, 11 MB DOCX, unsupported RTF, invalid PDF
-  and fake DOCX each produced a friendly error and left the file picker usable.
-  Invalid PDF / DOCX were checked after extraction finished, not during loading.
-- Clause Lab quiz accepted the correct radio answer, showed explanatory feedback
-  and NEXT QUESTION. Open specimen visibly used CLOSE SPECIMEN and a minus sign.
-- An additional desktop Lighthouse accessibility run with --disable-webgl on the
-  final lease scan scored 100. This is an automated fallback audit, not a physical
-  device or an interactive WebGL-disabled walkthrough.
-
-## Final regression checks
-
-- Paper visibility regression fix: reusing the parent's Three.js namespace left
-  iframe WebGL/CanvasTexture rendering blank depending on loading order.
-  Both authored paper pages now execute the cached runtime asset in their own
-  window. Verified the actual hero paper and scan paper visually in preview
-  718hlmr6b, including native drag-to-turn in both and scan clause selection.
-  Two source regressions prevent reintroducing parent.THREE borrowing.
-  Production 72huGmKsZdCuJoGbZ1npsrrUiCEk passed all 47 tests, TypeScript and Vite.
-  Both hero and scan were visibly rechecked on the stable public URL after a
-  cached reload. Reduced motion kept the scan paper visible and disabled its
-  pointer interaction; normal-mode native dragging was verified in both scenes.
-
-- Final 45-test production build passed. Browser retest on preview
-  a7i5a5n1r retained exactly 40 clauses, selected the critical 40th clause, kept
-  the phone rail hidden, and preserved all 40 plus selection after refresh.
-- Unknown #/nope route showed an explicit not-found heading, Home and Scan actions.
-
-## Explicit remaining checks
-- Physical iPhone Safari and Android Chrome; desktop Safari / Firefox.
-- Actual VoiceOver / NVDA walkthrough and a recorded reader sample.
-- Standalone axe across every theme/preference combination, rather than four
-  default live Lighthouse route audits.
-- Fresh post-change print/PDF export, interactive no-WebGL walkthrough, 200%
-  browser zoom, real PDF / scanned-PDF matrix and physical calendar opening.
-  The bad-file and DOCX checks above were rerun; the supplied review’s other
-  baseline tests are not silently substituted for these remaining manual tests.
-- A private-window pre-submission smoke test, full independently supplied
-  agreements, 3–5 real usability sessions and the actual captioned video.
-- Paper drag/cursor redesign and paper-internal hint styling remain deferred at
-  the user's explicit instruction.
-- CI workflow is configured but has not run on GitHub until a commit is pushed.
+ThreeUI Community orbital/dot-matrix source and MIT terms were verified against
+upstream hashes. The exact paper bundle entitlement still needs account-owner
+confirmation. Event rules allow AI-assisted development; the submission credits
+that assistance and the third-party visual foundations.

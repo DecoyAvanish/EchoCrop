@@ -52,7 +52,7 @@ body{
 <div id="grain"></div>
 <div id="grain2"></div>
 <div id="vig"></div>
-<div id="hint"><b>Drag</b> to turn it<span class="ptr"> &nbsp;·&nbsp; <b>Hover</b> to light it</span></div>
+<div id="hint" hidden><b>Drag</b> to turn it<span class="ptr"> &nbsp;·&nbsp; <b>Hover</b> to light it</span></div>
 
 <!-- Keep the runtime in this frame's realm: its CanvasTexture belongs here.
      The asset is still shared through HTTP caching, not cross-window constructors. -->
@@ -227,10 +227,7 @@ function drawChamber(ctx){
     ctx.restore();
     ctx.strokeStyle='rgba(16,35,52,.12)';ctx.beginPath();ctx.moveTo(112,top+blockH-2);ctx.lineTo(TW-104,top+blockH-2);ctx.stroke();
   });
-  const flagged=shown.filter(c=>['critical','high','moderate'].includes(c.severity)).length;
-  ctx.fillStyle='rgba(56,225,255,.11)';rr(ctx,78,1432,TW-156,78,10);ctx.fill();ctx.fillStyle='#0D6B82';ctx.font='700 16px '+MONO;ctx.fillText('THIS PAGE',106,1464);ctx.font='500 17px '+MONO;
-  ctx.fillText(String(flagged).padStart(2,'0')+' FLAGGED  ·  '+String(chamberContent.clauseOffset+1)+'–'+String(chamberContent.clauseOffset+shown.length)+' OF '+String(chamberContent.totalClauses)+' CLAUSES',310,1464);
-  ctx.fillStyle='#52616B';ctx.font='400 17px '+MONO;ctx.fillText('READING VIEW INCLUDES THE COMPLETE TEXT OF EVERY CLAUSE.',96,1568);
+
 }
 
 let certCanvas=null,certCtx=null,certTexture=null;

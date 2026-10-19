@@ -20,13 +20,20 @@ export function useDeferredScene(){
   const [enabled,setEnabled]=useState(false);
   const [unavailable,setUnavailable]=useState(false);
   useEffect(()=>{
-    let cancelled=false,idle:number|undefined,timer:ReturnType<typeof setTimeout>|undefined;
+    let cancelled=false,idle:number|undefined,timer:ReturnType<typeof setTimeout>|undefined,intent:(()=>void)|undefined;
     const activate=()=>{
       if(cancelled)return;
       if(!supportsWebGL()){setUnavailable(true);return}
       const start=()=>{if(!cancelled)setEnabled(true)};
-      if('requestIdleCallback' in window)idle=window.requestIdleCallback(start,{timeout:1800});
-      else timer=setTimeout(start,180);
+      // Keep the poster useful through the initial paint; user intent can start
+      // graphics immediately, otherwise give the page a quiet startup window.
+      intent=()=>{if(intent){removeEventListener('pointerdown',intent);removeEventListener('keydown',intent)}start()};
+      addEventListener('pointerdown',intent,{once:true});addEventListener('keydown',intent,{once:true});
+      timer=setTimeout(()=>{
+        if(intent){removeEventListener('pointerdown',intent);removeEventListener('keydown',intent)}
+        if('requestIdleCallback' in window)idle=window.requestIdleCallback(start,{timeout:1800});
+        else start();
+      },2200);
     };
     let observer:IntersectionObserver|undefined;
     const host=hostRef.current;
@@ -36,7 +43,7 @@ export function useDeferredScene(){
       },{rootMargin:'160px'});
       observer.observe(host);
     }else activate();
-    return()=>{cancelled=true;observer?.disconnect();if(idle!==undefined)window.cancelIdleCallback(idle);if(timer)clearTimeout(timer)};
+    return()=>{cancelled=true;observer?.disconnect();if(intent){removeEventListener('pointerdown',intent);removeEventListener('keydown',intent)}if(idle!==undefined)window.cancelIdleCallback(idle);if(timer)clearTimeout(timer)};
   },[]);
   return {hostRef,enabled,unavailable};
 }

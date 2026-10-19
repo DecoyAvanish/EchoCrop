@@ -1005,3 +1005,17 @@ button.copied{color:var(--green)!important;border-color:var(--green)!important}
 .app .chamber .paper-reading-tip{font-size:13px!important}
 .app .score-info sup{font-size:12px}
 .paper-fallback-sheet header h2{margin:10px 0 4px;font:700 25px/1.15 Arial,sans-serif;letter-spacing:-.03em;overflow-wrap:anywhere}
+
+/* Review corrections: preserve the visual system and keep controls readable. */
+.app .gauge-ring>span{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;line-height:1!important;width:100%;left:0;transform:none}
+.app .gauge-ring>span small{font-size:10px!important;line-height:1!important;margin:0!important}
+.app .final-cta button,.app .learn-cta button{font-size:12px!important}
+.app.reticle-over-text .focus-reticle{visibility:hidden}
+.app .decoder-legend{display:flex;flex-wrap:wrap;gap:12px 24px;padding:16px 0;list-style:none;font:14px/1.6 Fragment,monospace;color:var(--muted)}
+.app .decoder-legend li:nth-child(1){color:var(--red)}
+.app .decoder-legend li:nth-child(2){color:var(--orange)}
+.app .decoder-legend li:nth-child(3){color:var(--yellow)}
+.app .decoder-legend li:nth-child(4){color:var(--green)}
+.app .privacy{padding-block:54px}
+.app .privacy-orbit{min-height:300px;max-height:360px}
+@media(max-width:900px){.app .chamber .filters{display:flex;flex-wrap:wrap;height:auto;overflow:visible;gap:6px;padding:12px}.app .chamber .filters button{flex:1 1 28%;min-width:0;padding-inline:6px;min-height:44px}.app .privacy-orbit{min-height:260px}}

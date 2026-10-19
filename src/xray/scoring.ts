@@ -1,0 +1,2 @@
+/** Shared wording for scan and report: a prioritization signal, not a probability. */
+export const scoringExplanation='Critical matches add 25 points, high 12, and moderate 5. The score is 100 × (1 − exp(−points / 75)), rounded and capped at 99. Recognized balanced and unassessed text add no points. This prioritizes supported wording patterns; it is not a probability, a complete legal review, or a decision about enforceability.';

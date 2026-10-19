@@ -1,0 +1,75 @@
+{
+  "date": "2026-10-19",
+  "auditedDeployment": "AJgHmDrnvNUZqv9PW4p1bScMDtN7",
+  "note": "Single Lighthouse CLI runs; automated checks are not physical-device or screen-reader evidence.",
+  "reports": [
+    {
+      "name": "home",
+      "url": "https://hyperbloom-two.vercel.app/",
+      "version": "13.5.0",
+      "viewport": {
+        "mobile": true,
+        "width": 412,
+        "height": 823,
+        "deviceScaleFactor": 1.75,
+        "disabled": false
+      },
+      "categories": {
+        "performance": 68,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100,
+        "agentic-browsing": 100
+      },
+      "failedAccessibilityAudits": []
+    },
+    {
+      "name": "scan-320",
+      "url": "https://hyperbloom-two.vercel.app/#/scan?doc=streaming",
+      "version": "13.5.0",
+      "viewport": {
+        "mobile": true,
+        "width": 320,
+        "height": 800,
+        "deviceScaleFactor": 1.75,
+        "disabled": false
+      },
+      "categories": {
+        "accessibility": 100
+      },
+      "failedAccessibilityAudits": []
+    },
+    {
+      "name": "report",
+      "url": "https://hyperbloom-two.vercel.app/#/report?doc=gym",
+      "version": "13.5.0",
+      "viewport": {
+        "mobile": true,
+        "width": 412,
+        "height": 823,
+        "deviceScaleFactor": 1.75,
+        "disabled": false
+      },
+      "categories": {
+        "accessibility": 100
+      },
+      "failedAccessibilityAudits": []
+    },
+    {
+      "name": "learn",
+      "url": "https://hyperbloom-two.vercel.app/#/learn",
+      "version": "13.5.0",
+      "viewport": {
+        "mobile": true,
+        "width": 412,
+        "height": 823,
+        "deviceScaleFactor": 1.75,
+        "disabled": false
+      },
+      "categories": {
+        "accessibility": 100
+      },
+      "failedAccessibilityAudits": []
+    }
+  ]
+}

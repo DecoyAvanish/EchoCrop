@@ -1,21 +1,21 @@
 import {Component,Suspense,lazy,useCallback,useEffect,useRef,useState,type ErrorInfo,type ReactNode} from 'react';
 import MotionDirector from './MotionDirector';
+import Home from './Home';
 import {samples,type DocumentSample} from './data';
 import {clearDocument,documentKey,loadDocument,readSession,saveDocument,writeSession} from './session';
 import type {Go,Page,Settings} from './types';
 
-const Home=lazy(()=>import('./Home'));
 const Intake=lazy(()=>import('./Intake'));
 const Scan=lazy(()=>import('./Scan'));
 const Report=lazy(()=>import('./Report'));
 const Learn=lazy(()=>import('./Learn'));
 const pages:Page[]=['home','intake','scan','report','learn'];
-const titles:Record<Page,string>={home:'Fine Print X-Ray — Know before you sign',intake:'Scan a document — Fine Print X-Ray',scan:'Scan results — Fine Print X-Ray',report:'Risk report — Fine Print X-Ray',learn:'Clause Lab — Fine Print X-Ray'};
+const titles:Record<Page,string>={home:'Fine Print X-Ray — Know before you sign',intake:'Scan a document — Fine Print X-Ray',scan:'Scan results — Fine Print X-Ray',report:'Risk report — Fine Print X-Ray',learn:'Clause Lab — Fine Print X-Ray','not-found':'Page not found — Fine Print X-Ray'};
 const memoryDocuments=new Map<string,DocumentSample>();
 
 function currentRoute(){
   const[path,query]=location.hash.replace(/^#\/?/,'').split('?');
-  const page=(pages.includes(path as Page)?path:'home') as Page;
+  const page=(!path?'home':pages.includes(path as Page)?path:'not-found') as Page;
   const params=new URLSearchParams(query);
   const sample=samples.find(doc=>doc.id===params.get('doc'));
   const custom=loadDocument(params.get('session'))??memoryDocuments.get(params.get('session')??'');
@@ -97,6 +97,7 @@ export default function App(){
       <Nav page={route.page} go={go} access={()=>setAccess(true)}/>
       {notice&&<div className="session-notice" role="status"><span>{notice}</span><button onClick={()=>setNotice('')} aria-label="Dismiss notice">×</button></div>}
       <PageBoundary key={route.page}><Suspense fallback={<main id="main" className="route-loading" tabIndex={-1}><span className="loading-line"/><p role="status">Opening your workspace…</p></main>}>
+        {route.page==='not-found'&&<main id="main" className="page-failure" tabIndex={-1}><p className="kicker">PAGE NOT FOUND</p><h1>This page isn’t here.</h1><p>Head home or start a document scan.</p><button onClick={()=>go('home')}>GO HOME</button><button className="primary" onClick={()=>go('intake')}>SCAN A DOCUMENT →</button></main>}
         {route.page==='home'&&<Home go={go} reduced={settings.reduced}/>}
         {route.page==='intake'&&<Intake go={go} onDoc={document=>go('scan',document)}/>}
         {route.page==='scan'&&<Scan key={documentKey(route.doc)} doc={route.doc} go={go} settings={settings} onClear={onClear}/>}

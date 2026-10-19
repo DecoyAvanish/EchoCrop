@@ -1,4 +1,5 @@
-import * as THREE from "three128";
+import {THREE} from "../threeRuntime";
+import type {BufferGeometry,Material,MeshBasicMaterial,Object3D} from "three";
 
 export type OrbitalSphereOptions = { speed: number; particleSize: number; particleOpacity: number; orbitOpacity: number; scale: number; haloOpacity: number; hue: number };
 export const ORBITAL_SPHERE_DEFAULTS: OrbitalSphereOptions = { speed: 1, particleSize: 0.015, particleOpacity: 0.8, orbitOpacity: 0.25, scale: 1, haloOpacity: 0.2, hue: 0 };
@@ -26,7 +27,7 @@ export function createOrbitalSphereRenderer(canvas: HTMLCanvasElement, getOption
   const particleGeometry = new THREE.BufferGeometry(); particleGeometry.setAttribute("position", new THREE.BufferAttribute(positions.slice(0, validIndex * 3), 3)); particleGeometry.setAttribute("color", new THREE.BufferAttribute(colors.slice(0, validIndex * 3), 3));
   const particleMaterial = new THREE.PointsMaterial({ size: 0.015, vertexColors: true, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending, depthWrite: false }); networkGroup.add(new THREE.Points(particleGeometry, particleMaterial));
   const orbitMaterial = new THREE.LineBasicMaterial({ color: 0x38e1ff, transparent: true, opacity: 0.25, blending: THREE.AdditiveBlending });
-  const orbitGeometries: THREE.BufferGeometry[] = [], nodeGeometries: THREE.BufferGeometry[] = [], nodeMaterials: THREE.Material[] = [], haloMaterials: THREE.MeshBasicMaterial[] = [];
+  const orbitGeometries: BufferGeometry[] = [], nodeGeometries: BufferGeometry[] = [], nodeMaterials: Material[] = [], haloMaterials: MeshBasicMaterial[] = [];
   let responsiveScale = 1;
   for (let index = 0; index < 6; index += 1) {
     const geometry = new THREE.BufferGeometry(), points: number[] = [], orbitRadius = radius * (1.08 + Math.random() * 0.2);
@@ -51,7 +52,7 @@ export function createOrbitalSphereRenderer(canvas: HTMLCanvasElement, getOption
       const options = getOptions(); particleMaterial.size = options.particleSize; particleMaterial.opacity = options.particleOpacity; orbitMaterial.opacity = options.orbitOpacity; haloMaterials.forEach((material) => material.opacity = options.haloOpacity); networkGroup.scale.setScalar(responsiveScale * options.scale);
       const step=Math.max(0,Math.min(delta,.05))*60;
       networkGroup.rotation.y += 0.0008 * options.speed*step; networkGroup.rotation.x += 0.0003 * options.speed*step;
-      networkGroup.children.forEach((child: THREE.Object3D, index: number) => { if (child.type === "Line") child.rotation.z += 0.0004 * options.speed*step * (index % 2 === 0 ? 1 : -1); }); renderer.render(scene, camera);
+      networkGroup.children.forEach((child: Object3D, index: number) => { if (child.type === "Line") child.rotation.z += 0.0004 * options.speed*step * (index % 2 === 0 ? 1 : -1); }); renderer.render(scene, camera);
     },
     dispose() { particleGeometry.dispose(); particleMaterial.dispose(); orbitMaterial.dispose(); orbitGeometries.forEach((item) => item.dispose()); nodeGeometries.forEach((item) => item.dispose()); nodeMaterials.forEach((item) => item.dispose()); renderer.dispose(); },
   };

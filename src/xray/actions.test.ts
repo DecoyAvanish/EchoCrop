@@ -18,6 +18,7 @@ describe('report helpers',()=>{
     expect(counterpartyFor('Employment / Freelance')).toBe('your client');
     expect(counterpartyFor('Terms of Service')).toBe('the provider');
     expect(counterpartyFor('Other')).toBe('the other party');
+    expect(counterpartyFor('Membership')).toBe('the gym / club');
   });
 });
 
@@ -25,11 +26,11 @@ describe('honest financial exposure',()=>{
   const feeDocument=(text:string)=>({...samples[0],clauses:[{...samples[0].clauses[3],originalText:text}]});
   it('keeps exit, late-payment, and renewal scenarios separate',()=>{
     const result=exposureFor(samples[0]);
-    expect(result.headline).toBe('$7,350 + deposit');
+    expect(result.headline).toBe('$29,400');
     expect(result.scenarios.find(x=>x.kind==='exit')?.amount).toBe(7350);
     expect(result.scenarios.find(x=>x.kind==='fees')?.amount).toBe(250);
     expect(result.scenarios.find(x=>x.kind==='renewal')?.amount).toBe(29400);
-    expect(result.summary).toContain('not added');
+    expect(result.label).toBe('Renewal commitment');
     expect(result.headline).not.toContain('37,000');
   });
   it('does not turn the company liability cap into the customer cost',()=>{
@@ -114,5 +115,17 @@ describe('local analysis',()=>{
     const doc=analyzeText('Any dispute shall be resolved by binding arbitration.\n\nThis agreement automatically renews for successive terms.');
     expect(doc.clauses.map(c=>c.severity)).toEqual(['critical','high']);
     expect(scoreFor(doc.clauses)).toBeGreaterThan(30);
+  });
+});
+
+describe('review report regressions',()=>{
+  it('leads the gym report with the larger renewal commitment',()=>{
+    const exposure=exposureFor(samples.find(s=>s.id==='gym')!);
+    expect(exposure.headline).toBe('$828');
+  });
+  it('uses document-appropriate replacement wording',()=>{
+    const clause=analyzeText('This lease automatically renews for one year unless notice is given.').clauses[0];
+    expect(proposedTextFor(clause,'Lease')).toContain('tenancy');
+    expect(proposedTextFor(clause,'Lease')).not.toContain('online');
   });
 });

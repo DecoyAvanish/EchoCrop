@@ -6,7 +6,7 @@ import {pad} from './actions';
 
 const minimumLength=25;
 const maximumLength=500_000;
-const documentTypes=['Lease','Terms of Service','Employment / Freelance','Loan / Credit','Other'];
+const documentTypes=['Lease','Terms of Service','Employment / Freelance','Loan / Credit','Membership','Other'];
 
 export default function Intake({onDoc,go}:{onDoc:(doc:DocumentSample)=>void;go:Go}){
   const[tab,setTab]=useState<'file'|'paste'|'sample'>('file');
@@ -41,7 +41,7 @@ export default function Intake({onDoc,go}:{onDoc:(doc:DocumentSample)=>void;go:G
     }finally{if(token===request.current)setBusy(false);if(input.current)input.current.value=''}
   };
   return <main id="main" tabIndex={-1} className="intake-page">
-    <div className="page-heading"><button onClick={()=>go('home')}>← HOME</button><p className="kicker">DOCUMENT INTAKE / 01</p><h1>What are you<br/><em>about to sign?</em></h1><p>Bring the agreement. Leave with the questions worth asking.</p></div>
+    <div className="page-heading"><button onClick={()=>go('home')}>← HOME</button><p className="kicker">STEP 1 OF 3</p><h1>What are you<br/><em>about to sign?</em></h1><p>Bring the agreement. Leave with the questions worth asking.</p></div>
     <section className="intake-console" aria-label="Choose a document">
       <div className="intake-tabs" role="group" aria-label="Document source">{(['file','paste','sample'] as const).map(source=><button key={source} aria-pressed={source===tab} className={source===tab?'active':''} onClick={()=>{setTab(source);setStatus('')}}>{source==='file'?'UPLOAD A FILE':source==='paste'?'PASTE TEXT':'TRY A SAMPLE'}</button>)}</div>
       <div className="intake-meta"><label className="doc-type">AGREEMENT TYPE<select value={type} onChange={e=>setType(e.target.value)}><option value="auto">Detect automatically</option>{documentTypes.map(value=><option key={value}>{value}</option>)}</select></label><p>{type==='auto'&&text.trim().length>=minimumLength?`Detected: ${detected}`:'You can override the detected type at any time.'}</p></div>

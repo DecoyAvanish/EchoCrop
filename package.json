@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "packageManager": "pnpm@11.25.0",
+  "engines": {"node":"22.x"},
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -15,8 +16,7 @@
     "@fontsource/atkinson-hyperlegible": "^5.2.6",
     "@fontsource/lexend": "^5.2.7",
     "mammoth": "^1.13.0",
-    "pdfjs-dist": "^6.4.299",
-    "three128": "npm:three@0.128.0"
+    "pdfjs-dist": "^6.4.299"
   },
   "devDependencies": {
     "@types/react": "^19.1.16",

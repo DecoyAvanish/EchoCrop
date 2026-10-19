@@ -120,3 +120,71 @@ describe('clause-specific Spanish explanations',()=>{
     expect(localizeClause(clause,'es').plain).toContain('Aún debes revisarlo');
   });
 });
+
+describe('independent review wording regressions',()=>{
+  const cases=[
+    ['Claims will be decided by a neutral arbitrator and not by a judge or jury, on an individual basis only.','Arbitration'],
+    ["Member releases the Club from all claims for injury, including claims caused by the Club's own negligence.",'Liability'],
+    ["Member agrees to pay all collection costs and attorneys' fees.",'Fees'],
+    ["The Club may use Member's name, image and likeness in promotional materials without compensation.",'Content license'],
+    ['We may revise these rules from time to time, and revised rules take effect when posted.','Unilateral changes'],
+    ['We may sell or disclose personal information to business partners for their own purposes.','Data rights']
+  ];
+  it.each(cases)('recognizes %s',(text,category)=>{
+    const clause=analyzeText(text).clauses[0];
+    expect(clause.category).toBe(category);
+    expect(isFlagged(clause)).toBe(true);
+    expect(clause.evidence).toBeTruthy();
+  });
+  it('does not treat affirmative refusals of these permissions as risks',()=>{
+    expect(analyzeText('We will not sell or disclose personal information to business partners.').clauses[0].severity).toBe('neutral');
+  });
+  it('detects a club membership and authors sample-specific proposed terms',()=>{
+    expect(detectDocumentType('Gym club membership agreement for fitness facilities and members.')).toBe('Membership');
+    expect(samples.find(s=>s.id==='gym')?.type).toBe('Membership');
+    expect(samples[0].clauses[6].proposedText).toContain('tenancy');
+    expect(samples[3].clauses[1].proposedText).toContain('$149');
+    expect(samples[3].clauses[1].proposedText).not.toContain('late');
+  });
+});
+
+describe('published agreement excerpts — not a full-contract benchmark',()=>{
+  // AT&T Consumer Service Agreement, section 1.3.2.1, retrieved 2026-10-19.
+  // https://www.att.com/legal/terms.consumerServiceAgreement.html
+  it('recognizes agree-to-arbitrate wording with a stated exception retained',()=>{
+    const text='AT&T and you agree to arbitrate all disputes and claims between you and AT&T, except for claims arising from bodily injury or death.';
+    const clause=analyzeText(text).clauses[0];
+    expect(clause.category).toBe('Arbitration');
+    expect(clause.originalText).toContain('except for claims');
+  });
+  // Shop Planet Fitness / BDA Terms of Use, Procedure, retrieved 2026-10-19.
+  // https://shop.planetfitness.com/terms-of-use (retail terms, NOT a gym membership).
+  it('recognizes neutral arbitrator wording in an independently published term',()=>{
+    expect(analyzeText('Any Action shall be resolved by a single neutral arbitrator.').clauses[0].category).toBe('Arbitration');
+  });
+});
+
+describe('numbered headings versus section references',()=>{
+  it('keeps a forty-clause document at forty clauses when body text repeats the section number',()=>{
+    const text=Array.from({length:39},(_,i)=>`${i+1}. Information section ${i+1}. The office opens at nine.`).concat('40. Disputes. Claims will be decided by a neutral arbitrator.').join('\n');
+    const doc=analyzeText(text);
+    expect(doc.clauses).toHaveLength(40);
+    expect(doc.clauses[39].category).toBe('Arbitration');
+  });
+  it('does not split an inline cross-reference into another clause',()=>{
+    expect(splitClauses('1. Payment. Refer to Section 2. for the schedule.\n2. Schedule. Payment is due in June.')).toHaveLength(2);
+  });
+});
+
+describe('explanations match the actual new risk',()=>{
+  it('explains identity use rather than an unrelated work license',()=>{
+    const clause=analyzeText('The club may use your name, image and likeness without compensation.').clauses[0];
+    expect(clause.plainEnglish).toContain('name, image or likeness');
+    expect(clause.proposedText).toContain('voluntary written consent');
+  });
+  it('does not propose a late-fee grace period for collection costs',()=>{
+    const clause=analyzeText("Member agrees to pay all collection costs and attorneys' fees.").clauses[0];
+    expect(clause.proposedText).toContain('Collection costs');
+    expect(clause.proposedText).not.toContain('late');
+  });
+});

@@ -69,7 +69,7 @@ export function exposureFor(doc:DocumentSample):Exposure{
     const lateFee=explicitDailyLateFee(text);
     if(lateFee){
       const{base,daily}=lateFee;
-      scenarios.push({clauseId:clause.id,title:'Late-fee example',amount:base+5*daily,kind:'fees',assumptions:`${money(base)} initial charge + 5 additional charged days × ${money(daily)}/day. This is one illustrative late-payment scenario, not a prediction or an added charge in the exit scenario.`});
+      scenarios.push({clauseId:clause.id,title:'Late-fee example',amount:base+5*daily,kind:'fees',assumptions:`${money(base)} initial charge + 5 additional charged days × ${money(daily)}/day. Illustrative late-payment scenario.`});
       continue;
     }
     if(/renew/i.test(text)){
@@ -77,9 +77,9 @@ export function exposureFor(doc:DocumentSample):Exposure{
       const given=clause.costImpact.match(/\$\s*([\d,]+(?:\.\d{1,2})?)/);
       if(/lease/i.test(doc.type)&&monthly&&period){
         const count=readNumber(period[1])*(/year/i.test(period[0])?12:1);
-        scenarios.push({clauseId:clause.id,title:'Renewal commitment',amount:count*monthly,kind:'renewal',assumptions:`${count} months × ${money(monthly)}/month if the notice window is missed. This is rent for an additional term, not a penalty; it is not added to the early-exit or late-fee examples.`});
+        scenarios.push({clauseId:clause.id,title:'Renewal commitment',amount:count*monthly,kind:'renewal',assumptions:`${count} months × ${money(monthly)}/month if the notice window is missed. This is rent for an additional term, not a penalty; check whether this additional term applies.`});
       }else if(given){
-        scenarios.push({clauseId:clause.id,title:'Renewal charge',amount:Number(given[1].replace(/,/g,'')),kind:'renewal',assumptions:'Amount stated in the sample explanation for one missed renewal. It is conditional on renewal and is separate from every other scenario.'});
+        scenarios.push({clauseId:clause.id,title:'Renewal charge',amount:Number(given[1].replace(/,/g,'')),kind:'renewal',assumptions:'Amount stated in the sample explanation for one missed renewal. Applies if the renewal is triggered.'});
       }
       continue;
     }
@@ -87,18 +87,23 @@ export function exposureFor(doc:DocumentSample):Exposure{
     const baseAmounts=explicitBaseAmounts(text);
     const unassignedAmount=dollarValues(text).some(amount=>!fees.includes(amount)&&!baseAmounts.includes(amount));
     if(fees.length===1&&!unassignedAmount&&!/liability|cap(?:ped)? at|maximum liability/i.test(text)){
-      scenarios.push({clauseId:clause.id,title:/deposit/i.test(text)?'Deposit or fee at stake':'Stated additional fee',amount:fees[0],kind:'stated',assumptions:'This amount is explicitly attached to a named fee or deposit. Timing, applicability, future increases, and enforceability need checking. It is not added to other conditional scenarios.'});
+      scenarios.push({clauseId:clause.id,title:/deposit/i.test(text)?'Deposit or fee at stake':'Stated additional fee',amount:fees[0],kind:'stated',assumptions:'This amount is explicitly attached to a named fee or deposit. Timing, applicability, future increases, and enforceability need checking. '});
     }
   }
-  const primary=scenarios.find(x=>x.kind==='exit')||scenarios.filter(x=>x.kind!=='renewal').sort((a,b)=>b.amount-a.amount)[0];
-  if(primary)return{headline:`${money(primary.amount)}${primary.unpriced?' + deposit':''}`,label:primary.title,summary:'A concrete amount to discuss before signing. Each amount below is a separate conditional scenario; they are not added into a misleading total.',scenarios,identifiedAmounts};
+  const primary=[...scenarios].sort((a,b)=>b.amount-a.amount)[0];
+  if(primary)return{headline:`${money(primary.amount)}${primary.unpriced?' + your deposit':''}`,label:primary.title,summary:'A concrete amount to discuss before signing. ',scenarios,identifiedAmounts};
   if(scenarios.length)return{headline:money(scenarios[0].amount),label:'Possible renewal commitment',summary:'A stated renewal amount, conditional on missing a notice window. It is a payment commitment, not a guaranteed penalty.',scenarios,identifiedAmounts};
   if(identifiedAmounts.length)return{headline:identifiedAmounts.map(money).join(' · '),label:'Amounts to inspect',summary:'These amounts appear in flagged clauses. Their roles differ, so we cannot responsibly turn them into a total cost of signing.',scenarios,identifiedAmounts};
   return{headline:'Exposure not priced',label:'Money is only part of the risk',summary:'This document does not provide enough figures to calculate a reliable dollar exposure. Rights, privacy, and uncapped obligations can still matter.',scenarios,identifiedAmounts};
 }
 
 /** Starting language for negotiation, based on the matched issue, not a reviewed legal redline. */
-export function proposedTextFor(clause:Clause):string{
+export function proposedTextFor(clause:Clause,type='Other'):string{
+  if(clause.id.startsWith('u')){
+    if(clause.category==='Auto-renewal'&&/lease/i.test(type))return 'After the initial lease term, the tenancy continues month to month unless both parties expressly agree to a new fixed term. Tenant may give 30 days written notice, subject to applicable law.';
+    if(clause.category==='Auto-renewal'&&/membership/i.test(type))return 'The club will give advance written renewal notice. After the initial term, membership continues month to month and may be cancelled online or by email with 30 days notice.';
+    if(clause.category==='Fees'&&!/late/i.test(clause.originalText))return 'All additional charges must be listed with their amount, purpose and frequency before agreement. No new or increased charge applies during the current term without express agreement.';
+  }
   const authored=(clause as Clause&{proposedText?:string}).proposedText;
   if(authored)return authored;
   const category=String(clause.category);
@@ -126,6 +131,7 @@ export function proposedTextFor(clause:Clause):string{
 /** Who the negotiation email is addressed to, based on the document type. */
 export function counterpartyFor(type:string){
   if(/lease/i.test(type))return'your landlord';
+  if(/membership/i.test(type))return'the gym / club';
   if(/employ|freelance|contract/i.test(type))return'your client';
   if(/loan|credit/i.test(type))return'your lender';
   if(/terms|service/i.test(type))return'the provider';

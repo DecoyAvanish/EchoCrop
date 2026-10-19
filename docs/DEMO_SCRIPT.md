@@ -1,26 +1,27 @@
-# 90-second submission walkthrough
+# 90-second submission recording plan
 
-Record at a comfortable speed with the cursor visible. Use the public production URL, not localhost or a protected Vercel preview. Do not show a real person's agreement or private information.
+This is a script, not a completed video. Confirm the competition's actual time
+limit. Use the stable production URL and fictional documents. Burn captions into
+the final edit and leave readable pauses instead of speeding up important text.
 
-| Time | Screen | Narration |
+| Time | Shot | Narration / caption |
 |---|---|---|
-| 0–10s | Hero, interactive lease and cyan orbital | “The expensive part of an agreement is often the part we skim. Fine Print X-Ray helps you find what to question before you sign.” |
-| 10–25s | Paste the eight-risk fixture from `src/xray/fixtures/contracts.ts` | “This is a fresh terms-of-service document. It is parsed on this device, detected as Terms of Service, and its risky wording is flagged.” |
-| 25–38s | Critical-first scan, original wording, evidence, and neutral passage | “A flag tells you what the rule matched, what it could mean, and what to ask. Unrecognized text stays gray. It is never silently called safe.” |
-| 38–52s | Lease report money section and proposed wording | “The report makes the stakes concrete: conditional costs, transparent assumptions, and better starting language side by side with the original.” |
-| 52–62s | Set the sample's actual renewal date, download reminder, edit email | “You can turn a notice window into a calendar reminder, work through your checklist, and copy an email draft. It all happens locally.” |
-| 62–73s | 390px phone scan; tap a clause to open its detail sheet | “On phones, every clause is reachable and its details open right here. Reading view makes the whole agreement legible.” |
-| 73–82s | Accessibility controls: reduced motion, light, larger text; keyboard focus | “The experience adapts to motion sensitivity, contrast needs, larger text, and keyboard use.” |
-| 82–90s | Clause Lab specimen and one quiz answer; back to hero | “A short Clause Lab helps people recognize the next trap themselves. Read closely. Ask clearly. Sign on your terms.” |
+| 0–9s | Rosa's gym report: $828 renewal, score | “Rosa thinks monthly billing means a monthly commitment. This term can renew her for another year.” |
+| 9–20s | Phone Reading view; tap renewal; sheet | “The notice window is 60 days early, and cancellation requires a visit. The explanation opens where she's reading.” |
+| 20–31s | Original and proposed membership wording | “A concrete request: month-to-month renewal and cancellation online or by email.” |
+| 31–41s | Paste fictional six-risk gym text | “The same local rules also check your own text. Unknown wording stays unassessed, not silently safe.” |
+| 41–49s | App already loaded; owner switches Wi-Fi off; paste scan | “This text scan runs on the device. No agreement is sent to a remote AI service.” |
+| 49–60s | Reconnect manually; choose actual renewal date; download and open ICS in calendar | “Choose the real date and save a reminder before the notice window.” |
+| 60–70s | Accessibility preferences and keyboard; 5 seconds of actual screen-reader output | “Readable layouts, motion controls, visible keyboard focus and clear announcements.” |
+| 70–78s | Quiz answer and explanation | “The Clause Lab teaches what to check next time.” |
+| 78–90s | Edit email; finish on original vs proposed redline | “Read closely. Ask clearly. Sign on your terms.” |
 
-## Record accurately
+## Capture accurately
 
-- Say “rule-based” and “patterns,” not legal certainty, calibrated confidence, or AI analysis.
-- Say the scenarios are illustrative; do not present the personas as research participants.
-- Show all eight fixture risks. Include one unmatched clause to demonstrate the neutral state.
-- Show the real money assumptions. Do not add alternative late-fee, exit, and renewal scenarios together.
-- Give the calendar an actual end/renewal date before exporting it.
-- Refresh a custom scan to show that its document and reviewed state survive in the same tab.
-- Quote only audit scores from the tested release and name the test mode. See `docs/QA.md`.
-
-The script is ready for recording; it does not claim that a submission video has already been recorded.
+- Record actual screen-reader output; do not simulate the voice or invent a pass.
+- Open the .ics in a real calendar app, checking the date before saving.
+- Offline shot proves warm-loaded text analysis, not first-time offline PDF
+  loading. Ask the owner to change connectivity manually.
+- Personas and scenarios are illustrative, not research findings.
+- Never add alternative renewal, exit and late-fee scenarios together.
+- Use current QA.md evidence; do not claim guaranteed legal accuracy or a win.

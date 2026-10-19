@@ -12,7 +12,7 @@ export type ThreeDPaperRuntimeProps={
 function PaperPoster({mode,clauses,pageNumber,pageCount,clauseOffset,onClauseSelect,documentTitle,failed}:Pick<ThreeDPaperRuntimeProps,'mode'|'clauses'|'pageNumber'|'pageCount'|'clauseOffset'|'onClauseSelect'|'documentTitle'>&{failed:boolean}){
   if(mode!=='chamber')return <div className="paper-poster" aria-hidden="true"><img src="/threeui/lease-poster.svg" alt="" width="1200" height="1656" fetchPriority="high"/></div>;
   return <div className="paper-poster"><article className="paper-fallback-sheet" aria-label="Document reading preview">
-    <header><small>FINE PRINT X-RAY · LOCAL ANALYSIS</small><h3>{documentTitle||'Your document'}</h3><small>PAGE {pageNumber} / {pageCount}</small></header>
+    <header><small>FINE PRINT X-RAY · LOCAL ANALYSIS</small><h2>{documentTitle||'Your document'}</h2><small>PAGE {pageNumber} / {pageCount}</small></header>
     <div className="paper-fallback-content"><p>Clauses are marked directly in the document.</p>{clauses?.map((clause,index)=><button key={`${clauseOffset}-${index}`} className={clause.severity} onClick={()=>onClauseSelect?.(index)}><b>{String((clauseOffset??0)+index+1).padStart(2,'0')} · {clause.category} · {clause.severity==='neutral'?'Not flagged':clause.severity}</b>{clause.originalText}</button>)}<p className="paper-fallback-note">{failed?'Reading preview · every clause remains available without 3D.':'Preparing the interactive paper…'}</p></div>
   </article></div>;
 }
@@ -63,6 +63,6 @@ export function ThreeDPaperRuntime({className='',style,reduced=false,mode='hero'
   const sourceUrl=`/threeui/3d-paper-${mode==='chamber'?'chamber':'runtime'}.html${reduced?'?reduced=1':''}`;
   return <div ref={hostRef} className={`threeui-background three-d-paper${className?` ${className}`:''}`} role="group" aria-label={mode==='hero'?'Interactive residential lease paper':'Interactive analyzed document paper'} data-state={failed?'fallback':ready?'ready':'loading'} style={{position:'relative',overflow:'hidden',background:'transparent',pointerEvents:'auto',...style}}>
     <PaperPoster mode={mode} clauses={clauses} pageNumber={pageNumber} pageCount={pageCount} clauseOffset={clauseOffset} documentTitle={documentTitle} onClauseSelect={onClauseSelect} failed={failed||unavailable}/>
-    {enabled&&!failed?<iframe ref={frameRef} title={mode==='chamber'?'3D paper — analyzed clauses':'3D paper — residential lease'} src={sourceUrl} sandbox="allow-scripts allow-same-origin" loading="lazy" tabIndex={-1} aria-hidden="true" onError={()=>setFailed(true)} style={{position:'absolute',inset:0,display:'block',width:'100%',height:'100%',border:0,background:'transparent',opacity:ready?1:0,pointerEvents:ready&&!reduced?'auto':'none',transition:reduced?'none':'opacity 240ms ease-out'}}/>:null}
+    {enabled&&!failed?<iframe ref={frameRef} title={mode==='chamber'?'3D paper — analyzed clauses':'3D paper — residential lease'} src={sourceUrl} loading="lazy" tabIndex={-1} aria-hidden="true" onError={()=>setFailed(true)} style={{position:'absolute',inset:0,display:'block',width:'100%',height:'100%',border:0,background:'transparent',opacity:ready?1:0,pointerEvents:ready&&!reduced?'auto':'none',transition:reduced?'none':'opacity 240ms ease-out'}}/>:null}
   </div>;
 }

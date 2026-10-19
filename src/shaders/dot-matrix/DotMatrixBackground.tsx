@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import * as THREE from "three128";
+import {THREE} from "../threeRuntime";
 import { CORE_UPLINK_FRAGMENT_SHADER, CORE_UPLINK_VERTEX_SHADER } from "./dotMatrixShaders";
 export type DotMatrixBackgroundProps = { speed?: number; gridScale?: number; mouseAmount?: number; pulseSpeed?: number; radius?: number; opacity?: number; hue?: number; className?: string };
 export const DOT_MATRIX_DEFAULTS = { speed: 1, gridScale: 60, mouseAmount: 0.04, pulseSpeed: 0.4, radius: 0.15, opacity: 0.35, hue: 0 } as const;

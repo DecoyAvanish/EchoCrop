@@ -11,7 +11,7 @@ export function createOrbitalSphereRenderer(canvas: HTMLCanvasElement, getOption
   const networkGroup = new THREE.Group(); scene.add(networkGroup);
   const radius = 2.2, particleCount = 15000;
   const positions = new Float32Array(particleCount * 3), colors = new Float32Array(particleCount * 3);
-  const colorBright = new THREE.Color(0xa78bfa), colorDim = new THREE.Color(0x701a75);
+  const colorBright = new THREE.Color(0xc8f8ff), colorDim = new THREE.Color(0x07536d);
   let validIndex = 0;
   for (let index = 0; index < particleCount; index += 1) {
     const phi = Math.acos(-1 + (2 * index) / particleCount), theta = Math.sqrt(particleCount * Math.PI) * phi;
@@ -25,7 +25,7 @@ export function createOrbitalSphereRenderer(canvas: HTMLCanvasElement, getOption
   }
   const particleGeometry = new THREE.BufferGeometry(); particleGeometry.setAttribute("position", new THREE.BufferAttribute(positions.slice(0, validIndex * 3), 3)); particleGeometry.setAttribute("color", new THREE.BufferAttribute(colors.slice(0, validIndex * 3), 3));
   const particleMaterial = new THREE.PointsMaterial({ size: 0.015, vertexColors: true, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending, depthWrite: false }); networkGroup.add(new THREE.Points(particleGeometry, particleMaterial));
-  const orbitMaterial = new THREE.LineBasicMaterial({ color: 0x8b5cf6, transparent: true, opacity: 0.25, blending: THREE.AdditiveBlending });
+  const orbitMaterial = new THREE.LineBasicMaterial({ color: 0x38e1ff, transparent: true, opacity: 0.25, blending: THREE.AdditiveBlending });
   const orbitGeometries: THREE.BufferGeometry[] = [], nodeGeometries: THREE.BufferGeometry[] = [], nodeMaterials: THREE.Material[] = [], haloMaterials: THREE.MeshBasicMaterial[] = [];
   let responsiveScale = 1;
   for (let index = 0; index < 6; index += 1) {
@@ -34,8 +34,8 @@ export function createOrbitalSphereRenderer(canvas: HTMLCanvasElement, getOption
     geometry.setAttribute("position", new THREE.Float32BufferAttribute(points, 3)); orbitGeometries.push(geometry);
     const line = new THREE.Line(geometry, orbitMaterial); line.rotation.x = Math.random() * Math.PI * 2; line.rotation.y = Math.random() * Math.PI * 2; networkGroup.add(line);
     if (index % 2 !== 0) {
-      const nodeGeometry = new THREE.SphereGeometry(0.025, 16, 16), nodeMaterial = new THREE.MeshBasicMaterial({ color: 0xd946ef }), node = new THREE.Mesh(nodeGeometry, nodeMaterial); const angle = Math.random() * Math.PI * 2; node.position.set(Math.cos(angle) * orbitRadius, Math.sin(angle) * orbitRadius, 0); line.add(node);
-      const haloGeometry = new THREE.SphereGeometry(0.08, 16, 16), haloMaterial = new THREE.MeshBasicMaterial({ color: 0xc084fc, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending }), halo = new THREE.Mesh(haloGeometry, haloMaterial); node.add(halo);
+      const nodeGeometry = new THREE.SphereGeometry(0.025, 16, 16), nodeMaterial = new THREE.MeshBasicMaterial({ color: 0xe5fcff }), node = new THREE.Mesh(nodeGeometry, nodeMaterial); const angle = Math.random() * Math.PI * 2; node.position.set(Math.cos(angle) * orbitRadius, Math.sin(angle) * orbitRadius, 0); line.add(node);
+      const haloGeometry = new THREE.SphereGeometry(0.08, 16, 16), haloMaterial = new THREE.MeshBasicMaterial({ color: 0x55dcff, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending }), halo = new THREE.Mesh(haloGeometry, haloMaterial); node.add(halo);
       nodeGeometries.push(nodeGeometry, haloGeometry); nodeMaterials.push(nodeMaterial, haloMaterial); haloMaterials.push(haloMaterial);
     }
   }

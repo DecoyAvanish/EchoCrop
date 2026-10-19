@@ -109,7 +109,15 @@ export default function App(){
         {route.page==='report'&&<Report key={documentKey(route.doc)} doc={route.doc} go={go} language={settings.language}/>}
         {route.page==='learn'&&<Learn go={go} reduced={settings.reduced}/>}
       </Suspense></PageBoundary>
-      <footer><Logo go={go}/><p>Read closely. Ask clearly. Sign on your terms.<br/><span>This tool explains patterns. It is not legal advice.</span></p><nav aria-label="Footer"><button onClick={()=>go('intake')}>Scan a document</button><button onClick={()=>go('learn')}>Clause Lab</button><button onClick={()=>setAccess(true)}>Accessibility</button></nav><span>© 2026 Fine Print X-Ray</span><div className="footer-credits"><span>3D paper and orbital visuals: <a href="https://threeui.com" target="_blank" rel="noreferrer">ThreeUI ↗</a> (<a href="https://github.com/DecoyAvanish/EchoCrop/blob/main/THIRD_PARTY_NOTICES.md" target="_blank" rel="noreferrer">licence ↗</a>)</span><a href="https://github.com/DecoyAvanish/EchoCrop" target="_blank" rel="noreferrer">Source on GitHub ↗</a><span>Built for HyperBloom 2026</span><span>Document text stays on your device.</span></div></footer>
+      <footer className="site-footer">
+        <div className="footer-top">
+          <div className="footer-brand"><Logo go={go}/><p>Read closely. Ask clearly.<br/>Sign on your terms.</p><span className="footer-status"><i aria-hidden="true"/>Document text stays on your device</span></div>
+          <nav aria-label="Footer" className="footer-col"><p className="footer-head">Explore</p><button onClick={()=>go('intake')}>Scan a document</button><button onClick={()=>go('scan',samples[0])}>Try the sample lease</button><button onClick={()=>go('learn')}>Clause Lab</button><button onClick={()=>setAccess(true)}>Accessibility</button></nav>
+          <div className="footer-col"><p className="footer-head">Project</p><a href="https://github.com/DecoyAvanish/EchoCrop" target="_blank" rel="noreferrer">Source on GitHub ↗</a><a href="https://threeui.com" target="_blank" rel="noreferrer">3D paper by ThreeUI ↗</a><a href="https://github.com/DecoyAvanish/EchoCrop/blob/main/THIRD_PARTY_NOTICES.md" target="_blank" rel="noreferrer">Third-party licence ↗</a><span>Built for HyperBloom 2026</span></div>
+        </div>
+        <div className="footer-mark" aria-hidden="true"><span className="mark-outline">FINE PRINT X-RAY</span><span className="mark-lit">FINE PRINT X-RAY</span><i className="mark-beam"/></div>
+        <div className="footer-bottom"><span>© 2026 Fine Print X-Ray</span><span>This tool explains patterns. It is not legal advice.</span><button className="to-top" onClick={()=>window.scrollTo({top:0,behavior:settings.reduced?'auto':'smooth'})}>Back to top <span aria-hidden="true">↑</span></button></div>
+      </footer>
     </div>
     {access&&<Access settings={settings} setSettings={setSettings} close={closeAccess}/>}
   </div>;

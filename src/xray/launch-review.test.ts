@@ -31,7 +31,7 @@ describe('launch consistency',()=>{
  });
  it('keeps score thresholds and verdicts aligned',()=>{
   expect([0,29,30,54,55,99].map(riskBand)).toEqual(['Not flagged','Low','Moderate','Moderate','High','High']);
-  expect(verdictFor(30,1).accent).toBe('caution.');expect(verdictFor(59,5).title).toBe('Don’t sign this');
+  expect(verdictFor(30,1).accent).toBe('caution.');expect(verdictFor(59,5).title).toBe('Negotiate before');
  });
  it('exposes the scale as a usable method link',()=>{
   const html=renderToStaticMarkup(createElement(Gauge,{score:59,large:true}));

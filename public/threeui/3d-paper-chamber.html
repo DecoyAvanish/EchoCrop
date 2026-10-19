@@ -156,7 +156,7 @@ function drawGame(ctx){
   [[70,70,1,1],[TW-70,70,-1,1],[TW-70,TH-70,-1,-1],[70,TH-70,1,-1]].forEach(([x,y,sx,sy])=>{
     ctx.beginPath(); ctx.moveTo(x+52*sx,y); ctx.lineTo(x,y); ctx.lineTo(x,y+52*sy); ctx.stroke();
   });
-  ctx.fillStyle=LIME;ctx.font='700 18px '+MONO;track(ctx,'FINE PRINT X-RAY  //  LOCAL ANALYSIS',96,105,4,false);
+  ctx.fillStyle=LIME;ctx.font='700 18px '+MONO;track(ctx,'FINE PRINT X-RAY  ·  LOCAL ANALYSIS',96,105,4,false);
   ctx.fillStyle='#F3F7FA';ctx.font='600 61px "Inter Tight", Inter, sans-serif';ctx.fillText('RESIDENTIAL',96,181);ctx.fillText('LEASE AGREEMENT',96,240);
   ctx.fillStyle='rgba(221,237,247,.65)';ctx.font='400 16px '+MONO;ctx.fillText('DOCUMENT ID  XR-047-MERCER  ·  PAGE 01 / 01',755,105);
 
@@ -169,7 +169,7 @@ function drawGame(ctx){
   ctx.fillStyle='#273846';ctx.font='400 22px Inter, sans-serif';ctx.fillText('Term',96,671);ctx.fillText('November 01, 2026 — October 31, 2027',355,671);ctx.fillText('Monthly rent',96,721);ctx.fillText('$2,450 due on the first calendar day',355,721);ctx.fillText('Security deposit',96,771);ctx.fillText('$2,450 held subject to itemized deductions',355,771);
 
   ctx.fillStyle='rgba(255,61,90,.09)';rr(ctx,78,842,TW-156,235,13);ctx.fill();ctx.strokeStyle='#D72E4B';ctx.lineWidth=3;rr(ctx,78,842,TW-156,235,13);ctx.stroke();
-  ctx.fillStyle='#C62342';ctx.font='700 16px '+MONO;track(ctx,'⬢  CRITICAL FLAG  //  MANDATORY ARBITRATION',106,886,2,false);
+  ctx.fillStyle='#C62342';ctx.font='700 16px '+MONO;track(ctx,'⬢  CRITICAL FLAG  ·  MANDATORY ARBITRATION',106,886,2,false);
   ctx.fillStyle='#263743';ctx.font='500 23px Inter, sans-serif';wrapL(ctx,'Any dispute arising under this Lease shall be resolved by binding arbitration. Tenant waives the right to trial by jury and participation in any class action.',106,938,TW-212,34);
   ctx.fillStyle='#C62342';ctx.font='700 17px '+MONO;ctx.fillText('YOU GIVE UP THE RIGHT TO SUE IN COURT.',106,1043);
 
@@ -211,14 +211,14 @@ function drawChamber(ctx){
   ctx.fillStyle=wash;ctx.fillRect(42,292,TW-84,TH-342);
   const grain=rng(83);
   for(let i=0;i<2600;i++){const v=160+Math.floor(grain()*50);ctx.fillStyle='rgba('+v+','+(v-2)+','+(v-7)+','+(.014+grain()*.026)+')';ctx.fillRect(42+grain()*(TW-84),292+grain()*(TH-342),.5+grain()*1.7,.3+grain()*.7)}
-  ctx.fillStyle='#172B3C';ctx.font='700 17px '+MONO;track(ctx,'CLAUSE X-RAY  //  MARKED IN DOCUMENT',96,338,3,false);
+  ctx.fillStyle='#172B3C';ctx.font='700 17px '+MONO;track(ctx,'CLAUSE X-RAY  ·  MARKED IN DOCUMENT',96,338,3,false);
   ctx.strokeStyle='rgba(16,35,52,.2)';ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(96,361);ctx.lineTo(TW-96,361);ctx.stroke();
   const {shown,blockH}=clauseLayout();
   shown.forEach((clause,index)=>{const top=clauseTop+index*blockH,y=top+28,color=risk[clause.severity]||risk.neutral;
     ctx.save();ctx.beginPath();ctx.rect(82,top,TW-164,blockH-10);ctx.clip();
     ctx.fillStyle=color;ctx.globalAlpha=index===chamberHover?.15:clause.severity==='neutral'?.025:.065;rr(ctx,82,top,TW-164,blockH-10,5);ctx.fill();ctx.globalAlpha=1;
     ctx.fillStyle=color;ctx.fillRect(92,top+5,4,blockH-20);ctx.font='700 16px '+MONO;
-    const label=String(chamberContent.clauseOffset+index+1).padStart(2,'0')+'  '+String(clause.category||'CLAUSE').toUpperCase()+'  //  '+(clause.severity==='neutral'?'NOT FLAGGED':String(clause.severity||'neutral').toUpperCase());
+    const label=String(chamberContent.clauseOffset+index+1).padStart(2,'0')+'  '+String(clause.category||'CLAUSE').toUpperCase()+'  ·  '+(clause.severity==='neutral'?'NOT FLAGGED':String(clause.severity||'neutral').toUpperCase());
     ctx.fillText(label,112,y,TW-226);
     ctx.fillStyle='#263743';ctx.font='400 20px Arial, sans-serif';
     const lines=textLines(ctx,clause.originalText,TW-230),maxLines=Math.max(1,Math.floor((blockH-64)/25)),overflow=lines.length>maxLines;

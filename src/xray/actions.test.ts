@@ -10,8 +10,8 @@ describe('report helpers',()=>{
   it('adapts the verdict to the score',()=>{
     expect(verdictFor(0,0).accent).toBe('patterns found.');
     expect(verdictFor(30,1).summary).toContain('1 clause');
-    expect(verdictFor(59,5).title).toBe('Don’t sign this');
-    expect(verdictFor(90,8).title).toBe('Don’t sign this');
+    expect(verdictFor(59,5).title).toBe('Negotiate before');
+    expect(verdictFor(90,8).title).toBe('Negotiate before');
   });
   it('addresses the email to the right person',()=>{
     expect(counterpartyFor('Lease')).toBe('your landlord');
@@ -72,8 +72,11 @@ describe('honest financial exposure',()=>{
 });
 
 describe('deadline catcher',()=>{
-  it('requires an actual renewal date instead of pre-filling an invented one',()=>{
-    const html=renderToStaticMarkup(createElement(Report,{doc:samples[0],go:()=>{},language:'en'}));
+  it('fills the stated sample term but never invents a date for pasted documents',()=>{
+    const sample=renderToStaticMarkup(createElement(Report,{doc:samples[0],go:()=>{},language:'en'}));
+    expect(sample).toMatch(/type="date"[^>]*value="2027-10-31"/);
+    const pasted=analyzeText('1. Term. This Lease automatically renews for successive one-year terms unless written notice is received at least 90 days before expiration. The tenant pays rent monthly.','Pasted lease agreement');
+    const html=renderToStaticMarkup(createElement(Report,{doc:pasted,go:()=>{},language:'en'}));
     expect(html).toMatch(/type="date"[^>]*value=""/);
     expect(html).toContain('<button disabled="">Add reminder to calendar');
   });

@@ -14,7 +14,7 @@ export function verdictFor(score:number,flags:number,doc?:DocumentSample):Verdic
   if(flags===0)return{title:'No supported',accent:'patterns found.',summary:doc?reviewContext(doc):'No supported risk patterns were found. Unmatched wording still needs your review; this is not a complete legal review.'};
   if(score<30)return{title:'Read',accent:'carefully.',summary:`There ${flags===1?'is 1 clause':`are ${flags} clauses`} worth clarifying before you sign.`};
   if(score<55)return{title:'Proceed with',accent:'caution.',summary:`${flags} clauses could cost you money, rights, or control. Negotiate before you sign.`};
-  return{title:'Don’t sign this',accent:'as written.',summary:`${flags} clauses carry serious risk. Ask for changes or get advice before you sign.`};
+  return{title:'Negotiate before',accent:'you sign.',summary:`${flags} clauses carry serious risk. Ask for changes or get advice before you sign.`};
 }
 
 export const money=(amount:number)=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:amount%1?2:0}).format(amount);
@@ -95,7 +95,7 @@ export function exposureFor(doc:DocumentSample):Exposure{
     const baseAmounts=explicitBaseAmounts(text);
     const unassignedAmount=dollarValues(text).some(amount=>!fees.includes(amount)&&!baseAmounts.includes(amount));
     if(fees.length===1&&!unassignedAmount&&!/liability|cap(?:ped)? at|maximum liability/i.test(text)){
-      scenarios.push({clauseId:clause.id,title:/deposit/i.test(text)?'Deposit or fee at stake':'Stated additional fee',amount:fees[0],kind:'stated',assumptions:'This amount is explicitly attached to a named fee or deposit. Timing, applicability, future increases, and enforceability need checking. '});
+      scenarios.push({clauseId:clause.id,title:/deposit/i.test(text)?'Deposit or fee at stake':'Stated additional fee',amount:fees[0],kind:'stated',assumptions:'A fee named in this clause. Check when it is charged and whether it can change. '});
     }
   }
   const primary=(doc.type==='Lease'?scenarios.find(s=>s.kind==='exit'):undefined)||[...scenarios].sort((a,b)=>b.amount-a.amount)[0];

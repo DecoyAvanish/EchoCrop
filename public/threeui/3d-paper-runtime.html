@@ -12,7 +12,7 @@
   }).then(source=>{
     source=source
       .replace(/<link[^>]+(?:fonts\.googleapis\.com|fonts\.gstatic\.com)[^>]*>/g,'')
-      .replace('<style>','<style>@font-face{font-family:"JetBrains Mono";src:url("/threeui/fragment-mono.woff2") format("woff2");font-display:swap}')
+      .replace('<style>','<style>@font-face{font-family:"JetBrains Mono";src:url("/threeui/fragment-mono.woff2") format("woff2");font-display:swap}.paper-light #vig,.paper-light #dof{display:none}.paper-light #hint{color:#38445a;text-shadow:none}.paper-light #hint b{color:#14213a}')
       .replace(':root{ --bg:#08080a;',':root{ --bg:transparent;')
       .replace('html,body{height:100%;background:var(--bg);','html,body{height:100%;background:transparent;')
       .replace('background:rgba(8,8,10,.05)}','background:rgba(8,8,10,.025)}')
@@ -39,6 +39,8 @@ canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();window
       .replace('if(!REDUCED) requestAnimationFrame(frame);','frameId=0;if(!REDUCED&&sceneVisible&&!document.hidden)frameId=requestAnimationFrame(frame);')
       .replace('  frame();\n}',"  frame();\n  window.parent.postMessage({type:'threeui-paper-ready'},location.origin);\n}");
     document.open();document.write(source);document.close();
+    // Follow the page theme (same origin), so light mode gets a clean stage.
+    (()=>{try{const app=parent.document.querySelector('.app');if(!app)return;const sync=()=>document.documentElement.classList.toggle('paper-light',app.classList.contains('light'));sync();new MutationObserver(sync).observe(app,{attributes:true,attributeFilter:['class']})}catch{}})();
   }).catch(()=>{
     window.parent.postMessage({type:'threeui-paper-error'},location.origin);
   });

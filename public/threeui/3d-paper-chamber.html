@@ -5,6 +5,8 @@
 <style>
 @font-face{font-family:"JetBrains Mono";src:url('/threeui/fragment-mono.woff2') format('woff2');font-display:swap}
 :root{ --bg:transparent; --ink:#f2f2f0; --dim:rgba(242,242,240,.38); }
+/* Light theme: drop the dark vignette and blur so the sheet sits on paper. */
+.paper-light #vig,.paper-light #dof{display:none}.paper-light #hint{color:#38445a;text-shadow:none}.paper-light #hint b{color:#14213a}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;background:transparent;overflow:hidden;
   touch-action:none;overscroll-behavior:none}
@@ -700,4 +702,8 @@ window.__sheet = {group, mat, uni, renderer, scene, camera, mesh,
   hit:(x,y)=>inQuad(x,y),
   spin:(y)=>{ dragYaw=y; release=1e9; }};
 })();
+</script>
+<script>
+// Follow the page theme (same origin), so light mode gets a clean stage.
+(()=>{try{const app=parent.document.querySelector('.app');if(!app)return;const sync=()=>document.documentElement.classList.toggle('paper-light',app.classList.contains('light'));sync();new MutationObserver(sync).observe(app,{attributes:true,attributeFilter:['class']})}catch{}})();
 </script>

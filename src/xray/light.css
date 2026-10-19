@@ -1,0 +1,195 @@
+/* Light theme: paper and ink.
+   Dark mode reads the contract as x-ray film. Light mode is the same contract
+   on paper, marked up the way a careful reader would: highlighter on the traps,
+   red pen on the risks, green on what is fair. Loaded after signature.css. */
+
+.app.light{
+ --bg:#f4efe4;--paper:#fffcf5;--paper-2:#f8f3e8;--paper-3:#efe7d6;--paper-edge:#ddd2bd;--panel:#fffcf5;
+ --text:#14213a;--soft:#38445a;--muted:#56617a;--line:rgba(20,33,58,.16);--film-line:rgba(20,33,58,.14);
+ --cyan:#006b85;--red:#b8142e;--orange:#a24800;--yellow:#7f5b00;--green:#08704c;--tick:rgba(0,107,133,.55);
+ --hl-red:#ffc9cf;--hl-orange:#ffd9b8;--hl-yellow:#ffe98a;--hl-green:#c5f0d9;--hl-cyan:#c9eef6;
+ --sheet-shadow:0 1px 0 rgba(255,255,255,.8) inset,0 1px 2px rgba(60,45,20,.08),0 22px 44px -26px rgba(60,45,20,.38);
+ color-scheme:light;color:var(--text);
+ background:radial-gradient(1200px 600px at 85% -10%,rgba(0,107,133,.07),transparent 60%),radial-gradient(900px 500px at -10% 30%,rgba(184,20,46,.04),transparent 60%),var(--bg)
+}
+.app.light.contrast{--bg:#fffdf8;--paper:#fff;--paper-2:#fbf8f1;--text:#0a1222;--soft:#1d2738;--muted:#2c3647;--line:#4a5468;--film-line:#4a5468;--cyan:#00566b;--red:#97001c;--orange:#853a00;--yellow:#5f4400;--green:#005c3b}
+html.light-scroll,html.light-scroll body{background:#f4efe4}
+html.light-scroll::-webkit-scrollbar-track,html.light-scroll::-webkit-scrollbar-corner{background:#f4efe4;border-left-color:rgba(20,33,58,.1)}
+html.light-scroll::-webkit-scrollbar-thumb{border-color:#f4efe4;background:linear-gradient(180deg,#006b85,#14213a 55%,#b8142e)}
+/* Paper grain instead of scan lines. */
+.app.light:before{opacity:.5;mix-blend-mode:multiply;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .38 0 0 0 0 .25 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.app.light.contrast:before{display:none}
+.app.light ::selection{background:var(--hl-yellow);color:var(--text)}
+
+/* Chrome: nav, buttons, marks. */
+.app.light .nav{background:rgba(244,239,228,.88);border-bottom-color:var(--line)}
+.app.light .nav:before{background:linear-gradient(90deg,var(--cyan),var(--red));box-shadow:none}
+.app.light .logo-word{color:var(--text)}
+.app.light .primary{background:var(--text)!important;border-color:var(--text)!important;color:#fffcf5!important;box-shadow:0 1px 0 rgba(255,255,255,.2) inset,0 14px 28px -14px rgba(20,33,58,.55)!important;text-shadow:none}
+.app.light .primary:hover{background:var(--cyan)!important;border-color:var(--cyan)!important}
+.app.light .nav-scan{border-color:var(--text);color:var(--text)}
+.app.light .nav-scan:hover{background:var(--text);color:#fffcf5}
+.app.light .mark b{border-color:rgba(0,107,133,.4);background:var(--paper)}
+.app.light :is(h1,h2) em{color:var(--cyan)}
+.app.light mark{color:inherit}
+
+/* Home: film panels become sheets of paper with corner ticks in ink. */
+.app.light .home-v3 :is(.step-card,.case-file,.compare-source){background:
+ linear-gradient(var(--tick),var(--tick)) top left/14px 1px no-repeat,linear-gradient(var(--tick),var(--tick)) top left/1px 14px no-repeat,
+ linear-gradient(var(--tick),var(--tick)) top right/14px 1px no-repeat,linear-gradient(var(--tick),var(--tick)) top right/1px 14px no-repeat,
+ linear-gradient(var(--tick),var(--tick)) bottom left/14px 1px no-repeat,linear-gradient(var(--tick),var(--tick)) bottom left/1px 14px no-repeat,
+ linear-gradient(var(--tick),var(--tick)) bottom right/14px 1px no-repeat,linear-gradient(var(--tick),var(--tick)) bottom right/1px 14px no-repeat,
+ var(--paper);border-color:var(--film-line);box-shadow:var(--sheet-shadow);color:var(--text)}
+.app.light .home-v3 .hero-sample{background:var(--paper);border-color:rgba(20,33,58,.18);box-shadow:var(--sheet-shadow)}
+.app.light .home-v3 .hero-sample>span{border-left-color:rgba(20,33,58,.12)}
+.app.light .home-v3 .live-dot,.app.light .footer-status i{box-shadow:none}
+.app.light .home-v3 .v3-head-split>p,.app.light .home-v3 .step-body>p{color:var(--soft)}
+.app.light .home-v3 .step-body :is(h3,p){text-shadow:none}
+.app.light .home-v3 .step-numeral{background-image:linear-gradient(180deg,#0a8fae 0%,#006b85 55%,#004b5e 100%);filter:drop-shadow(0 10px 18px rgba(0,107,133,.18))}
+.app.light .home-v3 .steps li:nth-child(2) .step-numeral{background-image:linear-gradient(180deg,#e0354f 0%,#b8142e 55%,#7d0a1e 100%);filter:drop-shadow(0 10px 18px rgba(184,20,46,.16))}
+.app.light .home-v3 .steps li:nth-child(3) .step-numeral{background-image:linear-gradient(180deg,#14a272 0%,#08704c 55%,#044a32 100%);filter:drop-shadow(0 10px 18px rgba(8,112,76,.16))}
+.app.light .home-v3 .step-node{background:var(--paper);box-shadow:0 0 0 6px var(--bg)}
+.app.light .home-v3 :is(.step-demo,.case-scan,.device-log){background:var(--paper-2);border-color:var(--line);color:var(--text);box-shadow:none}
+.app.light .home-v3 .demo-clause mark,.app.light .home-v3 .case-file mark{background:linear-gradient(104deg,transparent .5%,var(--hl-red) 2%,var(--hl-red) 97%,transparent 99%);color:var(--text);text-shadow:none;border:0;box-shadow:none}
+.app.light .home-v3 .case-file:hover,.app.light .home-v3 .case-file:focus-within{box-shadow:0 1px 2px rgba(60,45,20,.1),0 30px 50px -26px rgba(60,45,20,.45)}
+.app.light .home-v3 .case-file:after{background:linear-gradient(180deg,transparent,rgba(0,107,133,.12));border-bottom-color:var(--cyan);box-shadow:none}
+.app.light .home-v3 .case-file .situation-story,.app.light .home-v3 .case-question{color:var(--soft)}
+.app.light .home-v3 .case-file button{background:transparent;color:var(--text);border-color:var(--line)}
+.app.light .home-v3 .case-file button:hover{background:var(--text);color:#fffcf5}
+.app.light .home-v3 .secondary-link{background:transparent;border-color:rgba(20,33,58,.3);color:var(--text)}
+.app.light .home-v3 .secondary-link:hover{border-color:var(--text);background:var(--text);color:#fffcf5}
+.app.light .home-v3 :is(.receipt-body,.redline,.cal){background:#fff;color:var(--text);box-shadow:var(--sheet-shadow);border-color:var(--line)}
+.app.light .home-v3 .redline-text del{color:var(--red);text-decoration-color:var(--red)}
+.app.light .home-v3 .redline-text ins{color:var(--green);text-decoration-color:var(--green)}
+.app.light .home-v3 .decoder-tabs{background:var(--paper);border-color:var(--line);box-shadow:var(--sheet-shadow)}
+.app.light .home-v3 .decoder-tabs button{color:var(--soft)}
+.app.light .home-v3 .decoder-tabs button.active{background:var(--text)!important;color:#fffcf5!important}
+.app.light .home-v3 .lens-toggle{background:var(--paper);color:var(--text);border-color:var(--line)}
+.app.light .home-v3 .lens-toggle[aria-pressed="true"]{background:var(--text);color:#fffcf5}
+.app.light .home-v3 .lens-base{color:var(--text)}
+/* The lens becomes a magnifying glass with a highlighter under it. */
+.app.light .home-v3 .lens-xray{color:var(--soft)!important;background:radial-gradient(circle at calc(var(--lx) + 14px) calc(var(--ly) + 14px),#fff6cf,#fbe7a6 70%)}
+.app.light .home-v3 .lens-xray mark{background:var(--hl-red);color:var(--text);box-shadow:inset 0 -2px 0 var(--red)}
+.app.light .home-v3 .lens-ring{border:2px solid var(--text);box-shadow:0 14px 30px -10px rgba(20,33,58,.45),inset 0 0 0 1px rgba(255,255,255,.7)}
+.app.light .home-v3 .lens-ring:before,.app.light .home-v3 .lens-ring:after{background:var(--text)}
+.app.light .home-v3 .lens-ring:before{box-shadow:0 calc(var(--lr)*2 + 4px) 0 var(--text)}
+.app.light .home-v3 .lens-ring:after{box-shadow:calc(var(--lr)*2 + 4px) 0 0 var(--text)}
+.app.light .home-v3 .lens-hint{color:var(--muted)}
+.app.light .home-v3 .compare-meaning{background:var(--paper-2);border-color:var(--line);color:var(--text)}
+.app.light .home-v3 .compare-meaning:before{background:var(--cyan);box-shadow:none}
+.app.light .home-v3 .device-boundary,.app.light .home-v3 .device-flow svg{background:var(--paper);border-color:var(--line)}
+.app.light .home-v3 .server-box{background:var(--paper-2);border-color:rgba(184,20,46,.4)}
+.app.light .home-v3 .device-log code{color:var(--soft)}
+
+/* The fine print wall, on paper: ink text, highlighter where it matters, a red-pen rule as the beam. */
+.app.light :is(.home-v3,.learn-v2) .final-cta.v3{background:linear-gradient(180deg,var(--bg),var(--paper-2) 50%,var(--bg))}
+.app.light :is(.home-v3,.learn-v2) .wall-text{color:rgba(20,33,58,.13)}
+.app.light :is(.home-v3,.learn-v2) .wall-lit{color:rgba(20,33,58,.55)}
+.app.light :is(.home-v3,.learn-v2) .wall-lit :is(.critical,.high){color:var(--text);text-shadow:none;background:var(--hl-red)}
+.app.light :is(.home-v3,.learn-v2) .wall-lit .moderate{color:var(--text);text-shadow:none;background:var(--hl-yellow)}
+.app.light :is(.home-v3,.learn-v2) .wall-lit .safe{color:var(--text);background:var(--hl-green)}
+.app.light :is(.home-v3,.learn-v2) .wall-beam{height:2px;background:linear-gradient(90deg,transparent,var(--red) 15%,var(--red) 85%,transparent);box-shadow:0 2px 10px rgba(184,20,46,.25)}
+.app.light :is(.home-v3,.learn-v2) .final-inner:before{background:radial-gradient(ellipse at center,rgba(248,243,232,.96) 42%,rgba(248,243,232,.75) 60%,transparent 76%)}
+.app.light :is(.home-v3,.learn-v2) .final-actions .secondary-link{background:var(--paper);border-color:rgba(20,33,58,.3);color:var(--text)}
+.app.light :is(.home-v3,.learn-v2) .final-stats dt{color:var(--soft)}
+
+/* Footer: the last page of the document. */
+.app.light footer.site-footer{background:linear-gradient(180deg,var(--paper-2),var(--paper-3));color:var(--soft)}
+.app.light footer.site-footer:before{opacity:.6}
+.app.light .footer-brand p{color:var(--text)}
+.app.light footer .footer-col :is(button,a){color:var(--soft)}
+.app.light footer .footer-col :is(button,a):hover{color:var(--cyan)}
+.app.light .footer-status{background:rgba(8,112,76,.07);border-color:rgba(8,112,76,.35)}
+.app.light .fm-letter{background:linear-gradient(180deg,color-mix(in srgb,var(--lc) calc(var(--p)*100%),#d5cab4) 0%,color-mix(in srgb,var(--lc) calc(var(--p)*90%),#c3b69c) 70%,color-mix(in srgb,var(--lc) calc(var(--p)*70%),#b3a586) 100%);-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 1px 0 rgba(255,255,255,.7)) drop-shadow(0 0 calc(var(--p)*20px) color-mix(in srgb,var(--lc) calc(var(--p)*45%),transparent))}
+.app.light .mark-beam{background:linear-gradient(180deg,transparent,var(--text) 25%,var(--cyan) 70%,transparent);box-shadow:none}
+.app.light .footer-bottom .to-top{border-color:rgba(20,33,58,.3)!important}
+
+/* Clause Lab: index cards, an exam sheet and a rubber stamp. */
+.app.light .learn-v2 .lab-paper{background:var(--paper);border-color:var(--line);box-shadow:var(--sheet-shadow)}
+.app.light .learn-v2 .lab-paper mark{background:linear-gradient(104deg,transparent .5%,var(--hl-red) 2%,var(--hl-red) 97%,transparent 99%);color:var(--text);text-decoration:none}
+.app.light .learn-v2 .term-legend{background:var(--paper);box-shadow:var(--sheet-shadow)}
+.app.light .learn-v2 button.term-card{background:repeating-linear-gradient(180deg,transparent 0 27px,rgba(0,107,133,.05) 27px 28px) 0 132px/100% calc(100% - 200px) no-repeat,var(--paper);border-color:var(--line);box-shadow:var(--sheet-shadow);color:var(--text)}
+.app.light .learn-v2 button.term-card:is(:hover,:focus-visible){border-color:color-mix(in srgb,var(--lv) 45%,transparent);box-shadow:0 1px 2px rgba(60,45,20,.1),0 34px 60px -30px color-mix(in srgb,var(--lv) 45%,rgba(60,45,20,.6))}
+.app.light .learn-v2 .term-card:before{background:radial-gradient(460px circle at var(--mx) var(--my),color-mix(in srgb,var(--lv) 8%,transparent),transparent 62%)}
+.app.light .learn-v2 .term-card .term-top:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--lv)}
+.app.light .learn-v2 .term-icon{background:color-mix(in srgb,var(--lv) 8%,var(--paper));box-shadow:none}
+.app.light .learn-v2 .term-clause{color:var(--muted)}
+.app.light .learn-v2 .term-clause mark{background-image:linear-gradient(var(--hl,var(--hl-yellow)),var(--hl,var(--hl-yellow)))}
+.app.light .learn-v2 .term-card:is(:hover,:focus-visible) .term-clause{color:var(--text)}
+.app.light .learn-v2 .term-card:is(:hover,:focus-visible) .term-clause mark{color:var(--text)}
+.app.light .learn-v2 .lv-critical,.app.light .learn-v2 .lv-high{--hl:var(--hl-red)}
+.app.light .learn-v2 .lv-moderate{--hl:var(--hl-yellow)}
+.app.light .learn-v2 .lv-safe{--hl:var(--hl-green)}
+.app.light .learn-v2 .term-open{border-top-color:var(--line)}
+.app.light .learn-v2 .term-card:is(:hover,:focus-visible) .term-open b{color:#fffcf5}
+.app.light .learn-v2 .term-scan{background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--lv) 8%,transparent))}
+@media(hover:none){.app.light .learn-v2 .term-clause{color:var(--text)}.app.light .learn-v2 .term-clause mark{color:var(--text)}}
+.app.light .learn-v2 .specimen-dialog{background:var(--paper);color:var(--text);box-shadow:0 40px 100px -30px rgba(40,30,10,.5)}
+.app.light .learn-v2 .specimen-dialog blockquote{background:var(--paper-2);color:var(--text)}
+.app.light .learn-v2 .specimen-dialog blockquote mark{background:var(--hl,var(--hl-yellow));color:var(--text)}
+.app.light .learn-v2 .specimen-dialog.lv-critical,.app.light .learn-v2 .specimen-dialog.lv-high{--hl:var(--hl-red)}
+.app.light .learn-v2 .specimen-dialog.lv-moderate{--hl:var(--hl-yellow)}
+.app.light .learn-v2 .specimen-dialog.lv-safe{--hl:var(--hl-green)}
+.app.light .learn-v2 .trap-quiz.v3 .quiz-intro h2 em{text-shadow:none}
+.app.light .learn-v2 .track-node{background:var(--paper)}
+.app.light .learn-v2 .quiz-track .current .track-node{box-shadow:0 0 0 6px rgba(0,107,133,.1)}
+.app.light .learn-v2 .quiz-track .right .track-node{color:#fff;box-shadow:none}
+.app.light .learn-v2 .quiz-track .wrong .track-node{background:rgba(184,20,46,.08)}
+.app.light .learn-v2 .quiz-score b{text-shadow:none}
+/* The quiz card is an exam sheet: ruled, with a red margin line. */
+.app.light .learn-v2 .trap-quiz.v3 .quiz-card{background:linear-gradient(90deg,transparent 22px,rgba(184,20,46,.35) 22px 23px,transparent 23px),var(--paper);border-color:var(--line);box-shadow:var(--sheet-shadow)}
+.app.light .learn-v2 .trap-quiz.v3 .quiz-card:before{opacity:.9}
+.app.light .learn-v2 .quiz-beam{background:linear-gradient(180deg,transparent,rgba(0,107,133,.08));border-bottom-color:var(--cyan);box-shadow:none}
+.app.light .learn-v2 .quiz-card.is-right .quiz-beam{background:linear-gradient(180deg,transparent,rgba(8,112,76,.08));box-shadow:none}
+.app.light .learn-v2 .quiz-card.is-wrong .quiz-beam{background:linear-gradient(180deg,transparent,rgba(184,20,46,.07));box-shadow:none}
+.app.light .learn-v2 .quiz-card-head span{background:var(--paper-2)}
+.app.light .learn-v2 .trap-quiz.v3 fieldset label{background:#fff;border-color:var(--line);color:var(--text)}
+.app.light .learn-v2 .trap-quiz.v3 fieldset:not(:disabled) label:hover{border-color:var(--cyan)}
+.app.light .learn-v2 .trap-quiz.v3 label.selected{background:var(--hl-cyan);box-shadow:inset 3px 0 0 var(--cyan)}
+.app.light .learn-v2 .trap-quiz.v3 label.selected .quiz-option-letter{color:#fff}
+.app.light .learn-v2 .trap-quiz.v3 label.correct{background:linear-gradient(104deg,transparent .5%,var(--hl-red) 2%,var(--hl-red) 98%,transparent 99.5%),#fff;box-shadow:inset 3px 0 0 var(--red)}
+.app.light .learn-v2 .trap-quiz.v3 label.incorrect{background:transparent}
+.app.light .learn-v2 .trap-quiz.v3 label .trap-stamp{background:transparent;color:var(--red);border:2px solid var(--red);box-shadow:none;letter-spacing:.2em}
+.app.light .learn-v2 .trap-quiz.v3 label .pick-stamp{background:var(--paper)}
+.app.light .learn-v2 .trap-quiz.v3 .quiz-feedback{background:var(--paper-2)}
+.app.light .learn-v2 .trap-quiz.v3 .is-right .quiz-feedback{background:rgba(8,112,76,.06)}
+.app.light .learn-v2 .trap-quiz.v3 .is-wrong .quiz-feedback{background:rgba(184,20,46,.05)}
+.app.light .learn-v2 .trap-quiz.v3 .quiz-tip span{background:var(--hl-cyan)}
+.app.light .learn-v2 .quiz-recap li{background:#fff}
+.app.light .learn-v2 .quiz-recap li.right>span{color:#fff}
+.app.light .learn-v2 .quiz-done h3 b{text-shadow:none}
+.app.light .learn-v2 .secondary-link{background:var(--paper);border-color:rgba(20,33,58,.3);color:var(--text)}
+.app.light .learn-v2 .secondary-link:hover{background:var(--text);color:#fffcf5}
+
+/* WebGL fields render light-on-black for dark mode. In light mode they are inverted and multiplied,
+   so the particles print onto the paper as ink dots and the black disappears. */
+.app.light :is(.hero-orbital,.learn-orbital-field,.chamber-orbital){filter:invert(1) hue-rotate(180deg) saturate(1.3)!important;mix-blend-mode:multiply!important;opacity:.55!important}
+.app.light .structure-dot-field{opacity:.22;mix-blend-mode:multiply;background:none}
+.app.light .hero:before{background:linear-gradient(90deg,var(--bg) 0 40%,color-mix(in srgb,var(--bg) 82%,transparent) 54%,transparent 74%)!important}
+.app.light .learn{background:radial-gradient(circle at 50% 28%,rgba(0,107,133,.06),transparent 46%),transparent}
+.app.light .paper-poster img{filter:drop-shadow(0 30px 50px rgba(60,45,20,.28))}
+.app.light .learn-v2 .trap-quiz.v3 label.incorrect .quiz-option-letter{background:transparent;border-color:var(--muted);color:var(--muted)}
+.app.light .actions button:not(.primary),.app.light .final-actions button:not(.primary){background:var(--paper)!important;border-color:rgba(20,33,58,.28)!important;color:var(--text)!important}
+.app.light .actions button:not(.primary):hover{background:var(--text)!important;color:#fffcf5!important}
+.app.light .modal{background:rgba(60,45,20,.28)}
+.app.light .access{background:var(--paper);border-left-color:var(--text);box-shadow:-30px 0 80px -30px rgba(60,45,20,.45)}
+.app.light .access .x{color:var(--text)}
+.app.light .setting i{background:var(--paper-2);border-color:rgba(20,33,58,.3)}
+.app.light .setting input:checked~i{background:color-mix(in srgb,var(--cyan) 14%,var(--paper));border-color:var(--cyan)}
+.app.light .language select,.app.light select{background:var(--paper);color:var(--text);border-color:rgba(20,33,58,.3)}
+.app.light .nav nav#main-nav.open{background:var(--paper);box-shadow:0 24px 40px -24px rgba(60,45,20,.4)}
+.app.light .nav-menu{background:var(--paper);color:var(--text);border-color:rgba(20,33,58,.25)}
+.app.light .home-v3 .device-label{background:var(--paper);border-color:rgba(0,107,133,.45)}
+.app.light .next-tabs button[aria-selected=true]{background:var(--text);color:#fffcf5}
+.app.light .next-tabs button[aria-selected=true] span{color:#fffcf5;opacity:.8}
+.app.light .page-failure.v3 .fail-code{background-image:linear-gradient(180deg,#0a8fae 0%,#006b85 55%,#004b5e 100%);filter:drop-shadow(0 14px 22px rgba(0,107,133,.18))}
+.app.light .page-failure.v3 .secondary-link{background:var(--paper);border-color:rgba(20,33,58,.28)}
+.app.light .fail-doc{background:var(--paper);border-color:var(--line);box-shadow:var(--sheet-shadow)}
+.app.light .fail-doc mark{background:var(--hl-red);color:var(--text)}
+.app.light .fail-doc i{background:rgba(20,33,58,.1)}
+.app.light .fail-beam{background:linear-gradient(180deg,transparent,rgba(184,20,46,.06));border-bottom-color:var(--red);box-shadow:none}
+/* Paper panels keep their full border; the chamfered clip cut it at two corners. */
+.app.light :is(.intake-console,.breakdown,.draft,.access){clip-path:none!important;border-radius:6px}
+.app.light .gauge-ring{filter:none}
+.app.light .gauge-ring{background:conic-gradient(var(--band) var(--score),rgba(20,33,58,.1) 0)}
+.app.light .report-v2 .report-head .gauge.large{background:var(--paper);border-color:rgba(20,33,58,.12);box-shadow:var(--sheet-shadow)}

@@ -75,6 +75,7 @@ export default function App(){
   // A loaded text workflow can then continue without a network connection.
   useEffect(()=>{let cancelled=false;const timer=setTimeout(()=>{void Promise.all([import('./Intake'),import('./Scan'),import('./Report'),import('./Learn')]).then(()=>{if(!cancelled)setOfflineReady(true)}).catch(()=>{})},6500);return()=>{cancelled=true;clearTimeout(timer)}},[]);
   useEffect(()=>{try{localStorage.setItem('xray-settings',JSON.stringify(settings))}catch{}},[settings]);
+  useEffect(()=>{document.documentElement.classList.toggle('light-scroll',settings.light);document.documentElement.style.colorScheme=settings.light?'light':'dark';document.querySelector('meta[name=theme-color]')?.setAttribute('content',settings.light?'#f4efe4':'#05070D')},[settings.light]);
   useEffect(()=>{const os=matchMedia('(prefers-reduced-motion: reduce)');const change=()=>setSettings(previous=>({...previous,reduced:os.matches}));os.addEventListener('change',change);return()=>os.removeEventListener('change',change)},[]);
   useEffect(()=>{const sync=()=>{const next=currentRoute();setRoute(next);if(next.missing)setNotice('That document is no longer in this tab. Choose it again to continue.')};addEventListener('hashchange',sync);return()=>removeEventListener('hashchange',sync)},[]);
   useEffect(()=>{
@@ -103,7 +104,7 @@ export default function App(){
       <Nav page={route.page} go={go} access={()=>setAccess(true)}/>
       {notice&&<div className="session-notice" role="status"><span>{notice}</span><button onClick={()=>setNotice('')} aria-label="Dismiss notice">×</button></div>}
       <PageBoundary key={route.page}><Suspense fallback={<main id="main" className="route-loading" tabIndex={-1}><span className="loading-line"/><p role="status">Opening your workspace…</p></main>}>
-        {route.page==='not-found'&&<main id="main" className="page-failure" tabIndex={-1}><p className="kicker">Page not found</p><h1>This page isn’t here.</h1><p>Head home or start a document scan.</p><button className="secondary" onClick={()=>go('home')}>Go home</button><button className="primary" onClick={()=>go('intake')}>Scan a document →</button></main>}
+        {route.page==='not-found'&&<main id="main" className="page-failure v3" tabIndex={-1}><div className="fail-copy"><p className="kicker">Page not found</p><p className="fail-code" aria-hidden="true">404</p><h1>This clause isn’t<br/><em>in the contract.</em></h1><p>The page you asked for doesn’t exist. Nothing was uploaded and nothing was lost.</p><div className="fail-actions"><button className="primary" onClick={()=>go('intake')}>Scan a document <span aria-hidden="true">→</span></button><button className="secondary-link" onClick={()=>go('home')}>Go home</button></div></div><figure className="fail-doc" aria-hidden="true"><small>§ 404 · Missing clause</small><p>The page at this address shall be provided <mark>unless it does not exist.</mark></p><i/><i className="short"/><i/><i className="mid"/><span className="fail-beam"/></figure></main>}
         {route.page==='home'&&<Home go={go} reduced={settings.reduced} offlineReady={offlineReady}/>}
         {route.page==='intake'&&<Intake go={go} onDoc={document=>go('scan',document)}/>}
         {route.page==='scan'&&<Scan key={documentKey(route.doc)} doc={route.doc} go={go} settings={settings} onClear={onClear}/>}

@@ -3,8 +3,8 @@ import HeroPaper from './HeroPaper';
 import {clauseTitle,isFlagged,scoreFor,severityLabel,severitySymbol,type Clause,type DocumentSample,type Severity} from './data';
 import {localizeClause} from './localize';
 import {pad,reviewContext} from './actions';
-import {riskBand,scoringExplanation} from './scoring';
-import {CopyButton} from './ui';
+import {scoringExplanation} from './scoring';
+import {CopyButton,Gauge} from './ui';
 import {documentKey,readSession,writeSession} from './session';
 import type {Go,Settings} from './types';
 
@@ -70,7 +70,7 @@ export default function Scan({doc,go,settings,onClear}:{doc:DocumentSample;go:Go
   const review=()=>setReviewed(previous=>previous.includes(selected.id)?previous.filter(id=>id!==selected.id):[...previous,selected.id]);
   const inspectorProps={clause:selected,index:active,total:doc.clauses.length,score,language:settings.language,reviewed:reviewed.includes(selected.id),onReview:review};
   return <main id="main" tabIndex={-1} className="chamber">
-    <div className="chamber-top"><button onClick={()=>go('intake')}>← New scan</button><div><span>{doc.type.toUpperCase()}</span><h1 className="doc-title">{doc.name}</h1></div><div className="scan-state" aria-hidden="true">{progress<100?'Preparing document':'Scanned locally'}</div><span className="compact-score" role="img" aria-label={progress<100?'Risk score pending':`Risk score ${score} out of 100. ${riskBand(score)}`} >{progress<100?' -  · Checking':`${score}/100 · ${riskBand(score)}`}</span><button onClick={()=>go('report')}>Open report →</button></div>
+    <div className="chamber-top"><button onClick={()=>go('intake')}>← New scan</button><div><span>{doc.type.toUpperCase()}</span><h1 className="doc-title">{doc.name}</h1></div><div className="scan-state" aria-hidden="true">{progress<100?'Preparing document':'Scanned locally'}</div><div className="scan-score"><Gauge score={progress<100?0:score} busy={progress<100}/></div><button onClick={()=>go('report')}>Open report →</button></div>
     <div className="risk-strip" role="group" aria-label="Biggest risks"><strong>BIGGEST RISKS</strong><span className="critical">⬢ {count('critical')} CRITICAL</span><span className="high">◆ {count('high')} HIGH</span><span className="moderate">▲ {count('moderate')} MODERATE</span><small>{!flagged?reviewContext(doc):''}</small></div>
     <div className="chamber-body">
       <aside className={`clause-rail ${flat?'reading-index':''}`}  aria-label="Clause index"><div className="rail-title"><span>{doc.clauses.length} CLAUSES</span><b>{reviewed.filter(id=>doc.clauses.some(c=>c.id===id&&isFlagged(c))).length} of {flagged} flagged reviewed</b></div><div className="filters" role="group" aria-label="Filter clauses">{(['all','flagged','neutral'] as const).map(value=><button key={value} aria-pressed={filter===value} className={filter===value?'active':''} onClick={()=>setFilter(value)}>{value==='neutral'?'Not flagged':value==='all'?'All':'Flagged'}</button>)}</div><div className="clause-list">{visible.map(clause=>{const index=doc.clauses.indexOf(clause);return <button key={clause.id} className={`${clause.severity} ${active===index?'active':''}`} aria-current={active===index?'true':undefined} onClick={()=>selectClause(index)}><span aria-hidden="true">{reviewed.includes(clause.id)?'✓':severitySymbol[clause.severity]}</span><div><b>{clauseTitle(clause)}</b><small>{severityLabel[clause.severity]}</small></div><em>{pad(index+1)}</em></button>})}{!visible.length&&<p className="empty-filter">No {filter==='neutral'?'not flagged':filter} clauses in this agreement. Try All to see every passage.</p>}</div><button className="clear-session" onClick={onClear}>Clear this document</button></aside>

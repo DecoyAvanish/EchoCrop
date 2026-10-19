@@ -50,7 +50,7 @@ function ReportContent({doc,go,language}:ReportProps){
   const party=counterpartyFor(doc.type),exposure=useMemo(()=>exposureFor(doc),[doc]);
   const counts=(severity:Severity)=>doc.clauses.filter(x=>x.severity===severity).length;
   const deadlines=doc.clauses.map(clause=>({clause,notice:noticeFor(clause)})).filter((x):x is {clause:Clause;notice:{days:number;label:string}}=>x.notice!==null);
-  const initialDraft=risks.length?`Hi  -  thank you for sending ${doc.name}. Before I sign, I’d like to discuss these terms:\n\n${risks.map(x=>`• ${clauseTitle(x)}: ${x.askInstead}`).join('\n\n')}\n\nCould you send a revised copy reflecting any changes we agree to? Thank you.`:`Hi  -  thank you for sending ${doc.name}. I have reviewed the highlighted information and will check the full agreement before deciding whether to sign. Please confirm the price, renewal date, and cancellation process in writing. Thank you.`;
+  const initialDraft=risks.length?`Hi, thank you for sending ${(doc.name.endsWith('.')?doc.name.slice(0,-1):doc.name)}. Before I sign, I’d like to discuss these terms:\n\n${risks.map(x=>`• ${clauseTitle(x)}: ${x.askInstead}`).join('\n\n')}\n\nCould you send a revised copy reflecting any changes we agree to? Thank you.`:`Hi, thank you for sending ${(doc.name.endsWith('.')?doc.name.slice(0,-1):doc.name)}. I have reviewed the highlighted information and will check the full agreement before deciding whether to sign. Please confirm the price, renewal date, and cancellation process in writing. Thank you.`;
   const key=`report:${documentKey(doc)}`;
   const [saved]=useState(()=>readSession<{draft:string;done:string[]}>(key,{draft:initialDraft,done:[]}));
   const [draft,setDraft]=useState(saved.draft),[done,setDone]=useState<string[]>(saved.done);

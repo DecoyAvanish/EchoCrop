@@ -25,7 +25,7 @@ Implementation status for the supplied checklist. Testing evidence is in QA.md.
 | X13–X18 | Inspector scroll-edge shadow, no disconnected risk-bar instruction, neutral scanned-locally label, no decorative laser/rail/node clutter, internal report arrow. |
 | R1–R5 | Band-aligned verdict and shared scale/method link; clean document subtitle; one report gauge and counts-only sidebar; standard actions. |
 | R6–R13 | Deposit priced once: $9,800. No duplicate headline scenario; source-based calculation; lease renewal stays in deadlines, not money; concise caption and specific negotiation request/day-ten scenario. |
-| E3–E5 | Judge-facing results table, consistent regression count, poster-first deferred graphics retained; fresh production audit required after final deployment. |
+| E3–E5 | Judge-facing results table, consistent regression count, poster-first deferred graphics retained; fresh production home audit: performance 92, accessibility 100, TBT 40ms. |
 | E7 | Current scan, sheet and report captured at 390px; linked from QA.md. |
 
 ## Requires human evidence

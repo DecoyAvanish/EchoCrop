@@ -7,7 +7,7 @@ export function createOrbitalSphereRenderer(canvas: HTMLCanvasElement, getOption
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 1.5));
   const networkGroup = new THREE.Group(); scene.add(networkGroup);
   const radius = 2.2, particleCount = 15000;
   const positions = new Float32Array(particleCount * 3), colors = new Float32Array(particleCount * 3);
@@ -47,10 +47,11 @@ export function createOrbitalSphereRenderer(canvas: HTMLCanvasElement, getOption
       else { networkGroup.position.set(0, -1, -3); responsiveScale = 1; camera.position.z = 6.5; }
       networkGroup.scale.setScalar(responsiveScale * options.scale);
     },
-    render() {
+    render(delta=1/60) {
       const options = getOptions(); particleMaterial.size = options.particleSize; particleMaterial.opacity = options.particleOpacity; orbitMaterial.opacity = options.orbitOpacity; haloMaterials.forEach((material) => material.opacity = options.haloOpacity); networkGroup.scale.setScalar(responsiveScale * options.scale);
-      networkGroup.rotation.y += 0.0008 * options.speed; networkGroup.rotation.x += 0.0003 * options.speed;
-      networkGroup.children.forEach((child: THREE.Object3D, index: number) => { if (child.type === "Line") child.rotation.z += 0.0004 * options.speed * (index % 2 === 0 ? 1 : -1); }); renderer.render(scene, camera);
+      const step=Math.max(0,Math.min(delta,.05))*60;
+      networkGroup.rotation.y += 0.0008 * options.speed*step; networkGroup.rotation.x += 0.0003 * options.speed*step;
+      networkGroup.children.forEach((child: THREE.Object3D, index: number) => { if (child.type === "Line") child.rotation.z += 0.0004 * options.speed*step * (index % 2 === 0 ? 1 : -1); }); renderer.render(scene, camera);
     },
     dispose() { particleGeometry.dispose(); particleMaterial.dispose(); orbitMaterial.dispose(); orbitGeometries.forEach((item) => item.dispose()); nodeGeometries.forEach((item) => item.dispose()); nodeMaterials.forEach((item) => item.dispose()); renderer.dispose(); },
   };

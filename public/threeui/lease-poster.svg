@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1656" fill="none">
+  <defs>
+    <linearGradient id="paper" x2="1200" y2="1656" gradientUnits="userSpaceOnUse"><stop stop-color="#f7f5ef"/><stop offset=".5" stop-color="#ecebe6"/><stop offset="1" stop-color="#d8d9d5"/></linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(935 75) rotate(155) scale(570 380)" gradientUnits="userSpaceOnUse"><stop stop-color="#38e1ff" stop-opacity=".17"/><stop offset="1" stop-color="#38e1ff" stop-opacity="0"/></radialGradient>
+    <clipPath id="edge"><rect width="1200" height="1656" rx="26"/></clipPath>
+  </defs>
+  <g clip-path="url(#edge)">
+    <rect width="1200" height="1656" fill="url(#paper)"/>
+    <path fill="#102334" d="M0 0h1200v272H0z"/><path fill="url(#glow)" d="M0 0h1200v330H0z"/>
+    <g stroke="#38e1ff" stroke-width="3"><path d="M122 70H70v52m1008-52h52v52m0 1412v52h-52M70 1534v52h52"/></g>
+    <g font-family="Arial,sans-serif" fill="#273846">
+      <text x="96" y="105" fill="#38e1ff" font-family="monospace" font-size="18" font-weight="700" letter-spacing="4">FINE PRINT X-RAY // LOCAL ANALYSIS</text>
+      <text x="96" y="181" fill="#f3f7fa" font-size="61" font-weight="700" letter-spacing="-2">RESIDENTIAL</text><text x="96" y="240" fill="#f3f7fa" font-size="61" font-weight="700" letter-spacing="-2">LEASE AGREEMENT</text>
+      <g font-family="monospace" font-size="17" font-weight="700" letter-spacing="3" fill="#172b3c"><text x="96" y="342">PARTIES &amp; PREMISES</text><text x="96" y="600">TERM &amp; PAYMENT</text><text x="96" y="1156">ADDITIONAL TERMS</text></g>
+      <g stroke="#102334" stroke-opacity=".18" stroke-width="1.4"><path d="M96 363h1008M96 621h1008M96 1177h1008"/></g>
+      <g font-size="22"><text x="96" y="412">Landlord</text><text x="355" y="412">Northstar Property Group LLC</text><text x="96" y="462">Tenant</text><text x="355" y="462">Jordan Rivera</text><text x="96" y="512">Premises</text><text x="355" y="512">47 Mercer Street, Apartment 4B</text><text x="96" y="671">Term</text><text x="355" y="671">November 01, 2026 — October 31, 2027</text><text x="96" y="721">Monthly rent</text><text x="355" y="721">$2,450 due on the first calendar day</text><text x="96" y="771">Security deposit</text><text x="355" y="771">$2,450 held subject to itemized deductions</text></g>
+      <rect x="78" y="842" width="1044" height="235" rx="13" fill="#ff3d5a" fill-opacity=".09" stroke="#d72e4b" stroke-width="3"/>
+      <text x="106" y="886" fill="#c62342" font-family="monospace" font-size="16" font-weight="700" letter-spacing="2">CRITICAL FLAG // MANDATORY ARBITRATION</text>
+      <g font-size="23"><text x="106" y="938">Any dispute arising under this Lease shall be resolved by binding arbitration.</text><text x="106" y="972">Tenant waives the right to trial by jury and participation in any class action.</text></g>
+      <text x="106" y="1043" fill="#c62342" font-family="monospace" font-size="17" font-weight="700">YOU GIVE UP THE RIGHT TO SUE IN COURT.</text>
+      <g font-size="19" fill="#34444f"><text x="96" y="1230">01 Entry permitted with twelve hours written notice.</text><text x="96" y="1276">02 Late charge: $125 plus $25 for each additional day.</text><text x="96" y="1322">03 Early termination: three months rent and deposit forfeiture.</text><text x="96" y="1368">04 Lease renews for one year unless notice is given 90 days prior.</text></g>
+      <rect x="78" y="1417" width="1044" height="88" rx="10" fill="#38e1ff" fill-opacity=".12"/>
+      <text x="106" y="1453" fill="#0d6b82" font-family="monospace" font-size="16" font-weight="700">SCAN SUMMARY</text><text x="310" y="1453" fill="#0d6b82" font-family="monospace" font-size="18">05 NEED ATTENTION · 01 CRITICAL · LOCAL ANALYSIS</text>
+      <g stroke="#102334" stroke-opacity=".22"><path d="M96 1550h394m220 0h394"/></g><g fill="#52616b" font-size="14" font-family="monospace"><text x="96" y="1580">TENANT SIGNATURE</text><text x="710" y="1580">DATE</text></g>
+    </g>
+  </g>
+</svg>

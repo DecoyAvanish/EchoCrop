@@ -10,6 +10,11 @@ type SceneProps={
   clauses?:Clause[];
   onClauseSelect?:(index:number)=>void;
   zoom?:number;
+  pageNumber?:number;
+  pageCount?:number;
+  totalClauses?:number;
+  clauseOffset?:number;
+  documentTitle?:string;
 };
 
 export default function HeroPaper(props:SceneProps){
@@ -26,7 +31,7 @@ export default function HeroPaper(props:SceneProps){
       haloOpacity={0.30}
       className="chamber-orbital"
     />
-    <ThreeDPaperRuntime className="chamber-paper" mode="chamber" clauses={props.clauses} reduced={props.reduced} onClauseSelect={props.onClauseSelect} zoom={props.zoom} focusIndex={(props.zoom??1)>1?props.active:-1}/>
+    <ThreeDPaperRuntime className="chamber-paper" mode="chamber" clauses={props.clauses} reduced={props.reduced} onClauseSelect={props.onClauseSelect} zoom={props.zoom} focusIndex={(props.zoom??1)>1?props.active:-1} pageNumber={props.pageNumber} pageCount={props.pageCount} totalClauses={props.totalClauses} clauseOffset={props.clauseOffset} documentTitle={props.documentTitle}/>
   </div>;
   return <div className="hero-visual">
     <StructureFlowCollection variant="orbital-sphere" speed={speed} particleSize={0.018} particleOpacity={0.92} orbitOpacity={0.38} hue={0} scale={1.38} haloOpacity={0.34} className="hero-orbital"/>

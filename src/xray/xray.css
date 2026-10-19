@@ -184,7 +184,7 @@ html::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,rgba(112,2
 html::-webkit-scrollbar-corner{background:#03070c}
 
 @media (hover:hover) and (pointer:fine){
-  html:not(.reduced-motion):not(:has(.app.accessibility-active)),html:not(.reduced-motion):not(:has(.app.accessibility-active)) body,html:not(.reduced-motion):not(:has(.app.accessibility-active)) body *{cursor:none!important}
+  html,body{cursor:auto}
   .focus-reticle{width:38px;height:38px;background:radial-gradient(circle,rgba(220,250,255,.92) 0 1px,rgba(56,225,255,.14) 2px,transparent 7px);border-color:rgba(56,225,255,.34);box-shadow:0 0 18px rgba(56,225,255,.12),inset 0 0 13px rgba(56,225,255,.06);transition:width .18s cubic-bezier(.2,.8,.2,1),height .18s cubic-bezier(.2,.8,.2,1),border-color .18s,box-shadow .18s}
   .focus-reticle:before{left:14px;top:18px}.focus-reticle:after{left:18px;top:14px}
   body:has(:is(a,button,select,input,textarea,summary,label):hover) .focus-reticle{width:54px;height:54px;border-color:rgba(56,225,255,.72);box-shadow:0 0 28px rgba(56,225,255,.3),inset 0 0 20px rgba(56,225,255,.1)}

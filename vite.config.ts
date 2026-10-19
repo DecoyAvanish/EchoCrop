@@ -4,7 +4,16 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    include: ['react', 'react-dom', 'three', 'three128'],
+    include: ['react', 'react-dom', 'three128'],
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if(id.includes('/node_modules/')&&/\/(three128|three)\//.test(id))return 'three-runtime';
+        },
+      },
+    },
   },
   server: {
     watch: {

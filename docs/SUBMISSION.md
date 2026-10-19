@@ -1,8 +1,8 @@
-# Fine Print X-Ray
+# Undersign
 
 Live: https://hyperbloom-two.vercel.app/
 
-Fine Print X-Ray helps people understand the agreement in front of them before
+Undersign helps people understand the agreement in front of them before
 signing. A renter, freelancer, or subscriber can upload a PDF or DOCX, paste text,
 or explore four fictional sample agreements. Parsing and analysis happen locally;
 private document text stays in the current tab.

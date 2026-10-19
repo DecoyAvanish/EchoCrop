@@ -1,4 +1,4 @@
-# Fine Print X-Ray project guidance
+# Undersign project guidance
 
 Read `docs/PRODUCT_STANDARD.md` before changing product behavior or design. The user's October 2026 review sets the continuing priorities: trustworthy real-input analysis, a complete phone flow, accessible interactions, actionable reports, and calm visual polish.
 

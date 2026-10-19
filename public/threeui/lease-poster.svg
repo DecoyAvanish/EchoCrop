@@ -9,7 +9,7 @@
     <path fill="#102334" d="M0 0h1200v272H0z"/><path fill="url(#glow)" d="M0 0h1200v330H0z"/>
     <g stroke="#38e1ff" stroke-width="3"><path d="M122 70H70v52m1008-52h52v52m0 1412v52h-52M70 1534v52h52"/></g>
     <g font-family="Arial,sans-serif" fill="#273846">
-      <text x="96" y="105" fill="#38e1ff" font-family="monospace" font-size="18" font-weight="700" letter-spacing="4">FINE PRINT X-RAY · LOCAL ANALYSIS</text>
+      <text x="96" y="105" fill="#38e1ff" font-family="monospace" font-size="18" font-weight="700" letter-spacing="4">UNDERSIGN · LOCAL ANALYSIS</text>
       <text x="96" y="181" fill="#f3f7fa" font-size="61" font-weight="700" letter-spacing="-2">RESIDENTIAL</text><text x="96" y="240" fill="#f3f7fa" font-size="61" font-weight="700" letter-spacing="-2">LEASE AGREEMENT</text>
       <g font-family="monospace" font-size="17" font-weight="700" letter-spacing="3" fill="#172b3c"><text x="96" y="342">PARTIES &amp; PREMISES</text><text x="96" y="600">TERM &amp; PAYMENT</text><text x="96" y="1156">ADDITIONAL TERMS</text></g>
       <g stroke="#102334" stroke-opacity=".18" stroke-width="1.4"><path d="M96 363h1008M96 621h1008M96 1177h1008"/></g>

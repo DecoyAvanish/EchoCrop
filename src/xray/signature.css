@@ -433,20 +433,16 @@ html.light-scroll{scrollbar-color:#007f9e #e8f0f5}
 .app footer .footer-col :is(button,a){display:inline-flex;align-items:center;min-height:36px;height:auto;padding:4px 0!important;background:none!important;border:0!important;box-shadow:none!important;clip-path:none!important;color:var(--soft);font:400 15px/1.4 Lexend,Arial,sans-serif!important;text-decoration:none;text-align:left;transition:color .2s,transform .2s}
 .app footer .footer-col :is(button,a):hover{color:var(--cyan);transform:translateX(3px)}
 .app footer .footer-col>span{min-height:36px;display:inline-flex;align-items:center;font:400 15px/1.4 Lexend,Arial,sans-serif;color:var(--muted)}
-.app .footer-mark{position:relative;margin:72px 0 18px;font:200 clamp(40px,11vw,190px)/.9 Lexend,Arial,sans-serif;letter-spacing:-.055em;white-space:nowrap;user-select:none;pointer-events:none}
-.app .footer-mark span{display:block}
-.app .mark-outline{color:transparent;-webkit-text-stroke:1px rgba(56,225,255,.3)}
-.app .mark-lit{position:absolute;inset:0;color:transparent;background:linear-gradient(90deg,#38e1ff,#7debff 30%,#ff3d5a 60%,#3cf0a8);-webkit-background-clip:text;background-clip:text;-webkit-mask:linear-gradient(90deg,transparent,#000 40%,#000 60%,transparent) -50% 0/30% 100% no-repeat;mask:linear-gradient(90deg,transparent,#000 40%,#000 60%,transparent) -50% 0/30% 100% no-repeat;animation:footer-scan 8s linear infinite}
-@keyframes footer-scan{from{-webkit-mask-position:-50% 0;mask-position:-50% 0}to{-webkit-mask-position:150% 0;mask-position:150% 0}}
-.app .mark-beam{position:absolute;top:-8%;bottom:-8%;left:-20%;width:2px;background:linear-gradient(180deg,transparent,#fff 30%,var(--cyan) 70%,transparent);box-shadow:0 0 18px 2px rgba(56,225,255,.6);animation:footer-beam 8s linear infinite}
-@keyframes footer-beam{from{left:-20%}to{left:120%}}
+.app .footer-mark{position:relative;display:flex;justify-content:space-between;align-items:flex-end;margin:56px 0 18px;padding-top:.42em;font:300 clamp(52px,12.6vw,210px)/.86 Lexend,Arial,sans-serif;letter-spacing:0;user-select:none;cursor:crosshair}
+.app .fm-letter{--p:0;display:inline-block;transform-origin:50% 100%;transform:translateY(calc(var(--p)*-.03em)) scale(calc(1 + var(--p)*.1),calc(1 + var(--p)*.42));color:color-mix(in srgb,var(--lc) calc(var(--p)*100%),transparent);-webkit-text-stroke:calc(1px + var(--p)*2.5px) color-mix(in srgb,var(--lc) calc(42% + var(--p)*58%),transparent);text-shadow:0 0 calc(var(--p)*44px) color-mix(in srgb,var(--lc) calc(var(--p)*75%),transparent);transition:transform .22s cubic-bezier(.2,.8,.2,1),color .22s,-webkit-text-stroke .22s,text-shadow .22s;will-change:transform}
+.app .mark-beam{position:absolute;top:0;bottom:-6%;left:var(--bx,-20%);width:2px;margin-left:-1px;background:linear-gradient(180deg,transparent,#fff 25%,var(--cyan) 70%,transparent);box-shadow:0 0 22px 3px rgba(56,225,255,.55);opacity:0;transition:opacity .3s;pointer-events:none}
+.app .footer-mark.scanning .mark-beam{opacity:1}
+.app.reduced-motion .fm-letter{transition:none}
 .app .footer-bottom{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 28px;padding-top:22px;border-top:1px solid var(--line);font:400 13px/1.5 Lexend,Arial,sans-serif;color:var(--muted)}
 .app .footer-bottom>span:first-child{font-family:Fragment,monospace;letter-spacing:.04em}
 .app .footer-bottom .to-top{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 16px;background:transparent;border:1px solid var(--line)!important;border-radius:999px!important;color:var(--text)}
 .app .footer-bottom .to-top:hover{border-color:var(--cyan)!important;color:var(--cyan)}
-.app.reduced-motion :is(.mark-lit,.mark-beam,.footer-status i){animation:none!important}
-.app.reduced-motion .mark-lit{-webkit-mask-position:50% 0;mask-position:50% 0}
-.app.reduced-motion .mark-beam{display:none}
+.app.reduced-motion .footer-status i{animation:none!important}
 .app.light footer.site-footer{background:#f6fafc;color:var(--text)}
 @media(max-width:900px){
  .app .footer-top{grid-template-columns:1fr 1fr;gap:36px}
@@ -455,6 +451,16 @@ html.light-scroll{scrollbar-color:#007f9e #e8f0f5}
 @media(max-width:560px){
  .app footer.site-footer{padding:56px 20px 24px}
  .app .footer-top{grid-template-columns:1fr 1fr;gap:28px 20px}
- .app .footer-mark{margin-top:48px;font-size:10.6vw}
+ .app .footer-mark{margin-top:44px}
  .app .footer-bottom{flex-direction:column;align-items:flex-start}
 }
+
+
+/* Logo: Undersign wordmark with a signature mark. */
+.app .logo{gap:12px;letter-spacing:0!important}
+.app .logo-mark{width:36px;height:36px;font-size:0}
+.app .logo-mark:after{content:none}
+.app .logo-mark svg{width:28px;height:28px}
+.app .logo-word{font:500 20px/1 Lexend,Arial,sans-serif;letter-spacing:-.02em;color:var(--text);text-transform:none}
+.app .logo-word b{display:inline;font:inherit;color:var(--cyan);letter-spacing:inherit}
+@media(max-width:560px){.app .logo-word{font-size:18px}}

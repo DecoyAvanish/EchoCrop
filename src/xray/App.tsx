@@ -2,6 +2,7 @@ import {Component,Suspense,lazy,useCallback,useEffect,useRef,useState,type Error
 import MotionDirector from './MotionDirector';
 import Home from './Home';
 import {samples,type DocumentSample} from './data';
+import {FooterMark} from './FooterMark';
 import {clearDocument,documentKey,loadDocument,readSession,saveDocument,writeSession} from './session';
 import type {Go,Page,Settings} from './types';
 
@@ -10,7 +11,7 @@ const Scan=lazy(()=>import('./Scan'));
 const Report=lazy(()=>import('./Report'));
 const Learn=lazy(()=>import('./Learn'));
 const pages:Page[]=['home','intake','scan','report','learn'];
-const titles:Record<Page,string>={home:'Fine Print X-Ray  -  Know before you sign',intake:'Scan a document  -  Fine Print X-Ray',scan:'Scan results  -  Fine Print X-Ray',report:'Risk report  -  Fine Print X-Ray',learn:'Clause Lab  -  Fine Print X-Ray','not-found':'Page not found  -  Fine Print X-Ray'};
+const titles:Record<Page,string>={home:'Undersign  -  Know what you’re signing before you sign it',intake:'Scan a document  -  Undersign',scan:'Scan results  -  Undersign',report:'Risk report  -  Undersign',learn:'Clause Lab  -  Undersign','not-found':'Page not found  -  Undersign'};
 const memoryDocuments=new Map<string,DocumentSample>();
 
 function currentRoute(){
@@ -33,7 +34,7 @@ function initialSettings():Settings{
   let saved:Partial<Settings>={};try{const parsed=JSON.parse(localStorage.getItem('xray-settings')||'{}');if(parsed&&typeof parsed==='object')saved=parsed}catch{}
   return{reduced:typeof saved.reduced==='boolean'?saved.reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,contrast:saved.contrast===true,light:saved.light===true,large:saved.large===true,dyslexic:saved.dyslexic===true,language:saved.language==='es'?'es':'en'};
 }
-function Logo({go}:{go:Go}){return <button className="logo" onClick={()=>go('home')} aria-label="Fine Print X-Ray home"><span className="logo-mark" aria-hidden="true">⌖</span><span aria-hidden="true">FINE PRINT <b>X-RAY</b></span></button>}
+function Logo({go}:{go:Go}){return <button className="logo" onClick={()=>go('home')} aria-label="Undersign home"><span className="logo-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M7 19c2.5-7 4.5-10 6-10s-1 9 1.5 9 3-6 4.5-6-.5 5 1.5 5 2.5-2 4.5-3"/><path d="M6 24h20" strokeOpacity=".55"/></svg></span><span className="logo-word" aria-hidden="true">Under<b>sign</b></span></button>}
 function Nav({page,go,access}:{page:Page;go:Go;access:()=>void}){
   const[open,setOpen]=useState(false);const menu=useRef<HTMLButtonElement>(null);
   useEffect(()=>{if(!open)return;const key=(event:KeyboardEvent)=>{if(event.key==='Escape'){setOpen(false);menu.current?.focus()}};addEventListener('keydown',key);return()=>removeEventListener('keydown',key)},[open]);
@@ -115,8 +116,8 @@ export default function App(){
           <nav aria-label="Footer" className="footer-col"><p className="footer-head">Explore</p><button onClick={()=>go('intake')}>Scan a document</button><button onClick={()=>go('scan',samples[0])}>Try the sample lease</button><button onClick={()=>go('learn')}>Clause Lab</button><button onClick={()=>setAccess(true)}>Accessibility</button></nav>
           <div className="footer-col"><p className="footer-head">Project</p><a href="https://github.com/DecoyAvanish/EchoCrop" target="_blank" rel="noreferrer">Source on GitHub ↗</a><a href="https://threeui.com" target="_blank" rel="noreferrer">3D paper by ThreeUI ↗</a><a href="https://github.com/DecoyAvanish/EchoCrop/blob/main/THIRD_PARTY_NOTICES.md" target="_blank" rel="noreferrer">Third-party licence ↗</a><span>Built for HyperBloom 2026</span></div>
         </div>
-        <div className="footer-mark" aria-hidden="true"><span className="mark-outline">FINE PRINT X-RAY</span><span className="mark-lit">FINE PRINT X-RAY</span><i className="mark-beam"/></div>
-        <div className="footer-bottom"><span>© 2026 Fine Print X-Ray</span><span>This tool explains patterns. It is not legal advice.</span><button className="to-top" onClick={()=>window.scrollTo({top:0,behavior:settings.reduced?'auto':'smooth'})}>Back to top <span aria-hidden="true">↑</span></button></div>
+        <FooterMark word="UNDERSIGN" reduced={settings.reduced}/>
+        <div className="footer-bottom"><span>© 2026 Undersign</span><span>This tool explains patterns. It is not legal advice.</span><button className="to-top" onClick={()=>window.scrollTo({top:0,behavior:settings.reduced?'auto':'smooth'})}>Back to top <span aria-hidden="true">↑</span></button></div>
       </footer>
     </div>
     {access&&<Access settings={settings} setSettings={setSettings} close={closeAccess}/>}

@@ -12,7 +12,7 @@ export type ThreeDPaperRuntimeProps={
 function PaperPoster({mode,clauses,pageNumber,pageCount,clauseOffset,onClauseSelect,documentTitle,failed}:Pick<ThreeDPaperRuntimeProps,'mode'|'clauses'|'pageNumber'|'pageCount'|'clauseOffset'|'onClauseSelect'|'documentTitle'>&{failed:boolean}){
   if(mode!=='chamber')return <div className="paper-poster" aria-hidden="true"><img src="/threeui/lease-poster.svg" alt="" width="1200" height="1656" fetchPriority="high"/></div>;
   return <div className="paper-poster"><article className="paper-fallback-sheet" aria-label="Document reading preview">
-    <header><small>FINE PRINT X-RAY · LOCAL ANALYSIS</small><h2>{documentTitle||'Your document'}</h2><small>PAGE {pageNumber} / {pageCount}</small></header>
+    <header><small>UNDERSIGN · LOCAL ANALYSIS</small><h2>{documentTitle||'Your document'}</h2><small>PAGE {pageNumber} / {pageCount}</small></header>
     <div className="paper-fallback-content"><p>Clauses are marked directly in the document.</p>{clauses?.map((clause,index)=><button key={`${clauseOffset}-${index}`} className={clause.severity} onClick={()=>onClauseSelect?.(index)}><b>{String((clauseOffset??0)+index+1).padStart(2,'0')} · {clause.category} · {clause.severity==='neutral'?'Not flagged':clause.severity}</b>{clause.originalText}</button>)}<p className="paper-fallback-note">{failed?'Reading preview · every clause remains available without 3D.':'Preparing the interactive paper…'}</p></div>
   </article></div>;
 }

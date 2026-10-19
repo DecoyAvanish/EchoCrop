@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>3D Paper — Fine Print X-Ray Lease</title>
+<title>3D Paper — Undersign Lease</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0d'/%3E%3Ccircle cx='13' cy='19' r='6' fill='%23fff'/%3E%3Ccircle cx='25' cy='23' r='2.6' fill='%23fff'/%3E%3C/svg%3E">
 <style>
 @font-face{font-family:"JetBrains Mono";src:url('/threeui/fragment-mono.woff2') format('woff2');font-display:swap}
@@ -133,7 +133,7 @@ function signature(ctx,x,y,s,seed,color,lw){
   ctx.stroke(); ctx.restore();
 }
 
-/* ---- FINE PRINT X-RAY · tactile lease paper -------------------------- */
+/* ---- UNDERSIGN · tactile lease paper -------------------------- */
 const LIME='#38E1FF', CYAN='#0D6B82';
 const MONO='"JetBrains Mono", ui-monospace, Menlo, monospace';
 function drawGame(ctx){
@@ -156,7 +156,7 @@ function drawGame(ctx){
   [[70,70,1,1],[TW-70,70,-1,1],[TW-70,TH-70,-1,-1],[70,TH-70,1,-1]].forEach(([x,y,sx,sy])=>{
     ctx.beginPath(); ctx.moveTo(x+52*sx,y); ctx.lineTo(x,y); ctx.lineTo(x,y+52*sy); ctx.stroke();
   });
-  ctx.fillStyle=LIME;ctx.font='700 18px '+MONO;track(ctx,'FINE PRINT X-RAY  ·  LOCAL ANALYSIS',96,105,4,false);
+  ctx.fillStyle=LIME;ctx.font='700 18px '+MONO;track(ctx,'UNDERSIGN  ·  LOCAL ANALYSIS',96,105,4,false);
   ctx.fillStyle='#F3F7FA';ctx.font='600 61px "Inter Tight", Inter, sans-serif';ctx.fillText('RESIDENTIAL',96,181);ctx.fillText('LEASE AGREEMENT',96,240);
   ctx.fillStyle='rgba(221,237,247,.65)';ctx.font='400 16px '+MONO;ctx.fillText('DOCUMENT ID  XR-047-MERCER  ·  PAGE 01 / 01',755,105);
 

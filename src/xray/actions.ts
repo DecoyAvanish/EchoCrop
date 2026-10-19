@@ -178,8 +178,8 @@ export function reminderDate(endDate:Date,noticeDays:number,bufferDays=7){
 export function buildReminderIcs(doc:Pick<DocumentSample,'name'>,clause:Pick<Clause,'category'|'askInstead'|'originalText'>,endDate:Date,noticeDays:number,now=new Date()){
   const start=reminderDate(endDate,noticeDays),end=new Date(start);end.setDate(end.getDate()+1);
   const stamp=now.toISOString().replace(/[-:]/g,'').replace(/\.\d+Z$/,'Z');
-  return['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Fine Print X-Ray//Deadline Catcher//EN','CALSCALE:GREGORIAN','BEGIN:VEVENT',
-    `UID:${stamp}-${Math.random().toString(36).slice(2)}@fineprint-xray.local`,`DTSTAMP:${stamp}`,
+  return['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Undersign//Deadline Catcher//EN','CALSCALE:GREGORIAN','BEGIN:VEVENT',
+    `UID:${stamp}-${Math.random().toString(36).slice(2)}@undersign.local`,`DTSTAMP:${stamp}`,
     `DTSTART;VALUE=DATE:${icsDate(start)}`,`DTEND;VALUE=DATE:${icsDate(end)}`,
     `SUMMARY:${icsText(`Act now: ${clause.category} notice for ${doc.name}`)}`,
     `DESCRIPTION:${icsText(`The notice window closes in about a week (${noticeDays} days before ${icsDate(endDate)}).\n\nClause: ${clause.originalText}\n\nWhat to ask for: ${clause.askInstead}`)}`,

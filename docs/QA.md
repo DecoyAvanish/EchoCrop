@@ -1,44 +1,34 @@
-# Verification summary — 19 October 2026
+# Verification results
 
 Live: https://hyperbloom-two.vercel.app/
 
-| Check | Evidence / result |
+| Area | Result |
 |---|---|
-| Production toolchain | Node 22 / pnpm 11.25.0; TypeScript, 56 regression tests and Vite passed in the clean production build. |
-| GitHub CI | [Validate application passed](https://github.com/DecoyAvanish/EchoCrop/actions/runs/39256725827): install, tests, typecheck and production build. |
-| Carrier review fixture | 9 passages; 7 expected risk passages detected. |
-| Room-sublease review fixture | 6 lettered sections preserved; all 5 expected risk passages detected. |
-| Mutual-NDA review fixture | 7 sections; zero flagged passages, including no false venue flag on governing law alone. |
-| Broader regressions | Existing rules, 40-section preservation, unknown vs balanced terms, money assumptions, per-clause proposals, Spanish sample figures and calendar generation remain covered. |
-| Paper | Hero and scan visibility/drag verified in the preceding release. Updated scan visually verified: selected arbitration is focused; pages balance 4 + 3; gauge denominator is contained. |
-| File handling | Prior Chromium checks: DOCX extraction; empty, oversized, unsupported, malformed PDF and fake DOCX show recoverable errors. |
-| Phone / preferences | Prior Chromium checks at 1440, 768, 390 and 320px, including phone-sheet focus/return and combined preferences. Updated 320px scan verified: all six filters visible in two rows, each 44px high; page width remains 320px. |
-| Accessibility audits | Previous production Lighthouse accessibility: Home, streaming scan, gym report and Clause Lab each 100. WebGL-disabled scan also 100. These are automated checks, not screen-reader certification. |
-| Current home audit | Lighthouse simulated mobile: performance 90, accessibility 100, best practices 100, SEO 100; TBT 360ms, LCP 1.9s, FCP 1.7s, CLS 0.001, Speed Index 2.1s. Previous run: performance 68, TBT 3,590ms. Individual runs, not a controlled statistical benchmark. |
-| Spanish scope | Clause explanations, monetary explanations and report verdict are translated. Source wording, navigation, some headings and controls remain English. Original calculations remain inspectable in English. |
+| Build | Node 22 / pnpm 11.25.0; TypeScript, Vite and 66 regression tests pass. |
+| Sample agreements | Four agreements, eight clauses each, with both balanced and adverse provisions. |
+| Lease amounts | $7,350 rent penalty + $2,450 deposit = $9,800. Separate day-10 late fee: $250. Ordinary renewal rent is not counted as a penalty. |
+| Rule regressions | Carrier fixture: 7 expected risks; sublease: 5; NDA: no false venue flag. These are authored regression fixtures, not blind accuracy measurements. |
+| Reading and paper | Reading view is the default. Optional curved paper holds eight clauses per page; all original text remains available in Reading view. |
+| Phone layout | 390px scan, detail sheet and report captured. Scan and report width stay 390px; all three filters remain visible. [Scan](launch-scan-390.jpg), [details](launch-sheet-390.jpg), [report](launch-report-390.jpg). |
+| Clause Lab | Specimen dialog opens without changing grid layout. Escape closes it and returns focus. Quiz records answer feedback and running score. |
+| Intake | Samples hide the type override. File selection says “Open a file”; supported file errors remain recoverable. |
+| Calendar | Date entry is explicit; generated ICS uses escaped text, all-day dates and UTF-8 line folding. A real calendar opening remains a human check. |
+| Spanish | Clause explanations, money explanations and report verdict are translated. Navigation, source wording and some controls remain English. Original calculations are labelled in English. |
+| Graphics | Poster first, then interaction/delayed idle. Hidden scenes pause; reduced motion freezes movement. Mobile rendering uses lower pixel density and a 30fps limit. |
+| Previous production audit | Lighthouse mobile: performance 90, accessibility 100, best practices 100, SEO 100; TBT 360ms. A fresh final-release audit is recorded below when available. |
 
-## How to interpret the contract results
+## Scope of verification
 
-Lighthouse used headless Chrome, disabled GPU and default simulated mobile
-throttling. This is a reproducible lab configuration, not physical-phone evidence.
+Browser checks use Chromium viewport emulation, not physical phone hardware.
+Automated accessibility checks do not certify screen-reader usability.
+Regression examples do not establish a real-world detection rate. “Not flagged”
+means no supported risk rule matched, not that an agreement is safe.
 
-The three review fixtures are reconstructed from the quoted examples in the
-review. They are regression tests, **not blind independent agreements** and not
-a measured real-world accuracy rate. Another author must supply three unseen
-complete contracts and expected findings before an independent hit rate can be
-reported. A zero score means no supported risk pattern matched, not legal safety;
-contextual deposit, termination and money reminders remain visible.
+## Before submission
 
-## Outstanding human verification
-
-Physical iPhone VoiceOver, Android Chrome, Safari/Firefox, a private-window
-phone/laptop smoke test, real calendar opening, final saved-PDF inspection,
-3–5 participant sessions and a captioned video are not yet verified.
-See [submission readiness](SUBMISSION_READINESS.md) for ownership and exact next
-steps. The broader preference/zoom/error-state results in the supplied review are
-external baseline evidence, not new checks silently attributed to this pass.
-
-ThreeUI Community orbital/dot-matrix source and MIT terms were verified against
-upstream hashes. The exact paper bundle entitlement still needs account-owner
-confirmation. Event rules allow AI-assisted development; the submission credits
-that assistance and the third-party visual foundations.
+Three unseen contracts and answer keys from another author; 3–5 consenting user
+sessions; a captioned demonstration; physical VoiceOver/iPhone and Android checks;
+private-window smoke tests; actual calendar opening and final printed-PDF review.
+The exact paper bundle entitlement still requires account-owner confirmation.
+Community orbital/dot-matrix licensing is verified. See
+[launch checklist](LAUNCH_CHECKLIST.md) for the item-by-item implementation map.

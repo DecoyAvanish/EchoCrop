@@ -12,6 +12,7 @@ export function OrbitalSphereBackground({ className = "", ...props }: OrbitalSph
     const tick = (now:number) => {
       frame=0;
       if(!visible||document.hidden)return;
+      if(!stationary&&previous&&now-previous<1000/30){frame=requestAnimationFrame(tick);return}
       const delta=previous?Math.min((now-previous)/1000,.05):1/60;previous=now;
       renderer.render(stationary?0:delta);
       if(!stationary)frame=requestAnimationFrame(tick);

@@ -10,8 +10,8 @@ describe('report helpers',()=>{
   it('adapts the verdict to the score',()=>{
     expect(verdictFor(0,0).accent).toBe('patterns found.');
     expect(verdictFor(30,1).summary).toContain('1 clause');
-    expect(verdictFor(59,5).title).toBe('Proceed with');
-    expect(verdictFor(90,8).title).toBe('Don’t sign');
+    expect(verdictFor(59,5).title).toBe('Don’t sign this');
+    expect(verdictFor(90,8).title).toBe('Don’t sign this');
   });
   it('addresses the email to the right person',()=>{
     expect(counterpartyFor('Lease')).toBe('your landlord');
@@ -26,10 +26,10 @@ describe('honest financial exposure',()=>{
   const feeDocument=(text:string)=>({...samples[0],clauses:[{...samples[0].clauses[3],originalText:text}]});
   it('keeps exit, late-payment, and renewal scenarios separate',()=>{
     const result=exposureFor(samples[0]);
-    expect(result.headline).toBe('$7,350 + your deposit');
-    expect(result.scenarios.find(x=>x.kind==='exit')?.amount).toBe(7350);
+    expect(result.headline).toBe('$9,800');
+    expect(result.scenarios.find(x=>x.kind==='exit')?.amount).toBe(9800);
     expect(result.scenarios.find(x=>x.kind==='fees')?.amount).toBe(250);
-    expect(result.scenarios.find(x=>x.kind==='renewal')?.amount).toBe(29400);
+    expect(result.scenarios.some(x=>x.kind==='renewal')).toBe(false);
     expect(result.label).toBe('Early-exit penalty');
     expect(result.headline).not.toContain('37,000');
   });
@@ -75,7 +75,7 @@ describe('deadline catcher',()=>{
   it('requires an actual renewal date instead of pre-filling an invented one',()=>{
     const html=renderToStaticMarkup(createElement(Report,{doc:samples[0],go:()=>{},language:'en'}));
     expect(html).toMatch(/type="date"[^>]*value=""/);
-    expect(html).toContain('<button disabled="">ADD REMINDER TO CALENDAR');
+    expect(html).toContain('<button disabled="">Add reminder to calendar');
   });
   it('finds notice windows in every sample that has one',()=>{
     const lease=samples[0].clauses.find(c=>c.category==='Auto-renewal')!;

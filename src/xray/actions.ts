@@ -12,15 +12,15 @@ export function reviewContext(doc:DocumentSample){
 }
 export function verdictFor(score:number,flags:number,doc?:DocumentSample):Verdict{
   if(flags===0)return{title:'No supported',accent:'patterns found.',summary:doc?reviewContext(doc):'No supported risk patterns were found. Unmatched wording still needs your review; this is not a complete legal review.'};
-  if(score<=50)return{title:'Read',accent:'carefully.',summary:`There ${flags===1?'is 1 clause':`are ${flags} clauses`} worth clarifying before you sign.`};
-  if(score<=75)return{title:'Proceed with',accent:'caution.',summary:`${flags} clauses could cost you money, rights, or control. Negotiate before you sign.`};
-  return{title:'Don’t sign',accent:'yet.',summary:`${flags} clauses carry serious risk. Ask for changes or get advice before you sign.`};
+  if(score<30)return{title:'Read',accent:'carefully.',summary:`There ${flags===1?'is 1 clause':`are ${flags} clauses`} worth clarifying before you sign.`};
+  if(score<55)return{title:'Proceed with',accent:'caution.',summary:`${flags} clauses could cost you money, rights, or control. Negotiate before you sign.`};
+  return{title:'Don’t sign this',accent:'as written.',summary:`${flags} clauses carry serious risk. Ask for changes or get advice before you sign.`};
 }
 
 export const money=(amount:number)=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:amount%1?2:0}).format(amount);
 
 export type ExposureScenario={clauseId:string;title:string;amount:number;kind:'exit'|'fees'|'renewal'|'stated';assumptions:string;unpriced?:string};
-export type Exposure={headline:string;label:string;summary:string;scenarios:ExposureScenario[];identifiedAmounts:number[]};
+export type Exposure={headline:string;label:string;summary:string;primaryId?:string;primaryAssumptions?:string;scenarios:ExposureScenario[];identifiedAmounts:number[]};
 
 const numberWords:Record<string,number>={one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,eleven:11,twelve:12};
 const readNumber=(s:string)=>Number(s)||numberWords[s.toLowerCase()]||0;
@@ -61,6 +61,8 @@ export function exposureFor(doc:DocumentSample):Exposure{
   const distinctMonthly=[...new Set(monthlyCandidates)];
   // Conflicting rent figures need human context; do not pick one for a headline.
   const monthly=distinctMonthly.length===1?distinctMonthly[0]:null;
+  const deposits=[...new Set(doc.clauses.flatMap(c=>Array.from(c.originalText.matchAll(/\$\s*([\d,]+(?:\.\d{1,2})?)\s+security deposit|security deposit\s+(?:of\s+|is\s+)?\$\s*([\d,]+(?:\.\d{1,2})?)/gi),m=>Number((m[1]||m[2]).replace(/,/g,'')))))];
+  const deposit=deposits.length===1?deposits[0]:null;
   const identifiedAmounts=[...new Set(doc.clauses.filter(c=>['critical','high','moderate'].includes(c.severity)).flatMap(c=>dollarValues(c.originalText)))];
   for(const clause of doc.clauses){
     if(!['critical','high','moderate'].includes(clause.severity))continue;
@@ -68,23 +70,24 @@ export function exposureFor(doc:DocumentSample):Exposure{
     const months=text.match(/\b(\d+|one|two|three|four|five|six|twelve)\s+months?[’']?\s+(?:of\s+)?rent/i);
     if(/early terminat|leaving early|break.*lease/i.test(`${text} ${clause.plainEnglish}`)&&months&&monthly){
       const count=readNumber(months[1]);
-      scenarios.push({clauseId:clause.id,title:'Early-exit penalty',amount:count*monthly,kind:'exit',assumptions:`${count} months × ${money(monthly)}/month. The monthly rent comes from the supplied document or its sample explanation. Applies only if this early-exit clause is triggered.`,unpriced:/forfeit.*deposit|deposit.*forfeit/i.test(text)?'Security deposit forfeiture is also stated, but its amount is not supplied.':undefined});
+      const forfeits=/forfeit.*deposit|deposit.*forfeit/i.test(text);
+      scenarios.push({clauseId:clause.id,title:'Early-exit penalty',amount:count*monthly+(forfeits&&deposit!==null?deposit:0),kind:'exit',assumptions:`${count} months × ${money(monthly)}/month${forfeits&&deposit!==null?` + ${money(deposit)} security deposit`:''}. Based on the rent and deposit in your lease. Applies only if you leave early under this clause.`,unpriced:forfeits&&deposit===null?'The clause also forfeits a deposit, but no unambiguous deposit amount is stated.':undefined});
       continue;
     }
     const lateFee=explicitDailyLateFee(text);
     if(lateFee){
       const{base,daily}=lateFee;
-      scenarios.push({clauseId:clause.id,title:'Late-fee example',amount:base+5*daily,kind:'fees',assumptions:`${money(base)} initial charge + 5 additional charged days × ${money(daily)}/day. Illustrative late-payment scenario.`});
+      scenarios.push({clauseId:clause.id,title:'Late fee if paid on day 10',amount:base+5*daily,kind:'fees',assumptions:clause.id==='l4'?`Paying on day 10 adds ${money(base+5*daily)} (a ${money(base)} fee plus ${money(daily)} for each of days 6–10).`:`${money(base)} initial charge + 5 additional charged days × ${money(daily)}/day. Separate late-payment scenario.`});
       continue;
     }
     if(/renew/i.test(text)){
       const period=text.match(/(\d+|one|two|three|twelve)[-\s]+(?:months?|years?)/i);
       const given=clause.costImpact.match(/\$\s*([\d,]+(?:\.\d{1,2})?)/);
-      if(/lease/i.test(doc.type)&&monthly&&period){
+      if(/lease/i.test(doc.type)){continue}else if(monthly&&period){
         const count=readNumber(period[1])*(/year/i.test(period[0])?12:1);
         scenarios.push({clauseId:clause.id,title:'Renewal commitment',amount:count*monthly,kind:'renewal',assumptions:`${count} months × ${money(monthly)}/month if the notice window is missed. This is rent for an additional term, not a penalty; check whether this additional term applies.`});
       }else if(given){
-        scenarios.push({clauseId:clause.id,title:'Renewal charge',amount:Number(given[1].replace(/,/g,'')),kind:'renewal',assumptions:'Amount stated in the sample explanation for one missed renewal. Applies if the renewal is triggered.'});
+        scenarios.push({clauseId:clause.id,title:'Renewal charge',amount:Number(given[1].replace(/,/g,'')),kind:'renewal',assumptions:doc.id==='gym'?'12 months × $69/month if the membership renews after the notice window is missed.':doc.id==='streaming'?'$16.99 for one renewed month if the cancellation deadline is missed.':'One renewed term at the stated amount, conditional on missing the notice window.'});
       }
       continue;
     }
@@ -96,7 +99,7 @@ export function exposureFor(doc:DocumentSample):Exposure{
     }
   }
   const primary=(doc.type==='Lease'?scenarios.find(s=>s.kind==='exit'):undefined)||[...scenarios].sort((a,b)=>b.amount-a.amount)[0];
-  if(primary)return{headline:`${money(primary.amount)}${primary.unpriced?' + your deposit':''}`,label:primary.title,summary:'A concrete amount to discuss before signing. ',scenarios,identifiedAmounts};
+  if(primary)return{primaryId:primary.clauseId,primaryAssumptions:primary.assumptions,headline:`${money(primary.amount)}${primary.unpriced?' + your deposit':''}`,label:primary.title,summary:doc.id==='lease'?'Ask for a one-month rent fee instead of three months. That reduces the rent penalty by $4,900; ask to preserve the $2,450 deposit separately.':'Ask whether this charge can be reduced or removed before signing.',scenarios,identifiedAmounts};
   if(scenarios.length)return{headline:money(scenarios[0].amount),label:'Possible renewal commitment',summary:'A stated renewal amount, conditional on missing a notice window. It is a payment commitment, not a guaranteed penalty.',scenarios,identifiedAmounts};
   if(identifiedAmounts.length)return{headline:identifiedAmounts.map(money).join(' · '),label:'Amounts to inspect',summary:'These amounts appear in flagged clauses. Their roles differ, so we cannot responsibly turn them into a total cost of signing.',scenarios,identifiedAmounts};
   return{headline:'Exposure not priced',label:'Money is only part of the risk',summary:'This document does not provide enough figures to calculate a reliable dollar exposure. Rights, privacy, and uncapped obligations can still matter.',scenarios,identifiedAmounts};

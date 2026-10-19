@@ -12,7 +12,7 @@ turns dense terms into questions, proposed revisions and practical next steps.
 1. Drop a PDF / DOCX / TXT, paste text, or choose one of four fictional samples.
    Agreement type is detected and can be overridden, including Membership.
 2. Review critical findings first. Gray **Not flagged** means unassessed, not
-   safe. Reading view exposes every clause; paper view paginates long documents.
+   safe. Reading view opens by default and exposes every clause; optional 3D paper holds eight clauses per page.
    Phones use one full-width reading list and a focused details sheet.
 3. Act on a report: separate money scenarios with explicit assumptions, original
    versus proposed wording, an editable email, calendar reminders and a checklist.
@@ -57,7 +57,7 @@ pnpm build
 pnpm preview
 ```
 
-Build runs TypeScript, 56 regression tests, then Vite. Current verification results are
+Build runs TypeScript, 66 regression tests, then Vite. Current verification results are
 in QA.md. Routes use hashes so static hosting and shared sample links work.
 Keep future commits descriptive: e.g. “Fix mobile clause filters and preserve
 neutral analysis states”, not “fixed bugs”.

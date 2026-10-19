@@ -17,12 +17,14 @@
       .replace('html,body{height:100%;background:var(--bg);','html,body{height:100%;background:transparent;')
       .replace('background:rgba(8,8,10,.05)}','background:rgba(8,8,10,.025)}')
       .replace('CONFIDENCE 98%','LOCAL ANALYSIS')
+      .replaceAll('X—RAY','X-RAY')
+      .replace('<div id="hint">','<div id="hint" hidden>')
       .replace('font-size:10px;letter-spacing:.22em;text-transform:uppercase;','font-size:14px;letter-spacing:.08em;text-transform:uppercase;')
       .replace('color:rgba(242,242,240,.30);opacity:0','color:#c4d1df;text-shadow:0 2px 6px #05070d;opacity:0')
       .replace('const T = THREE;',`const T = THREE;
 window.addEventListener('error',event=>{if(event.error)window.parent.postMessage({type:'threeui-paper-error'},location.origin)});`)
-      .replace('Math.min(window.devicePixelRatio||1, 2)','Math.min(window.devicePixelRatio||1, 1.75)')
-      .replace('let intro = 0;',`let intro = 1,sceneVisible=true,frameId=0;
+      .replace('Math.min(window.devicePixelRatio||1, 2)','Math.min(window.devicePixelRatio||1,matchMedia(\'(max-width:700px)\').matches?1:1.5)')
+      .replace('let intro = 0;',`let intro = 1,sceneVisible=true,frameId=0,lastPaint=0;
 window.addEventListener('message',event=>{
   if(event.source!==window.parent||event.origin!==location.origin||event.data?.type!=='threeui-paper-visibility')return;
   sceneVisible=!!event.data.visible;
@@ -30,6 +32,10 @@ window.addEventListener('message',event=>{
   else if(sceneVisible&&!frameId)frame();
 });
 canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();window.parent.postMessage({type:'threeui-paper-error'},location.origin)});`)
+      .replace('function frame(){',`function frame(){
+  const frameNow=performance.now();
+  if(!REDUCED&&sceneVisible&&!document.hidden&&frameNow-lastPaint<1000/30){frameId=requestAnimationFrame(frame);return}
+  lastPaint=frameNow;`)
       .replace('if(!REDUCED) requestAnimationFrame(frame);','frameId=0;if(!REDUCED&&sceneVisible&&!document.hidden)frameId=requestAnimationFrame(frame);')
       .replace('  frame();\n}',"  frame();\n  window.parent.postMessage({type:'threeui-paper-ready'},location.origin);\n}");
     document.open();document.write(source);document.close();

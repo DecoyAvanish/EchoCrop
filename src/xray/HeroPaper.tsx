@@ -7,7 +7,7 @@ type SceneProps={
   active?:number;
   scanning?:boolean;
   reduced?:boolean;
-  clauses?:Clause[];
+  clauses?:Array<Pick<Clause,'severity'|'originalText'>&{category:string}>;
   onClauseSelect?:(index:number)=>void;
   zoom?:number;
   pageNumber?:number;

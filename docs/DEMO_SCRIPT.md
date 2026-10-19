@@ -9,8 +9,8 @@ the final edit and leave readable pauses instead of speeding up important text.
 | 0–9s | Rosa's gym report: $828 renewal, score | “Rosa thinks monthly billing means a monthly commitment. This term can renew her for another year.” |
 | 9–20s | Phone Reading view; tap renewal; sheet | “The notice window is 60 days early, and cancellation requires a visit. The explanation opens where she's reading.” |
 | 20–31s | Original and proposed membership wording | “A concrete request: month-to-month renewal and cancellation online or by email.” |
-| 31–41s | Paste fictional six-risk gym text | “The same local rules also check your own text. Unknown wording stays unassessed, not silently safe.” |
-| 41–49s | App already loaded; owner switches Wi-Fi off; paste scan | “This text scan runs on the device. No agreement is sent to a remote AI service.” |
+| 31–41s | Paste an independently supplied fresh agreement | “The same local rules also check your own text. Unknown wording stays not flagged, not silently safe.” |
+| 41–49s | App already loaded; owner switches Wi-Fi off; paste scan | “This text scan runs on the device. Nothing is uploaded.” |
 | 49–60s | Reconnect manually; choose actual renewal date; download and open ICS in calendar | “Choose the real date and save a reminder before the notice window.” |
 | 60–70s | Accessibility preferences and keyboard; 5 seconds of actual screen-reader output | “Readable layouts, motion controls, visible keyboard focus and clear announcements.” |
 | 70–78s | Quiz answer and explanation | “The Clause Lab teaches what to check next time.” |

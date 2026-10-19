@@ -156,7 +156,7 @@ function drawGame(ctx){
   [[70,70,1,1],[TW-70,70,-1,1],[TW-70,TH-70,-1,-1],[70,TH-70,1,-1]].forEach(([x,y,sx,sy])=>{
     ctx.beginPath(); ctx.moveTo(x+52*sx,y); ctx.lineTo(x,y); ctx.lineTo(x,y+52*sy); ctx.stroke();
   });
-  ctx.fillStyle=LIME;ctx.font='700 18px '+MONO;track(ctx,'FINE PRINT X—RAY  //  LOCAL ANALYSIS',96,105,4,false);
+  ctx.fillStyle=LIME;ctx.font='700 18px '+MONO;track(ctx,'FINE PRINT X-RAY  //  LOCAL ANALYSIS',96,105,4,false);
   ctx.fillStyle='#F3F7FA';ctx.font='600 61px "Inter Tight", Inter, sans-serif';ctx.fillText('RESIDENTIAL',96,181);ctx.fillText('LEASE AGREEMENT',96,240);
   ctx.fillStyle='rgba(221,237,247,.65)';ctx.font='400 16px '+MONO;ctx.fillText('DOCUMENT ID  XR-047-MERCER  ·  PAGE 01 / 01',755,105);
 
@@ -184,8 +184,8 @@ function drawGame(ctx){
 let chamberContent={clauses:[],pageNumber:1,pageCount:1,totalClauses:0,clauseOffset:0,documentTitle:'YOUR DOCUMENT'};
 function chamberClauses(){return chamberContent.clauses}
 let chamberHover=-1;
-const clauseTop=374,clauseAreaHeight=978;
-function clauseLayout(){return {shown:chamberClauses().slice(0,6),blockH:clauseAreaHeight/Math.max(1,Math.min(6,chamberClauses().length))}}
+const clauseTop=374,clauseAreaHeight=1160;
+function clauseLayout(){return {shown:chamberClauses().slice(0,8),blockH:clauseAreaHeight/Math.max(1,Math.min(8,chamberClauses().length))}}
 function textLines(ctx,text,maxWidth){
   const lines=[];let line='';
   for(const word of String(text||'').replace(/\s+/g,' ').trim().split(' ')){
@@ -211,7 +211,7 @@ function drawChamber(ctx){
   ctx.fillStyle=wash;ctx.fillRect(42,292,TW-84,TH-342);
   const grain=rng(83);
   for(let i=0;i<2600;i++){const v=160+Math.floor(grain()*50);ctx.fillStyle='rgba('+v+','+(v-2)+','+(v-7)+','+(.014+grain()*.026)+')';ctx.fillRect(42+grain()*(TW-84),292+grain()*(TH-342),.5+grain()*1.7,.3+grain()*.7)}
-  ctx.fillStyle='#172B3C';ctx.font='700 17px '+MONO;track(ctx,'CLAUSE X—RAY  //  MARKED IN DOCUMENT',96,338,3,false);
+  ctx.fillStyle='#172B3C';ctx.font='700 17px '+MONO;track(ctx,'CLAUSE X-RAY  //  MARKED IN DOCUMENT',96,338,3,false);
   ctx.strokeStyle='rgba(16,35,52,.2)';ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(96,361);ctx.lineTo(TW-96,361);ctx.stroke();
   const {shown,blockH}=clauseLayout();
   shown.forEach((clause,index)=>{const top=clauseTop+index*blockH,y=top+28,color=risk[clause.severity]||risk.neutral;
@@ -220,9 +220,9 @@ function drawChamber(ctx){
     ctx.fillStyle=color;ctx.fillRect(92,top+5,4,blockH-20);ctx.font='700 16px '+MONO;
     const label=String(chamberContent.clauseOffset+index+1).padStart(2,'0')+'  '+String(clause.category||'CLAUSE').toUpperCase()+'  //  '+(clause.severity==='neutral'?'NOT FLAGGED':String(clause.severity||'neutral').toUpperCase());
     ctx.fillText(label,112,y,TW-226);
-    ctx.fillStyle='#263743';ctx.font='400 21px Arial, sans-serif';
-    const lines=textLines(ctx,clause.originalText,TW-230),maxLines=Math.max(1,Math.floor((blockH-72)/28)),overflow=lines.length>maxLines;
-    lines.slice(0,maxLines).forEach((line,i)=>ctx.fillText(line,112,y+35+i*28));
+    ctx.fillStyle='#263743';ctx.font='400 20px Arial, sans-serif';
+    const lines=textLines(ctx,clause.originalText,TW-230),maxLines=Math.max(1,Math.floor((blockH-64)/25)),overflow=lines.length>maxLines;
+    lines.slice(0,maxLines).forEach((line,i)=>ctx.fillText(line,112,y+35+i*25));
     if(overflow){ctx.fillStyle='#365868';ctx.font='600 15px '+MONO;ctx.fillText('CONTINUED IN READING VIEW →',112,top+blockH-18)}
     ctx.restore();
     ctx.strokeStyle='rgba(16,35,52,.12)';ctx.beginPath();ctx.moveTo(112,top+blockH-2);ctx.lineTo(TW-104,top+blockH-2);ctx.stroke();
@@ -559,7 +559,7 @@ function setView(zoom,focusIndex=-1){
 }
 function resize(){
   vw = window.innerWidth; vh = window.innerHeight;
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 1.75));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,matchMedia('(max-width:700px)').matches?1:1.5));
   renderer.setSize(vw,vh,false);
   camera.aspect = vw/vh; camera.updateProjectionMatrix();
   const visH = 2*camera.position.z*Math.tan(T.MathUtils.degToRad(camera.fov)/2);
@@ -599,10 +599,13 @@ canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();window
    ====================================================================== */
 const clock = new T.Clock();
 const lightPos = new T.Vector3();
-let intro = 1,sceneVisible=true,frameId=0;
+let intro = 1,sceneVisible=true,frameId=0,lastPaint=0;
 
 function frame(){
   frameId=0;
+  const frameNow=performance.now();
+  if(!REDUCED&&sceneVisible&&!document.hidden&&frameNow-lastPaint<1000/30){frameId=requestAnimationFrame(frame);return}
+  lastPaint=frameNow;
   if(!REDUCED&&sceneVisible&&!document.hidden)frameId=requestAnimationFrame(frame);
   const dt = Math.min(clock.getDelta(), 0.05);
   const t  = clock.elapsedTime;

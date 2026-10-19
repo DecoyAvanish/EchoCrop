@@ -34,5 +34,5 @@ describe('review contract regressions',()=>{
  it('still flags an exclusive court requirement',()=>expect(analyzeText('The courts of New York have exclusive jurisdiction.').clauses.some(isFlagged)).toBe(true));
  it('does not flag an ordinary project price as an additional charge',()=>expect(analyzeText('The project fee is $4,500.').clauses.some(isFlagged)).toBe(false));
  it('explains warning topics even when no supported risk matches',()=>{const d=analyzeText('The deposit and termination details appear in the schedule.');expect(verdictFor(0,0,d).summary).toContain('deposits, termination');expect(verdictFor(0,0,d).title).toBe('No supported')});
- it('leads the lease with exit exposure, without changing the gym headline',()=>{expect(exposureFor(samples[0]).headline).toContain('7,350');expect(exposureFor(samples[3]).headline).toContain('828')});
+ it('leads the lease with exit exposure, without changing the gym headline',()=>{expect(exposureFor(samples[0]).headline).toContain('9,800');expect(exposureFor(samples[3]).headline).toContain('828')});
 });

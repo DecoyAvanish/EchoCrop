@@ -9,13 +9,14 @@ Live: https://hyperbloom-two.vercel.app/
 | Sample agreements | Four agreements, eight clauses each, with both balanced and adverse provisions. |
 | Lease amounts | $7,350 rent penalty + $2,450 deposit = $9,800. Separate day-10 late fee: $250. Ordinary renewal rent is not counted as a penalty. |
 | Rule regressions | Carrier fixture: 7 expected risks; sublease: 5; NDA: no false venue flag. These are authored regression fixtures, not blind accuracy measurements. |
-| Reading and paper | Reading view is the default. Optional curved paper holds eight clauses per page; all original text remains available in Reading view. |
+| Reading and paper | Live hero visibility and native drag-to-turn verified after optimization. Reading view is the default. Optional curved paper holds eight clauses per page; all original text remains available in Reading view. |
 | Phone layout | 390px scan, detail sheet and report captured. Scan and report width stay 390px; all three filters remain visible. [Scan](launch-scan-390.jpg), [details](launch-sheet-390.jpg), [report](launch-report-390.jpg). |
 | Clause Lab | Specimen dialog opens without changing grid layout. Escape closes it and returns focus. Quiz records answer feedback and running score. |
 | Intake | Samples hide the type override. “Choose a file” ends at 829px in a 1440×900 viewport, above the fold. Supported file errors remain recoverable. |
 | Calendar | Date entry is explicit; generated ICS uses escaped text, all-day dates and UTF-8 line folding. A real calendar opening remains a human check. |
 | Spanish | Clause explanations, money explanations and report verdict are translated. Navigation, source wording and some controls remain English. Original calculations are labelled in English. |
 | Graphics | Poster first, then interaction/delayed idle. Hidden scenes pause; reduced motion freezes movement. Mobile rendering uses lower pixel density and a 30fps limit. |
+| Route accessibility | Fresh Lighthouse accessibility checks: Home 100, scan 100, report 100, Clause Lab 100. Default settings; not a certification across all preferences or physical devices. |
 | Final home audit | Lighthouse simulated mobile: performance 92, accessibility 100, best practices 100, SEO 100. FCP 2.2s; LCP 2.2s; TBT 40ms; CLS 0.001; Speed Index 5.4s. Individual laboratory run, not a physical-device benchmark. |
 
 ## Scope of verification
